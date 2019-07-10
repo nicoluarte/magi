@@ -1,0 +1,138 @@
+* Diplomado data science
+** 09/07/2019, decision tree
+*** Cross-validation
+**** Leave one out
+**** k fold cross validation
+*** Decision tree
+R code to generate a decision tree
+- First a tree is generated
+- Later on is pruned
+- In this example the difference is not very notorious
+#+BEGIN_SRC R :results output :session rs
+library(rpart)
+library(tree)
+setwd("/home/nicoluarte/Downloads")
+df = read.table('cleveland.txt', h=T)
+head(df)
+summary(df)
+
+                                        # Using rpart
+
+## no data standarization needed for trees
+
+set.seed(123)
+
+## creating the first tree
+
+tree.1 = rpart(df[,14] ~ .,
+               data=df[,1:13],
+               cp=0.0001,parms=list(split="information"),
+               method="class")
+
+##split information means entropy/ split could be gini - cp is the complexity parameter.
+
+par(xpd=TRUE)
+plot(tree.1, uniform=T);
+text(tree.1, all=T, pretty=T, fancy=T, use.n=T, fwidth=0.3, fheight=0.3)
+
+##pretty is for compatibility with tree package. Considers the minimum length for abbreviation of character or factor variables (4 L).
+
+## Pruning
+
+plotcp(tree.1) ## Cross-validation results
+
+printcp(tree.1)
+
+tree.1$cptable[which.min(tree.1$cptable[,"xerror"]),"CP"]
+
+tree.2<-prune(tree.1,cp=0.01102941)
+
+par(xpd=TRUE)
+plot(tree.2, uniform=T);
+text(tree.2, all=T, pretty=T, fancy=T, use.n=T, fwidth=0.3, fheight=0.3)
+
+plotcp(tree.2) ## Cross-validation results
+
+printcp(tree.2)
+
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+  age gender     cp trestbps chol  fbs restecg thatach exang oldpeak slope ca
+1  63   male angina      145  233 true     hyp     150   fal     2.3  down  0
+2  67   male asympt      160  286  fal     hyp     108  true     1.5  flat  3
+3  67   male asympt      120  229  fal     hyp     129  true     2.6  flat  2
+4  37   male notang      130  250  fal    norm     187   fal     3.5  down  0
+5  41    fem abnang      130  204  fal     hyp     172   fal     1.4    up  0
+6  56   male abnang      120  236  fal    norm     178   fal     0.8    up  0
+  thal diag Col15
+1  fix buff     H
+2 norm sick    S2
+3  rev sick    S1
+4 norm buff     H
+5 norm buff     H
+6 norm buff     H
+      age         gender         cp         trestbps          chol      
+ Min.   :29.00   fem : 95   abnang: 49   Min.   : 94.0   Min.   :126.0  
+ 1st Qu.:48.00   male:201   angina: 23   1st Qu.:120.0   1st Qu.:211.0  
+ Median :56.00              asympt:141   Median :130.0   Median :242.5  
+ Mean   :54.52              notang: 83   Mean   :131.6   Mean   :247.2  
+ 3rd Qu.:61.00                           3rd Qu.:140.0   3rd Qu.:275.2  
+ Max.   :77.00                           Max.   :200.0   Max.   :564.0  
+   fbs      restecg       thatach       exang        oldpeak       slope    
+ fal :253   abn :  4   Min.   : 71.0   fal :199   Min.   :0.000   down: 21  
+ true: 43   hyp :145   1st Qu.:133.0   true: 97   1st Qu.:0.000   flat:137  
+            norm:147   Median :152.5              Median :0.800   up  :138  
+                       Mean   :149.6              Mean   :1.059             
+                       3rd Qu.:166.0              3rd Qu.:1.650             
+                       Max.   :202.0              Max.   :6.200             
+       ca           thal       diag     Col15   
+ Min.   :0.0000   fix : 18   buff:160   H :160  
+ 1st Qu.:0.0000   norm:163   sick:136   S1: 53  
+ Median :0.0000   rev :115              S2: 35  
+ Mean   :0.6791                         S3: 35  
+ 3rd Qu.:1.0000                         S4: 13  
+ Max.   :3.0000
+
+Classification tree:
+rpart(formula = df[, 14] ~ ., data = df[, 1:13], method = "class", 
+    parms = list(split = "information"), cp = 1e-04)
+
+Variables actually used in tree construction:
+[1] age     ca      cp      exang   oldpeak thal    thatach
+
+Root node error: 136/296 = 0.45946
+
+n= 296 
+
+         CP nsplit rel error  xerror     xstd
+1 0.4926471      0   1.00000 1.00000 0.063044
+2 0.0514706      1   0.50735 0.63971 0.057630
+3 0.0404412      3   0.40441 0.52941 0.054276
+4 0.0220588      5   0.32353 0.44853 0.051170
+5 0.0110294      6   0.30147 0.44118 0.050857
+6 0.0036765      8   0.27941 0.44118 0.050857
+7 0.0001000     10   0.27206 0.46324 0.051780
+[1] 0.01102941
+
+Classification tree:
+rpart(formula = df[, 14] ~ ., data = df[, 1:13], method = "class", 
+    parms = list(split = "information"), cp = 1e-04)
+
+Variables actually used in tree construction:
+[1] age   ca    cp    exang thal 
+
+Root node error: 136/296 = 0.45946
+
+n= 296 
+
+        CP nsplit rel error  xerror     xstd
+1 0.492647      0   1.00000 1.00000 0.063044
+2 0.051471      1   0.50735 0.63971 0.057630
+3 0.040441      3   0.40441 0.52941 0.054276
+4 0.022059      5   0.32353 0.44853 0.051170
+5 0.011029      6   0.30147 0.44118 0.050857
+6 0.011029      8   0.27941 0.44118 0.050857
+#+end_example
+

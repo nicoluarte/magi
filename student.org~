@@ -1,0 +1,14 @@
+* Diplomado data science
+** 09/07/2019, decision tree
+*** Cross-validation
+**** Leave one out
+**** k fold cross validation
+*** Decision tree
+
+#+BEGIN_SRC R :results output :session rs
+print(2+2)
+#+END_SRC
+
+#+RESULTS:
+: 4
+
