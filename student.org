@@ -168,3 +168,34 @@ tres paginas a espacio y medio.
 **** TODO Solicitud de ingreso a la universidad (segun formato)
      SCHEDULED: <2019-07-10 Wed>
 ** Doctorado en ingenieria de sistemas complejos
+*** TODO postulacion
+    SCHEDULED: <2019-09-01 Sun> DEADLINE: <2019-11-20 Wed>
+*** Documentos
+*SEND ALL BACKGROUND INFORMATION TO ANDREA PINTO AT EMAIL: postgrados.fic@uai.cl*
+**** TODO Enter information at website [[https://ingenieria.uai.cl/phd/disc/admission/][application]]
+     SCHEDULED: <2019-08-05 Mon>
+**** TODO Résumé
+     SCHEDULED: <2019-07-12 Fri>
+**** TODO Photocopy of chilean ID
+     SCHEDULED: <2019-07-10 Wed>
+**** TODO Statement of interest
+Format is open, to be determined by the applicant
+**** TODO Letters of recommendation
+     SCHEDULED: <2019-08-05 Mon>
+At least two letters of recomendation from academic or direct
+supervisors
+**** TODO Certificates of degrees earned
+     SCHEDULED: <2019-08-05 Mon>
+**** TODO Grade point average
+     SCHEDULED: <2019-08-05 Mon>
+With ranking or relative position within the undergraduate and
+graduate programs you have completed with their respective grade
+scales
+**** TODO English proficiency (TOEFL)
+     SCHEDULED: <2019-08-05 Mon>
+**** TODO Academic interview with the program director
+** Doctorado en ciencias de la complejidad social (TBD)
+[[https://dccs.udd.cl/es/][PHD PROGRAM]]
+** Becas
+   SCHEDULED: <2019-07-12 Fri>
+*REVISAR*
