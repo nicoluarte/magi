@@ -136,3 +136,35 @@ n= 296
 6 0.011029      8   0.27941 0.44118 0.050857
 #+end_example
 
+
+* PhD
+** Doctorado en neurociencias UC
+*** TODO postulacion
+    DEADLINE: <2019-09-30 Mon> SCHEDULED: <2019-09-02 Mon>
+    
+*** Documentos
+**** TODO Formulario de postulacion (segun formato en linea)
+    SCHEDULED: <2019-08-19 Mon>
+**** TODO Certificado de titulo o grado academico, original o copia legalizada ante notario
+     SCHEDULED: <2019-08-05 Mon>
+**** TODO Concentracion de notas de pregrado y otros estudios
+     SCHEDULED: <2019-08-05 Mon>
+Incluyendo estudios de perfeccionamiento y postgrado
+**** TODO Dos cartas de recomendacion confidenciales (segun formato en linea)
+     SCHEDULED: <2019-08-05 Mon>
+Estas debe ser enviadas directamente por las personas que
+recomiendan. Es deseable que las cartas provengan de personas con
+grado academico de Doctor
+**** TODO Carta de intencion
+     SCHEDULED: <2019-07-10 Wed>
+Presentar una declaracion de propositos, que incluya la formulacion de
+un topico de interes relevanta para su estudio durante el programa y
+la dedicacion comprometidos para el programa. El postulante debe ser
+tan especifico como sea posible en cuanto a sus intereses y objetivos
+de investigacion a corto y largo plazo, en una extension no mas de
+tres paginas a espacio y medio.
+**** TODO Fotocopia de la cedula de identidad o pasaporte
+     SCHEDULED: <2019-07-10 Wed>
+**** TODO Solicitud de ingreso a la universidad (segun formato)
+     SCHEDULED: <2019-07-10 Wed>
+** Doctorado en ingenieria de sistemas complejos
