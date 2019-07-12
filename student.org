@@ -135,6 +135,99 @@ n= 296
 5 0.011029      6   0.30147 0.44118 0.050857
 6 0.011029      8   0.27941 0.44118 0.050857
 #+end_example
+** 11/07/2019, GLM
+*** Linear regression
+**** Conditions
+**** Multiple linear regression
+*** GLM
+- A function is applied to the X's, or a transformation. These are
+called link functions
+- Started modelling probability of event (Bernoulli, logit of 'p')
+- Logit predicts 'odds' <- logistic regression
+- In GLM response variable can have any distribution
+Using coimbra breast cancer dataset
+*CHALLENGE REMOVE OUTLIERS AND RE-RUN ANALYSIS*
+#+BEGIN_SRC R :results output
+setwd("/home/nicoluarte/Downloads/")
+df <- read.csv("dataR2.csv")
+head(df)
+resp <- c(df$Classification - 1)
+
+                                        # compare cancer/no-cancer by age
+library(doBy)
+summaryBy(Age~resp, data = df, FUN = c(mean, median))
+
+                                        # compare by glucose
+summaryBy(Glucose~resp, data = df, FUN = c(mean, median))
+summaryBy(Insulin~resp, data = df, FUN = c(mean, median))
+
+                                        # t-test to check means
+t.test(Age~resp, data = df)
+t.test(Glucose~resp, data = df)
+t.test(BMI~resp, data = df)
+                                        # re-code variable
+df$Glucose2 <- ifelse(df$Glucose<=100, "<=100", ">100")
+chisq.test(table(df$Glucose2, resp))
+
+                                        # OR calculation
+or <- (44*27)/(8*37)
+
+                                        # Plots
+plot(resp~Glucose, data = df)
+abline(lm(resp~Glucose, data = df), col = "red")
+
+                                        # Logistic regression
+mdl.0 = glm(resp~Glucose2, data = df, family = binomial(link = "logit"))
+mdl.1 = glm(resp~Glucose, data = df, family = binomial(link = "logit"))
+
+                                        # Calculating odds
+exp(1.3897) # 4 times greater the chance to get cancer
+
+                                        # Box plot
+boxplot(Glucose~resp, data = df)
+
+                                        # Logistic regression insulin2
+df$Insulin2 <- ifelse(df$Insulin<=8, "<=8", ">8")
+mdl.2 = glm(resp~Insulin2, data = df, family = binomial(link = "logit"))
+summary(mdl.2)
+
+mdl.3 <- glm(resp~Glucose, data = df, family = binomial(link = "logit"))
+summary(mdl.3)
+
+                                        # Calculating odds for different values
+exp(0.07867*5)
+plot(0.07867*1:10)
+
+                                        # multi-variable model
+mdl.4 <- glm(resp~Glucose + Insulin, data = df, family = binomial(link = "logit"))
+summary(mdl.4)
+plot(Glucose~Insulin, data = df)
+
+                                        # Adding control variables
+mdl.5 <- glm(resp~Age + BMI + Glucose, data = df, family = binomial(link = "logit"))
+summary(mdl.5)
+exp(mdl.5$coefficients["Glucose"]) # each glucose point has a 10%~ effect on chance of cancer
+
+                                        # ROC curve
+library(pROC)
+prob <- predict(mdl.5, type = c("response"))
+roc(resp~prob, data = df, plot = T)
+
+                                        # Use all variables
+full.mdl <- glm(resp~., data = df[,1:9], family = binomial(link = "logit"))
+summary(full.mdl)
+
+                                        # Prune!
+
+new_vars = setdiff(names(df[,1:9]),c(names(full.mdl$coefficients)[which.max(full.mdl$coefficients)]))
+prune.mdl <- glm(resp~., data = df[new_vars], family = binomial(link = "logit"))
+summary(prune.mdl)
+
+                                        # Calculate confusion matrix
+
+#+END_SRC
+
+
 
 
 * PhD
