@@ -340,11 +340,72 @@ herramientas que son útiles en la investigación en general cómo
 especificamente para el área de mi interés.
 ****** Formulación tópico de interés
 ******* Introducción
-******* Estado del arte
-******* Trabajo realizado
+Mi tópico de interés reside en el estudio de la memoria,
+especificamente la búsqueda semántica. Las memorias semánticas han
+sido pensadas, teoricamente, cómo elementos pertenecientes a cierto
+'espacio' que correlaciona con la similitud en significado (Lund
+1996). Así se ha propuesto una 'distancia' entre los distintos
+contenidos semánticos (Montez 2015), considerando aquello es esperable
+que a lo largo de la evolución se hayan generado estrategias para
+acceder, de manera útil e eficiente, a dichos contenidos. Las
+estrategias de búsqueda para acceder a los contenidos semánticos han
+sido relacionadas a aquellas del forrajeo (Hills 2015, 2008, 2006,
+2009, Abbott 2015). Más aún, se ha propuesto que dichos contenidos se
+agrupan en 'parches' (Abbot 2015), y que la búsqueda a través de ellos
+puede ser descrita por caminatas aleatorias (Hills 2015), a la vez que
+siguen comportamiento basados en reglas similares a los del forrajeo
+(Davelaar 2015).
+
+Dado que la búsqueda semántica es un comportamiento orientado a
+objetivos, se puede conceptualizar cómo un comportamiento orientado a
+la obtención de recompensas en un espacio de mútliples
+posibilidades. Por lo anterior, puede ser estudiado desde el dilema de
+exploración-explotación, dilema extensamente estudiado en la tarea
+'n-armed bandit' (Macready 1998, Vermorel 2005). Ha sido propuesto que
+los 'algoritmos' utilizados en el forrajeo, pueden proveer de
+soluciones óptimas para dicho dilema (Viswanathan, Bartumeus 2005), lo
+cuál aplicaria, igualmente, para estrategias en espacios semánticos
+(Abbot 2015, Montez 2015). De esta manera se puede observar una
+conexión entre un mecanismo evolutivamente antiguo (forrajeo) y el
+proceso de acceso en la memoria. Lo cúal permitiria un enfoque
+evolutivo comprensivo al estudio de la memoria.
+******* Relevancia
+El cómo se realiza la búsqueda en espacios semánticos es de
+fundamental importacia, ya que es un espacio que está en activa
+búsqueda durante la comprensión y producción de lenguaje, entre otras
+(https://doi.org/10.1111/cogs.12249), por lo mismo el alcance de su
+importancia para casi cualquier actividad cognitiva es de gran tamaño,
+puediendo afectar de manera importante el comportamiento ante múltiples y
+diferentes tareas.
 ****** Objetivos a corto plazo
+Uno de los principales tópicos de discusión en el área de búsqueda
+semántica es la organización y el tipo de la relaciones que conforman
+el espacio semántico (Lund & Burgess 1996). Uno de los primeros
+objetivos de investigación sería poder generar configuraciones
+experimentales que permitiesen determinar, principalmente, (a) efecto
+del contexto en las relaciones entre contenidos semánticos y (b) si el
+tipo de búsqueda es más verosimil para contenidos encadenados de
+manera asociativa o categorica.
+
+Secundariamente, de manera experimental, ajustar modelos en tareas de
+evocación de memoria, a modo de sugerir posibles mecanismos
+generadores del comportamiento de búsqueda semántica. Los modelos mas
+relevantes son (a) aquellos basados en reglas (Charnov 1976), (b)
+modelos aleatorios simples (10.3389/fpsyg.2014.00086) y (c) modelos aleatorios
+complejos (buscar cita, compound brownian walks) 
+
+La metodología propuesta para el primer paso comprende,
+principalmente, revisión de la literatura y estudios experimentales de
+replica para el segundo paso. Las tareas especificas estarían
+orientadas a evocación de memoria simple basada en categoría dentro de
+franjas de tiempo.
 ****** Objetivos a largo plazo
+******* Hipótesis sobre mecanismos subyacentes
+******* Vinculación con mecanismos de búsqueda en espacios naturales
+
 ****** Compromiso
+******* Disposición de investigación, demostrar comportamiento pasado
+******* Disposición a aprendizaje autonomo detallando técnicas a aprender
 **** TODO Fotocopia de la cedula de identidad o pasaporte
      SCHEDULED: <2019-07-10 Wed>
 **** TODO Solicitud de ingreso a la universidad (segun formato)
