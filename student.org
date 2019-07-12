@@ -147,6 +147,7 @@ called link functions
 - In GLM response variable can have any distribution
 Using coimbra breast cancer dataset
 *CHALLENGE REMOVE OUTLIERS AND RE-RUN ANALYSIS*
+- There's not much difference in removing outliers
 #+BEGIN_SRC R :results output
 setwd("/home/nicoluarte/Downloads/")
 df <- read.csv("dataR2.csv")
@@ -224,7 +225,30 @@ prune.mdl <- glm(resp~., data = df[new_vars], family = binomial(link = "logit"))
 summary(prune.mdl)
 
                                         # Calculate confusion matrix
+library(caret)
+preds <- as.numeric(predict(full.mdl, type = c("response")) > 0.5)
+confusionMatrix(as.factor(preds), as.factor(resp))
 
+                                        # Generate same model without outliers
+df_removed_outliers = df[NA,] # same df but NA rows
+df_removed_outliers["Classification"] <- df["Classification"]
+df_removed_outliers$Classification <- df_removed_outliers$Classification - 1 # to get same levels
+for (var in names(df[,1:9]))
+{
+  outliers <- boxplot.stats(df[,var]) # get the outlier of this variable
+  df_target <- df[,var] # get the vector of values of this variable
+  idx <- which(df_target %in% outliers$out) # get the idx of outliers in vector
+  df_target[idx] <- NA # put NAN's in there
+  df_removed_outliers[var] <- df_target # replace with filtered values
+}
+
+clean_df = na.omit(df_removed_outliers[,1:10])
+full.mdl.filtered <- glm(resp~., data = clean_df[,1:9], # cleaning na rows
+                         family = binomial(link = "logit"))
+summary(full.mdl.filtered)
+
+preds_filtered <- as.numeric(predict(full.mdl.filtered, type = c("response")) > 0.5)
+confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
 #+END_SRC
 
 
