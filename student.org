@@ -250,9 +250,7 @@ summary(full.mdl.filtered)
 preds_filtered <- as.numeric(predict(full.mdl.filtered, type = c("response")) > 0.5)
 confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
 #+END_SRC
-
-
-
+** TEST TEST TEST
 
 * PhD
 ** Doctorado en neurociencias UC
@@ -576,4 +574,6 @@ print(mdl.2)
  Socioeconomic_num        0.95990857        1.00000000 -0.05920530
  Sex_num                 -0.02666244       -0.05920530  1.00000000
  #+end_example
+
+
 
