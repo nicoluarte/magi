@@ -280,132 +280,132 @@ la dedicacion comprometidos para el programa. El postulante debe ser
 tan especifico como sea posible en cuanto a sus intereses y objetivos
 de investigacion a corto y largo plazo, en una extension no mas de
 tres paginas a espacio y medio.
-***** Declaración de propósitos
-****** Motivación I
-El cómo buscamos objetos, información, recompensas, alimentos, etc. Ha
-sido lo que ha inspirado en mayor medida mi interés en la
+***** DeclaraciÃ³n de propÃ³sitos
+****** MotivaciÃ³n I
+El cÃ³mo buscamos objetos, informaciÃ³n, recompensas, alimentos, etc. Ha
+sido lo que ha inspirado en mayor medida mi interÃ©s en la
 neurociencia. A lo largo de mi vida he sentido profunda intriga en
-cómo los humanos buscan en el espacio de posibilidades, para tomar una
-decisión, para evocar una memoria en partícular o bien simplemente
+cÃ³mo los humanos buscan en el espacio de posibilidades, para tomar una
+decisiÃ³n, para evocar una memoria en partÃ­cular o bien simplemente
 para organizar cualquier compartamiento relativamente complejo, esto
-es, sin tener de antemano consideradas todas las posibilidades y aún
-pese a eso tener un buen desempeño en multiples tareas. Investigar
-sobre los mecanismo subyacentes a ese fenómeno ha sido increíblemente
+es, sin tener de antemano consideradas todas las posibilidades y aÃºn
+pese a eso tener un buen desempeÃ±o en multiples tareas. Investigar
+sobre los mecanismo subyacentes a ese fenÃ³meno ha sido increÃ­blemente
 enriquecedor debido a la fuerte interdisciplinareidad que subyace al
-campo. Esto me ha llevado a generar un profunda interés en seguir
+campo. Esto me ha llevado a generar un profunda interÃ©s en seguir
 desarrollando carrera en neurociencia, ya que, creo, el lograr
-entender ese aparentemente simple mecainsmo de decisión en condiciones
-de información incompleta, puede eventualmente, ser de gran utilidad
-para la comprensión tanto de procesos de memoria y aprendizaje cómo de
-ciertas patologías. Con la oportunidad del programa de Doctorado
-espero contribuir a la investigación del aprendizaje y memoria.
+entender ese aparentemente simple mecainsmo de decisiÃ³n en condiciones
+de informaciÃ³n incompleta, puede eventualmente, ser de gran utilidad
+para la comprensiÃ³n tanto de procesos de memoria y aprendizaje cÃ³mo de
+ciertas patologÃ­as. Con la oportunidad del programa de Doctorado
+espero contribuir a la investigaciÃ³n del aprendizaje y memoria.
 ****** Background
-Cómo parte de mi formación en el programa de Magíster en Neurociencias
-Social de la Universidad Diego Portales, investigue, cómo parte de un
-artículo de revisión, las raíces evolutivas de la búsqueda semántica
-(recuperación de memorias en tareas de evocación). Una de las
+CÃ³mo parte de mi formaciÃ³n en el programa de MagÃ­ster en Neurociencias
+Social de la Universidad Diego Portales, investigue, cÃ³mo parte de un
+artÃ­culo de revisiÃ³n, las raÃ­ces evolutivas de la bÃºsqueda semÃ¡ntica
+(recuperaciÃ³n de memorias en tareas de evocaciÃ³n). Una de las
 principales conclusiones fue que, aunque solo en grado tentativo,
-parace existir un mecanismo compartido entre la búsqueda semántica y
-el forrajeo ('foraging', el comportamiento de búsqueda de alimento),
-teniendo este último patrones relativamente marcados que se extienden
-a lo largo de miles de años, así cómo a través de multiples
+parace existir un mecanismo compartido entre la bÃºsqueda semÃ¡ntica y
+el forrajeo ('foraging', el comportamiento de bÃºsqueda de alimento),
+teniendo este Ãºltimo patrones relativamente marcados que se extienden
+a lo largo de miles de aÃ±os, asÃ­ cÃ³mo a travÃ©s de multiples
 especies. La posibilidad de que un mecanismo tan ubiquo, responsable
-del comportamiento motil en la búsqueda de alimentos, pueda estar
-relacionado por exaptación a un proceso fundamental de la memoria. Lo
+del comportamiento motil en la bÃºsqueda de alimentos, pueda estar
+relacionado por exaptaciÃ³n a un proceso fundamental de la memoria. Lo
 que abre una posibilidad de establecer un mapeo evolutivo al menos a
 este proceso de memoria.
-****** Motivación II
-Deseoso de aprender más sobre este posible vínculo entre forrajeo y
-memoria, me adentre en las principales áreas aledañas de conocimiento,
-tales como ecología, aprendizaje por reforzamiento ('reinforcement
+****** MotivaciÃ³n II
+Deseoso de aprender mÃ¡s sobre este posible vÃ­nculo entre forrajeo y
+memoria, me adentre en las principales Ã¡reas aledaÃ±as de conocimiento,
+tales como ecologÃ­a, aprendizaje por reforzamiento ('reinforcement
 learning') y modelos computacionales. Por la alta carga de modelos
-estadísticos de las áreas mencionadas, me apunté para un programa de
-diplomado en ciencia de datos de la Universidad Católica de
-Chile. Además de este programa he realizado aprendizaje autonomo en
-cursos en línea, con el fin de contar con todas las herramientas
-técnicas que son demandadas para el área.
-****** Motivación III (investigación) 
-Adicional los programas mencionados anteriormente, desde julio del año
+estadÃ­sticos de las Ã¡reas mencionadas, me apuntÃ© para un programa de
+diplomado en ciencia de datos de la Universidad CatÃ³lica de
+Chile. AdemÃ¡s de este programa he realizado aprendizaje autonomo en
+cursos en lÃ­nea, con el fin de contar con todas las herramientas
+tÃ©cnicas que son demandadas para el Ã¡rea.
+****** MotivaciÃ³n III (investigaciÃ³n) 
+Adicional los programas mencionados anteriormente, desde julio del aÃ±o
 2018, me encuentro participando como investigador en un proyecto
-FONDECYT conjunto entre la escuela de Arquitectura y Psicología de la
-Univerdad Diego Portales. El tema central de esta investigación es el
-estudio de la percepción de peatones en diferentes ámbientes
-urbanos. Si bien, el tema no está relacionado directamente con el área
-de interés, mi rol ha consistido en utilización de técnicas de visión
-de máquina ('machine vision') y procesamiento de datos tanto para
-'Eye-tracker' cómo para análisis de frecuencia de objetos. Lo
+FONDECYT conjunto entre la escuela de Arquitectura y PsicologÃ­a de la
+Univerdad Diego Portales. El tema central de esta investigaciÃ³n es el
+estudio de la percepciÃ³n de peatones en diferentes Ã¡mbientes
+urbanos. Si bien, el tema no estÃ¡ relacionado directamente con el Ã¡rea
+de interÃ©s, mi rol ha consistido en utilizaciÃ³n de tÃ©cnicas de visiÃ³n
+de mÃ¡quina ('machine vision') y procesamiento de datos tanto para
+'Eye-tracker' cÃ³mo para anÃ¡lisis de frecuencia de objetos. Lo
 anterior, adicionado, a el aprendizaje de diversos lenguajes de
-programación (MATLAB, Python, R, Bash) me ha permitido desarrollar
-herramientas que son útiles en la investigación en general cómo
-especificamente para el área de mi interés.
-****** Formulación tópico de interés
-******* Introducción
-Mi tópico de interés reside en el estudio de la memoria,
-especificamente la búsqueda semántica. Las memorias semánticas han
-sido pensadas, teoricamente, cómo elementos pertenecientes a cierto
+programaciÃ³n (MATLAB, Python, R, Bash) me ha permitido desarrollar
+herramientas que son Ãºtiles en la investigaciÃ³n en general cÃ³mo
+especificamente para el Ã¡rea de mi interÃ©s.
+****** FormulaciÃ³n tÃ³pico de interÃ©s
+******* IntroducciÃ³n
+Mi tÃ³pico de interÃ©s reside en el estudio de la memoria,
+especificamente la bÃºsqueda semÃ¡ntica. Las memorias semÃ¡nticas han
+sido pensadas, teoricamente, cÃ³mo elementos pertenecientes a cierto
 'espacio' que correlaciona con la similitud en significado (Lund
-1996). Así se ha propuesto una 'distancia' entre los distintos
-contenidos semánticos (Montez 2015), considerando aquello es esperable
-que a lo largo de la evolución se hayan generado estrategias para
-acceder, de manera útil e eficiente, a dichos contenidos. Las
-estrategias de búsqueda para acceder a los contenidos semánticos han
+1996). AsÃ­ se ha propuesto una 'distancia' entre los distintos
+contenidos semÃ¡nticos (Montez 2015), considerando aquello es esperable
+que a lo largo de la evoluciÃ³n se hayan generado estrategias para
+acceder, de manera Ãºtil e eficiente, a dichos contenidos. Las
+estrategias de bÃºsqueda para acceder a los contenidos semÃ¡nticos han
 sido relacionadas a aquellas del forrajeo (Hills 2015, 2008, 2006,
-2009, Abbott 2015). Más aún, se ha propuesto que dichos contenidos se
-agrupan en 'parches' (Abbot 2015), y que la búsqueda a través de ellos
+2009, Abbott 2015). MÃ¡s aÃºn, se ha propuesto que dichos contenidos se
+agrupan en 'parches' (Abbot 2015), y que la bÃºsqueda a travÃ©s de ellos
 puede ser descrita por caminatas aleatorias (Hills 2015), a la vez que
 siguen comportamiento basados en reglas similares a los del forrajeo
 (Davelaar 2015).
 
-Dado que la búsqueda semántica es un comportamiento orientado a
-objetivos, se puede conceptualizar cómo un comportamiento orientado a
-la obtención de recompensas en un espacio de mútliples
+Dado que la bÃºsqueda semÃ¡ntica es un comportamiento orientado a
+objetivos, se puede conceptualizar cÃ³mo un comportamiento orientado a
+la obtenciÃ³n de recompensas en un espacio de mÃºtliples
 posibilidades. Por lo anterior, puede ser estudiado desde el dilema de
-exploración-explotación, dilema extensamente estudiado en la tarea
+exploraciÃ³n-explotaciÃ³n, dilema extensamente estudiado en la tarea
 'n-armed bandit' (Macready 1998, Vermorel 2005). Ha sido propuesto que
 los 'algoritmos' utilizados en el forrajeo, pueden proveer de
-soluciones óptimas para dicho dilema (Viswanathan, Bartumeus 2005), lo
-cuál aplicaria, igualmente, para estrategias en espacios semánticos
+soluciones Ã³ptimas para dicho dilema (Viswanathan, Bartumeus 2005), lo
+cuÃ¡l aplicaria, igualmente, para estrategias en espacios semÃ¡nticos
 (Abbot 2015, Montez 2015). De esta manera se puede observar una
-conexión entre un mecanismo evolutivamente antiguo (forrajeo) y el
-proceso de acceso en la memoria. Lo cúal permitiria un enfoque
+conexiÃ³n entre un mecanismo evolutivamente antiguo (forrajeo) y el
+proceso de acceso en la memoria. Lo cÃºal permitiria un enfoque
 evolutivo comprensivo al estudio de la memoria.
 ******* Relevancia
-El cómo se realiza la búsqueda en espacios semánticos es de
-fundamental importacia, ya que es un espacio que está en activa
-búsqueda durante la comprensión y producción de lenguaje, entre otras
+El cÃ³mo se realiza la bÃºsqueda en espacios semÃ¡nticos es de
+fundamental importacia, ya que es un espacio que estÃ¡ en activa
+bÃºsqueda durante la comprensiÃ³n y producciÃ³n de lenguaje, entre otras
 (https://doi.org/10.1111/cogs.12249), por lo mismo el alcance de su
-importancia para casi cualquier actividad cognitiva es de gran tamaño,
-puediendo afectar de manera importante el comportamiento ante múltiples y
+importancia para casi cualquier actividad cognitiva es de gran tamaÃ±o,
+puediendo afectar de manera importante el comportamiento ante mÃºltiples y
 diferentes tareas.
 ****** Objetivos a corto plazo
-Uno de los principales tópicos de discusión en el área de búsqueda
-semántica es la organización y el tipo de la relaciones que conforman
-el espacio semántico (Lund & Burgess 1996). Uno de los primeros
-objetivos de investigación sería poder generar configuraciones
+Uno de los principales tÃ³picos de discusiÃ³n en el Ã¡rea de bÃºsqueda
+semÃ¡ntica es la organizaciÃ³n y el tipo de la relaciones que conforman
+el espacio semÃ¡ntico (Lund & Burgess 1996). Uno de los primeros
+objetivos de investigaciÃ³n serÃ­a poder generar configuraciones
 experimentales que permitiesen determinar, principalmente, (a) efecto
-del contexto en las relaciones entre contenidos semánticos y (b) si el
-tipo de búsqueda es más verosimil para contenidos encadenados de
+del contexto en las relaciones entre contenidos semÃ¡nticos y (b) si el
+tipo de bÃºsqueda es mÃ¡s verosimil para contenidos encadenados de
 manera asociativa o categorica.
 
 Secundariamente, de manera experimental, ajustar modelos en tareas de
-evocación de memoria, a modo de sugerir posibles mecanismos
-generadores del comportamiento de búsqueda semántica. Los modelos mas
+evocaciÃ³n de memoria, a modo de sugerir posibles mecanismos
+generadores del comportamiento de bÃºsqueda semÃ¡ntica. Los modelos mas
 relevantes son (a) aquellos basados en reglas (Charnov 1976), (b)
 modelos aleatorios simples (10.3389/fpsyg.2014.00086) y (c) modelos aleatorios
 complejos (buscar cita, compound brownian walks) 
 
-La metodología propuesta para el primer paso comprende,
-principalmente, revisión de la literatura y estudios experimentales de
-replica para el segundo paso. Las tareas especificas estarían
-orientadas a evocación de memoria simple basada en categoría dentro de
+La metodologÃ­a propuesta para el primer paso comprende,
+principalmente, revisiÃ³n de la literatura y estudios experimentales de
+replica para el segundo paso. Las tareas especificas estarÃ­an
+orientadas a evocaciÃ³n de memoria simple basada en categorÃ­a dentro de
 franjas de tiempo.
 ****** Objetivos a largo plazo
-******* Hipótesis sobre mecanismos subyacentes
-******* Vinculación con mecanismos de búsqueda en espacios naturales
+******* HipÃ³tesis sobre mecanismos subyacentes
+******* VinculaciÃ³n con mecanismos de bÃºsqueda en espacios naturales
 
 ****** Compromiso
-******* Disposición de investigación, demostrar comportamiento pasado
-******* Disposición a aprendizaje autonomo detallando técnicas a aprender
+******* DisposiciÃ³n de investigaciÃ³n, demostrar comportamiento pasado
+******* DisposiciÃ³n a aprendizaje autonomo detallando tÃ©cnicas a aprender
 **** TODO Fotocopia de la cedula de identidad o pasaporte
      SCHEDULED: <2019-07-10 Wed>
 **** TODO Solicitud de ingreso a la universidad (segun formato)
@@ -417,7 +417,7 @@ franjas de tiempo.
 *SEND ALL BACKGROUND INFORMATION TO ANDREA PINTO AT EMAIL: postgrados.fic@uai.cl*
 **** TODO Enter information at website [[https://ingenieria.uai.cl/phd/disc/admission/][application]]
      SCHEDULED: <2019-08-05 Mon>
-**** TODO Résumé
+**** TODO RÃ©sumÃ©
      SCHEDULED: <2019-07-12 Fri>
 **** TODO Photocopy of chilean ID
      SCHEDULED: <2019-07-10 Wed>
@@ -442,3 +442,138 @@ scales
 ** Becas
    SCHEDULED: <2019-07-12 Fri>
 *REVISAR*
+
+
+* Projects
+
+** FONDECYT
+
+*** Initial inspection:
+ #+BEGIN_SRC R :results output :session peatones
+                                        # load packages
+pkg <- c("dplyr", "ggplot2", "tidyverse", "corrplot", "Hmisc", "psycho")
+lapply(pkg, library, character.only = TRUE)
+
+                                        # load database
+setwd("/home/nicoluarte/Downloads")
+df <- data.frame(read.csv("data_fondecyt.csv"))
+head(df)
+
+                                        # inspect de data
+cor <- na.omit(df) %>%
+  correlation()
+summary(cor)
+
+                                        # logistic regression model
+mdl.0 <- glm(Valence_num~Noise, data = df, family = binomial(link = "logit"))
+summary(mdl.0)
+t <- 0.5
+mdl.0.pred <- as.numeric(predict(mdl.0, type = c("response")) > t)
+caret::confusionMatrix(as.factor(mdl.0.pred), as.factor(df$Valence_num), positive = "1")
+
+                                        # cross-validation
+t.samples <- df$Valence_num %>%
+  caret::createDataPartition(p = 0.8, list = FALSE)
+t.data <- df[t.samples, ]
+val.data <- df[-t.samples, ]
+
+## re-build model with training data
+mdl.1 <- glm(Valence_num~Noise, data = t.data, family = binomial(link = "logit"))
+mdl.1.pred <- mdl.1 %>% predict(val.data, type = "response")
+
+## ROC curve
+pROC::roc(Valence_num~mdl.1.pred, data = val.data, plot = T)
+
+caret::confusionMatrix(as.factor(as.numeric(mdl.1.pred > t)),
+                       as.factor(val.data$Valence_num), positive = "1")
+
+                                        # Repeated k-fold cross-validation
+## fix pupil
+df$Pupil <- as.numeric(as.character(df$Pupil))
+t.control <- caret::trainControl(method = "repeatedcv",
+                                 number = 5, repeats = 10)
+mdl.2 <- caret::train(as.factor(Valence_num)~Noise+Pedestrians+Cars+Pupil+Neighbourhood_num+Socioeconomic_num,
+                      data = na.omit(df),
+                      method = "glm",
+                      family = binomial(link = "logit"),
+                      trControl = t.control,
+                      preProcess=c("center", "scale"))
+print(mdl.2)
+ #+END_SRC
+
+ #+RESULTS:
+ #+begin_example
+
+ Attaching package: â€˜dplyrâ€™
+
+ The following objects are masked from â€˜package:statsâ€™:
+
+     filter, lag
+
+ The following objects are masked from â€˜package:baseâ€™:
+
+     intersect, setdiff, setequal, union
+
+ â”€â”€ [1mAttaching packages[22m â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ tidyverse 1.2.1 â”€â”€
+ [32mâœ”[39m [34mtibble [39m 2.1.3     [32mâœ”[39m [34mpurrr  [39m 0.3.2
+ [32mâœ”[39m [34mtidyr  [39m 0.8.3     [32mâœ”[39m [34mstringr[39m 1.4.0
+ [32mâœ”[39m [34mreadr  [39m 1.3.1     [32mâœ”[39m [34mforcats[39m 0.4.0
+ â”€â”€ [1mConflicts[22m â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ tidyverse_conflicts() â”€â”€
+ [31mâœ–[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+ [31mâœ–[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+ corrplot 0.84 loaded
+ [[1]]
+ [1] "dplyr"      "tikzDevice" "stats"      "graphics"   "grDevices" 
+ [6] "utils"      "datasets"   "methods"    "base"      
+
+ [[2]]
+  [1] "ggplot2"    "dplyr"      "tikzDevice" "stats"      "graphics"  
+  [6] "grDevices"  "utils"      "datasets"   "methods"    "base"      
+
+ [[3]]
+  [1] "forcats"    "stringr"    "purrr"      "readr"      "tidyr"     
+  [6] "tibble"     "tidyverse"  "ggplot2"    "dplyr"      "tikzDevice"
+ [11] "stats"      "graphics"   "grDevices"  "utils"      "datasets"  
+ [16] "methods"    "base"      
+
+ [[4]]
+  [1] "corrplot"   "forcats"    "stringr"    "purrr"      "readr"     
+  [6] "tidyr"      "tibble"     "tidyverse"  "ggplot2"    "dplyr"     
+ [11] "tikzDevice" "stats"      "graphics"   "grDevices"  "utils"     
+ [16] "datasets"   "methods"    "base"
+
+   Subjects Valence_num  Valence       Noise Pedestrians      Cars       Pupil
+ 1        1           0 Negative 0.010767789  0.00000000 0.0000000         2.3
+ 2        1           0 Negative 0.012513303  0.46391753 0.1546392          []
+ 3        1           1 Positive 0.010372872  0.41237113 0.0000000  2.52325703
+ 4        1           1 Positive 0.009794006  0.09278351 0.0000000 2.079852955
+ 5        1           1 Positive 0.013058803  0.48453608 0.0000000 2.505264791
+ 6        1           1 Positive 0.024941132  0.16494845 0.0000000 2.590279936
+   Neighbourhood_num Neighbourhood Socioeconomic_num Socioeconomic Sex_num
+ 1                 1          Cumm                 1        Middle       0
+ 2                 1          Cumm                 1        Middle       0
+ 3                 1          Cumm                 1        Middle       0
+ 4                 1          Cumm                 1        Middle       0
+ 5                 1          Cumm                 1        Middle       0
+ 6                 1          Cumm                 1        Middle       0
+
+		       Subjects Valence_num      Noise  Pedestrians        Cars
+ Subjects           1.000000000 -0.19441834  0.3631354  0.004621815  0.18556553
+ Valence_num       -0.194418342  1.00000000 -0.1749219 -0.089847534 -0.04749806
+ Noise              0.363135383 -0.17492187  1.0000000  0.133186803  0.10435992
+ Pedestrians        0.004621815 -0.08984753  0.1331868  1.000000000 -0.06622748
+ Cars               0.185565531 -0.04749806  0.1043599 -0.066227485  1.00000000
+ Neighbourhood_num  0.986545524 -0.21435181  0.3646531 -0.009562540  0.18292625
+ Socioeconomic_num  0.946027834 -0.18731924  0.3565664  0.011485792  0.12835608
+ Sex_num            0.034478219  0.01316946  0.1426443  0.095992050  0.13677510
+		   Neighbourhood_num Socioeconomic_num     Sex_num
+ Subjects                 0.98654552        0.94602783  0.03447822
+ Valence_num             -0.21435181       -0.18731924  0.01316946
+ Noise                    0.36465314        0.35656638  0.14264431
+ Pedestrians             -0.00956254        0.01148579  0.09599205
+ Cars                     0.18292625        0.12835608  0.13677510
+ Neighbourhood_num        1.00000000        0.95990857 -0.02666244
+ Socioeconomic_num        0.95990857        1.00000000 -0.05920530
+ Sex_num                 -0.02666244       -0.05920530  1.00000000
+ #+end_example
+
