@@ -1,4 +1,4 @@
-* Diplomado data science
+* Data science program
 #+STARTUP: latexpreview
 ** 09/07/2019, Cross validations, decision trees
 *** Cross-validation
@@ -12,40 +12,40 @@ used to test model accuracy
 - k-fold validation is the generalization, where data is divided in k
 blocks
 #+BEGIN_SRC R :results output 
-				    # Load pkg
-pkg <- c("tidyverse", "caret")
-lapply(pkg, library, character.only = TRUE)
+              # Load pkg
+  pkg <- c("tidyverse", "caret")
+  lapply(pkg, library, character.only = TRUE)
 
-				    # load sample data
-data("swiss")
+              # load sample data
+  data("swiss")
 
-				    # data-split
-set.seed(123)
-training.samples <- swiss$Fertility %>%
-createDataPartition(p = 0.8, list = FALSE) # 80/20 split
-train.data <- swiss[training.samples, ]
-test.data <- swiss[-training.samples, ]
+              # data-split
+  set.seed(123)
+  training.samples <- swiss$Fertility %>%
+  createDataPartition(p = 0.8, list = FALSE) # 80/20 split
+  train.data <- swiss[training.samples, ]
+  test.data <- swiss[-training.samples, ]
 
-				    # build the model
-model <- lm(Fertility ~ ., data = train.data)
+              # build the model
+  model <- lm(Fertility ~ ., data = train.data)
 
-				    # make predictions and compute acc
-predictions <- model %>% predict(test.data)
-data.frame(R2 = R2(predictions, test.data$Fertility),
-	RMSE = RMSE(predictions, test.data$Fertility),
-	MAE = MAE(predictions, test.data$Fertility))
+              # make predictions and compute acc
+  predictions <- model %>% predict(test.data)
+  data.frame(R2 = R2(predictions, test.data$Fertility),
+    RMSE = RMSE(predictions, test.data$Fertility),
+    MAE = MAE(predictions, test.data$Fertility))
 
-				    # repeated k-fold cross validation
+              # repeated k-fold cross validation
 
-			number = 5, repeats = 10)
-model.2 <- train(Fertility ~ .,
-		data = swiss,
-		method = "lm",
-		trControl = t.control)
-predictions_2 <- model %>% predict(swiss)
-data.frame(R2 = R2(predictions_2, swiss$Fertility),
-	RMSE = RMSE(predictions_2, swiss$Fertility),
-	MAE = MAE(predictions_2, swiss$Fertility))
+        number = 5, repeats = 10)
+  model.2 <- train(Fertility ~ .,
+      data = swiss,
+      method = "lm",
+      trControl = t.control)
+  predictions_2 <- model %>% predict(swiss)
+  data.frame(R2 = R2(predictions_2, swiss$Fertility),
+    RMSE = RMSE(predictions_2, swiss$Fertility),
+    MAE = MAE(predictions_2, swiss$Fertility))
 #+END_SRC
 *** Confusion matrix
 - The confusion matrix can be used to compute various summaries for
@@ -518,7 +518,7 @@ scales
  #+BEGIN_SRC R :results output :session peatones
                                         # load packages
 pkg <- c("dplyr", "ggplot2", "tidyverse", "corrplot", "Hmisc", "psycho")
-lapply(pkg, library, character.only = TRUE)
+invisible(lapply(pkg, library, character.only = TRUE))
 
                                         # load database
 setwd("/home/nicoluarte/Downloads")
@@ -590,44 +590,6 @@ data.frame(default = c(default.1$byClass["Sensitivity"], default.1$byClass["Spec
  #+RESULTS:
  #+begin_example
 
- Attaching package: ‘dplyr’
-
- The following objects are masked from ‘package:stats’:
-
-     filter, lag
-
- The following objects are masked from ‘package:base’:
-
-     intersect, setdiff, setequal, union
-
- ── [1mAttaching packages[22m ─────────────────────────────────────── tidyverse 1.2.1 ──
- [32m✔[39m [34mtibble [39m 2.1.3     [32m✔[39m [34mpurrr  [39m 0.3.2
- [32m✔[39m [34mtidyr  [39m 0.8.3     [32m✔[39m [34mstringr[39m 1.4.0
- [32m✔[39m [34mreadr  [39m 1.3.1     [32m✔[39m [34mforcats[39m 0.4.0
- ── [1mConflicts[22m ────────────────────────────────────────── tidyverse_conflicts() ──
- [31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
- [31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
- corrplot 0.84 loaded
- [[1]]
- [1] "dplyr"      "tikzDevice" "stats"      "graphics"   "grDevices" 
- [6] "utils"      "datasets"   "methods"    "base"      
-
- [[2]]
-  [1] "ggplot2"    "dplyr"      "tikzDevice" "stats"      "graphics"  
-  [6] "grDevices"  "utils"      "datasets"   "methods"    "base"      
-
- [[3]]
-  [1] "forcats"    "stringr"    "purrr"      "readr"      "tidyr"     
-  [6] "tibble"     "tidyverse"  "ggplot2"    "dplyr"      "tikzDevice"
- [11] "stats"      "graphics"   "grDevices"  "utils"      "datasets"  
- [16] "methods"    "base"      
-
- [[4]]
-  [1] "corrplot"   "forcats"    "stringr"    "purrr"      "readr"     
-  [6] "tidyr"      "tibble"     "tidyverse"  "ggplot2"    "dplyr"     
- [11] "tikzDevice" "stats"      "graphics"   "grDevices"  "utils"     
- [16] "datasets"   "methods"    "base"
-
    Subjects Valence_num  Valence       Noise Pedestrians      Cars       Pupil
  1        1           0 Negative 0.010767789  0.00000000 0.0000000         2.3
  2        1           0 Negative 0.012513303  0.46391753 0.1546392          []
@@ -643,26 +605,145 @@ data.frame(default = c(default.1$byClass["Sensitivity"], default.1$byClass["Spec
  5                 1          Cumm                 1        Middle       0
  6                 1          Cumm                 1        Middle       0
 
-		       Subjects Valence_num      Noise  Pedestrians        Cars
- Subjects           1.000000000 -0.19441834  0.3631354  0.004621815  0.18556553
- Valence_num       -0.194418342  1.00000000 -0.1749219 -0.089847534 -0.04749806
- Noise              0.363135383 -0.17492187  1.0000000  0.133186803  0.10435992
- Pedestrians        0.004621815 -0.08984753  0.1331868  1.000000000 -0.06622748
- Cars               0.185565531 -0.04749806  0.1043599 -0.066227485  1.00000000
- Neighbourhood_num  0.986545524 -0.21435181  0.3646531 -0.009562540  0.18292625
- Socioeconomic_num  0.946027834 -0.18731924  0.3565664  0.011485792  0.12835608
- Sex_num            0.034478219  0.01316946  0.1426443  0.095992050  0.13677510
-		   Neighbourhood_num Socioeconomic_num     Sex_num
- Subjects                 0.98654552        0.94602783  0.03447822
- Valence_num             -0.21435181       -0.18731924  0.01316946
- Noise                    0.36465314        0.35656638  0.14264431
- Pedestrians             -0.00956254        0.01148579  0.09599205
- Cars                     0.18292625        0.12835608  0.13677510
- Neighbourhood_num        1.00000000        0.95990857 -0.02666244
- Socioeconomic_num        0.95990857        1.00000000 -0.05920530
- Sex_num                 -0.02666244       -0.05920530  1.00000000
+                   Subjects Valence_num   Noise Pedestrians    Cars
+ Subjects                                                          
+ Valence_num       -0.19***                                        
+ Noise              0.36***    -0.17***                            
+ Pedestrians             0       -0.09  0.13**                     
+ Cars               0.19***      -0.05    0.1*       -0.07         
+ Neighbourhood_num  0.99***    -0.21*** 0.36***      -0.01  0.18***
+ Socioeconomic_num  0.95***    -0.19*** 0.36***       0.01  0.13** 
+ Sex_num              0.03        0.01  0.14**         0.1  0.14** 
+                   Neighbourhood_num Socioeconomic_num
+ Subjects                                             
+ Valence_num                                          
+ Noise                                                
+ Pedestrians                                          
+ Cars                                                 
+ Neighbourhood_num                                    
+ Socioeconomic_num           0.96***                  
+ Sex_num                      -0.03             -0.06
+
+ Call:
+ glm(formula = Valence_num ~ Noise, family = binomial(link = "logit"), 
+     data = df)
+
+ Deviance Residuals: 
+     Min       1Q   Median       3Q      Max  
+ -1.2618  -1.0714  -0.8653   1.2181   2.0739  
+
+ Coefficients:
+             Estimate Std. Error z value Pr(>|z|)    
+ (Intercept)   0.2316     0.1372   1.689   0.0912 .  
+ Noise       -26.2153     5.5992  -4.682 2.84e-06 ***
+ ---
+ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+ (Dispersion parameter for binomial family taken to be 1)
+
+     Null deviance: 1025.4  on 753  degrees of freedom
+ Residual deviance: 1000.9  on 752  degrees of freedom
+ AIC: 1004.9
+
+ Number of Fisher Scoring iterations: 4
+
+ Confusion Matrix and Statistics
+
+           Reference
+ Prediction   0   1
+          0 391 244
+          1  47  72
+
+                Accuracy : 0.6141         
+                  95% CI : (0.5783, 0.649)
+     No Information Rate : 0.5809         
+     P-Value [Acc
+ NIR] : 0.03489        
+
+                   Kappa : 0.132          
+
+  Mcnemar's Test P-Value : < 2e-16        
+
+             Sensitivity : 0.22785        
+             Specificity : 0.89269        
+          Pos Pred Value : 0.60504        
+          Neg Pred Value : 0.61575        
+              Prevalence : 0.41910        
+          Detection Rate : 0.09549        
+    Detection Prevalence : 0.15782        
+       Balanced Accuracy : 0.56027        
+
+        'Positive' Class : 1
+
+ Setting levels: control = 0, case = 1
+ Setting direction: controls < cases
+
+ Confusion Matrix and Statistics
+
+           Reference
+ Prediction  0  1
+          0 75 42
+          1 17 16
+
+                Accuracy : 0.6067          
+                  95% CI : (0.5237, 0.6853)
+     No Information Rate : 0.6133          
+     P-Value [Acc
+ NIR] : 0.601529        
+
+                   Kappa : 0.099           
+
+  Mcnemar's Test P-Value : 0.001781        
+
+             Sensitivity : 0.2759          
+             Specificity : 0.8152          
+          Pos Pred Value : 0.4848          
+          Neg Pred Value : 0.6410          
+              Prevalence : 0.3867          
+          Detection Rate : 0.1067          
+    Detection Prevalence : 0.2200          
+       Balanced Accuracy : 0.5455          
+
+        'Positive' Class : 1
+
+ Warning message:
+ NAs introduced by coercion
+
+ Generalized Linear Model 
+
+ 490 samples
+   4 predictor
+   2 classes: '0', '1' 
+
+ Pre-processing: centered (4), scaled (4) 
+ Resampling: Cross-Validated (5 fold, repeated 10 times) 
+ Summary of sample sizes: 392, 392, 393, 391, 392, 392, ... 
+ Resampling results:
+
+   Accuracy   Kappa    
+   0.5879787  0.1654871
+
+ Warning message:
+ In coords.roc(roc.curve, "best") :
+   An upcoming version of pROC will set the 'transpose' argument to FALSE by default. Set transpose = TRUE explicitly to keep the current behavior, or transpose = FALSE to adopt the new one and silence this warning. Type help(coords_transpose) for additional information.
+
+               default   optimal
+ Sensitivity 0.2758621 0.7586207
+ Specificity 0.8152174 0.5000000
+
+ Setting levels: control = 0, case = 1
+ Setting direction: controls < cases
+
+ Warning message:
+ In coords.roc(roc.curve.1, "best") :
+   An upcoming version of pROC will set the 'transpose' argument to FALSE by default. Set transpose = TRUE explicitly to keep the current behavior, or transpose = FALSE to adopt the new one and silence this warning. Type help(coords_transpose) for additional information.
+
+               default   optimal
+ Sensitivity 0.4655172 0.8103448
+ Specificity 0.7065217 0.4673913
  #+end_example
 
 
 
+ 
  
