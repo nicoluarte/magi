@@ -344,10 +344,10 @@ grado academico de Doctor
 **** TODO Carta de intencion
      SCHEDULED: <2019-07-10 Wed>
 Presentar una declaracion de propositos, que incluya la formulacion de
-un topico de interes relevante para su estudio durante el programa y
-la dedicacion comprometidos para el programa. El postulante debe ser
+un tópico de interés relevante para su estudio durante el programa y
+la dedicación comprometidos para el programa. El postulante debe ser
 tan especifico como sea posible en cuanto a sus intereses y objetivos
-de investigacion a corto y largo plazo, en una extension no mas de
+de investigación a corto y largo plazo, en una extensión no mas de
 tres paginas a espacio y medio.
 ***** Declaración de propósitos
 ****** Motivación I
@@ -355,15 +355,15 @@ El cómo buscamos objetos, información, recompensas, alimentos, etc. Ha
 sido lo que ha inspirado en mayor medida mi interés en la
 neurociencia. A lo largo de mi vida he sentido profunda intriga en
 cómo los humanos buscan en el espacio de posibilidades, para tomar una
-decisión, para evocar una memoria en partícular o bien simplemente
-para organizar cualquier compartamiento relativamente complejo, esto
+decisión, para evocar una memoria en particular o bien simplemente
+para organizar cualquier comportamiento relativamente complejo, esto
 es, sin tener de antemano consideradas todas las posibilidades y aún
-pese a eso tener un buen desempeño en multiples tareas. Investigar
+pese a eso tener un buen desempeño en múltiples tareas. Investigar
 sobre los mecanismo subyacentes a ese fenómeno ha sido increíblemente
-enriquecedor debido a la fuerte interdisciplinareidad que subyace al
+enriquecedor debido al fuerte componente interdisciplinar que subyace al
 campo. Esto me ha llevado a generar un profunda interés en seguir
 desarrollando carrera en neurociencia, ya que, creo, el lograr
-entender ese aparentemente simple mecainsmo de decisión en condiciones
+entender ese aparentemente simple mecanismo de decisión en condiciones
 de información incompleta, puede eventualmente, ser de gran utilidad
 para la comprensión tanto de procesos de memoria y aprendizaje cómo de
 ciertas patologías. Con la oportunidad del programa de Doctorado
