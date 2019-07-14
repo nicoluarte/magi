@@ -3,71 +3,71 @@
 ** 09/07/2019, Cross validations, decision trees
 *** Cross-validation
 - Allows us to compare different machine learning methods and get a
-  sense of how well they will work in practice
+sense of how well they will work in practice
 - Typically this method split the data base into 75%~ for training and
-  25%~ for testing
+25%~ for testing
 - A similar principle is followed by 'leave one out cross validation',
-  where the model is trained in all but one sample, and that sample is
-  used to test model accuracy
+where the model is trained in all but one sample, and that sample is
+used to test model accuracy
 - k-fold validation is the generalization, where data is divided in k
-  blocks
+blocks
 #+BEGIN_SRC R :results output 
-                                        # Load pkg
+				    # Load pkg
 pkg <- c("tidyverse", "caret")
 lapply(pkg, library, character.only = TRUE)
 
-                                        # load sample data
+				    # load sample data
 data("swiss")
 
-                                        # data-split
+				    # data-split
 set.seed(123)
 training.samples <- swiss$Fertility %>%
-  createDataPartition(p = 0.8, list = FALSE) # 80/20 split
+createDataPartition(p = 0.8, list = FALSE) # 80/20 split
 train.data <- swiss[training.samples, ]
 test.data <- swiss[-training.samples, ]
 
-                                        # build the model
+				    # build the model
 model <- lm(Fertility ~ ., data = train.data)
 
-                                        # make predictions and compute acc
+				    # make predictions and compute acc
 predictions <- model %>% predict(test.data)
 data.frame(R2 = R2(predictions, test.data$Fertility),
-           RMSE = RMSE(predictions, test.data$Fertility),
-           MAE = MAE(predictions, test.data$Fertility))
+	RMSE = RMSE(predictions, test.data$Fertility),
+	MAE = MAE(predictions, test.data$Fertility))
 
-                                        # repeated k-fold cross validation
+				    # repeated k-fold cross validation
 
-                         number = 5, repeats = 10)
+			number = 5, repeats = 10)
 model.2 <- train(Fertility ~ .,
-                 data = swiss,
-                 method = "lm",
-                 trControl = t.control)
+		data = swiss,
+		method = "lm",
+		trControl = t.control)
 predictions_2 <- model %>% predict(swiss)
 data.frame(R2 = R2(predictions_2, swiss$Fertility),
-           RMSE = RMSE(predictions_2, swiss$Fertility),
-           MAE = MAE(predictions_2, swiss$Fertility))
+	RMSE = RMSE(predictions_2, swiss$Fertility),
+	MAE = MAE(predictions_2, swiss$Fertility))
 #+END_SRC
 *** Confusion matrix
 - The confusion matrix can be used to compute various summaries for
-  classification models
+classification models
 - Rows correspond to what it was predicted
 - Columns correspond to the known truth
 - Sensitivity:
 \begin{equation}
 \frac{T.positives}{T.positives + F.negatives}
 \end{equation}
- 
+
 - Specificity:
 \begin{equation}
 \frac{T.negatives}{T.negatives + F.positives}
 \end{equation}
 
 #+BEGIN_SRC R :results output
-                                        # Load pkg
+				    # Load pkg
 pkg <- c("tidyverse", "caret")
 lapply(pkg, library, character.only = TRUE)
 
-                                        # Using dummy data
+				    # Using dummy data
 x <- factor(ceiling(runif(1000)-0.20)) # predictions
 y <- factor(ceiling(runif(1000)-0.25)) # references
 table(x, y)
@@ -558,15 +558,16 @@ caret::confusionMatrix(as.factor(as.numeric(mdl.1.pred > t)),
 df$Pupil <- as.numeric(as.character(df$Pupil))
 t.control <- caret::trainControl(method = "repeatedcv",
                                  number = 5, repeats = 10)
-mdl.2 <- caret::train(as.factor(Valence_num)~Noise+Pedestrians+Cars+Pupil+Neighbourhood_num+Socioeconomic_num,
+mdl.2 <- caret::train(as.factor(Valence_num)~Noise+Pedestrians+Cars+Neighbourhood_num,
                       data = na.omit(df),
                       method = "glm",
                       family = binomial(link = "logit"),
                       trControl = t.control,
                       preProcess=c("center", "scale"))
 print(mdl.2)
+mdl.2.pred <- mdl.2 %>% predict(val.data, type = "prob")
 
-                                        # testing different 't'
+                                        # testing different 't' simple model
 default <- caret::confusionMatrix(as.factor(as.numeric(mdl.1.pred > 0.5)),
                                   as.factor(val.data$Valence_num), positive = "1")
 opt_t <- pROC::coords(roc.curve, "best")
@@ -575,7 +576,15 @@ optimal <- caret::confusionMatrix(as.factor(as.numeric(mdl.1.pred > opt_t["thres
 data.frame(default = c(default$byClass["Sensitivity"], default$byClass["Specificity"]),
            optimal = c(optimal$byClass["Sensitivity"], optimal$byClass["Specificity"]))
 
-           
+                                        # testing different 't' complete model
+default.1 <- caret::confusionMatrix(as.factor(as.numeric(mdl.2.pred["1"] > 0.5)),
+                                  as.factor(val.data$Valence_num), positive = "1")
+roc.curve.1 <- pROC::roc(Valence_num~unlist(mdl.2.pred["1"]), data = val.data, plot = T)
+opt_t.1 <- pROC::coords(roc.curve.1, "best")
+optimal.1 <- caret::confusionMatrix(as.factor(as.numeric(unlist(mdl.2.pred["1"]) > opt_t.1["threshold"])),
+                                  as.factor(val.data$Valence_num), positive = "1")
+data.frame(default = c(default.1$byClass["Sensitivity"], default.1$byClass["Specificity"]),
+           optimal = c(optimal.1$byClass["Sensitivity"], optimal.1$byClass["Specificity"]))
  #+END_SRC
 
  #+RESULTS:
