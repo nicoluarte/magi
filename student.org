@@ -1,8 +1,80 @@
 * Diplomado data science
-** 09/07/2019, decision tree
+#+STARTUP: latexpreview
+** 09/07/2019, Cross validations, decision trees
 *** Cross-validation
-**** Leave one out
-**** k fold cross validation
+- Allows us to compare different machine learning methods and get a
+  sense of how well they will work in practice
+- Typically this method split the data base into 75%~ for training and
+  25%~ for testing
+- A similar principle is followed by 'leave one out cross validation',
+  where the model is trained in all but one sample, and that sample is
+  used to test model accuracy
+- k-fold validation is the generalization, where data is divided in k
+  blocks
+#+BEGIN_SRC R :results output 
+                                        # Load pkg
+pkg <- c("tidyverse", "caret")
+lapply(pkg, library, character.only = TRUE)
+
+                                        # load sample data
+data("swiss")
+
+                                        # data-split
+set.seed(123)
+training.samples <- swiss$Fertility %>%
+  createDataPartition(p = 0.8, list = FALSE) # 80/20 split
+train.data <- swiss[training.samples, ]
+test.data <- swiss[-training.samples, ]
+
+                                        # build the model
+model <- lm(Fertility ~ ., data = train.data)
+
+                                        # make predictions and compute acc
+predictions <- model %>% predict(test.data)
+data.frame(R2 = R2(predictions, test.data$Fertility),
+           RMSE = RMSE(predictions, test.data$Fertility),
+           MAE = MAE(predictions, test.data$Fertility))
+
+                                        # repeated k-fold cross validation
+
+                         number = 5, repeats = 10)
+model.2 <- train(Fertility ~ .,
+                 data = swiss,
+                 method = "lm",
+                 trControl = t.control)
+predictions_2 <- model %>% predict(swiss)
+data.frame(R2 = R2(predictions_2, swiss$Fertility),
+           RMSE = RMSE(predictions_2, swiss$Fertility),
+           MAE = MAE(predictions_2, swiss$Fertility))
+#+END_SRC
+*** Confusion matrix
+- The confusion matrix can be used to compute various summaries for
+  classification models
+- Rows correspond to what it was predicted
+- Columns correspond to the known truth
+- Sensitivity:
+\begin{equation}
+\frac{T.positives}{T.positives + F.negatives}
+\end{equation}
+ 
+- Specificity:
+\begin{equation}
+\frac{T.negatives}{T.negatives + F.positives}
+\end{equation}
+
+#+BEGIN_SRC R :results output
+                                        # Load pkg
+pkg <- c("tidyverse", "caret")
+lapply(pkg, library, character.only = TRUE)
+
+                                        # Using dummy data
+x <- factor(ceiling(runif(1000)-0.20)) # predictions
+y <- factor(ceiling(runif(1000)-0.25)) # references
+table(x, y)
+
+                                        # confusion matrix
+confusionMatrix(x, y, positive = "1")
+#+END_SRC
 *** Decision tree
 R code to generate a decision tree
 - First a tree is generated
@@ -250,7 +322,6 @@ summary(full.mdl.filtered)
 preds_filtered <- as.numeric(predict(full.mdl.filtered, type = c("response")) > 0.5)
 confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
 #+END_SRC
-** TEST TEST TEST
 
 * PhD
 ** Doctorado en neurociencias UC
@@ -441,11 +512,8 @@ scales
    SCHEDULED: <2019-07-12 Fri>
 *REVISAR*
 
-
 * Projects
-
 ** FONDECYT
-
 *** Initial inspection:
  #+BEGIN_SRC R :results output :session peatones
                                         # load packages
@@ -577,3 +645,4 @@ print(mdl.2)
 
 
 
+ 
