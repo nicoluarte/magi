@@ -329,14 +329,14 @@ confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
     DEADLINE: <2019-09-30 Mon> SCHEDULED: <2019-09-02 Mon>
     
 *** Documentos
-**** TODO Formulario de postulacion (segun formato en linea)
+**** TODO Formulario de postulación (según formato en linea)
     SCHEDULED: <2019-08-19 Mon>
-**** TODO Certificado de titulo o grado academico, original o copia legalizada ante notario
+**** TODO Certificado de titulo o grado académico, original o copia legalizada ante notario
      SCHEDULED: <2019-08-05 Mon>
-**** TODO Concentracion de notas de pregrado y otros estudios
+**** TODO Concentración de notas de pregrado y otros estudios
      SCHEDULED: <2019-08-05 Mon>
 Incluyendo estudios de perfeccionamiento y postgrado
-**** TODO Dos cartas de recomendación confidenciales (segun formato en linea)
+**** TODO Dos cartas de recomendación confidenciales (según formato en linea)
      SCHEDULED: <2019-08-05 Mon>
 Estas debe ser enviadas directamente por las personas que
 recomiendan. Es deseable que las cartas provengan de personas con
@@ -494,9 +494,10 @@ al comportamiento orientado a objetivos citep:hillsAnimalForagingEvolution2006
 ******* Disposición a aprendizaje autonomo detallando técnicas a aprender
 bibliographystyle:apalike
 bibliography:ref.bib
+**** TODO CV
 **** TODO Fotocopia de la cédula de identidad o pasaporte
      SCHEDULED: <2019-07-10 Wed>
-**** TODO Solicitud de ingreso a la universidad (segun formato)
+**** TODO Solicitud de ingreso a la universidad (según formato)
      SCHEDULED: <2019-07-10 Wed>
 ** Doctorado en ingeniería de sistemas complejos
 *** TODO postulacion
