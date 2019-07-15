@@ -336,21 +336,26 @@ confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
 **** TODO Concentracion de notas de pregrado y otros estudios
      SCHEDULED: <2019-08-05 Mon>
 Incluyendo estudios de perfeccionamiento y postgrado
-**** TODO Dos cartas de recomendacion confidenciales (segun formato en linea)
+**** TODO Dos cartas de recomendación confidenciales (segun formato en linea)
      SCHEDULED: <2019-08-05 Mon>
 Estas debe ser enviadas directamente por las personas que
 recomiendan. Es deseable que las cartas provengan de personas con
 grado academico de Doctor
-**** TODO Carta de intencion
+**** TODO Carta de intención
      SCHEDULED: <2019-07-10 Wed>
-Presentar una declaracion de propositos, que incluya la formulacion de
+Presentar una declaración de propósitos, que incluya la formulación de
 un tópico de interés relevante para su estudio durante el programa y
 la dedicación comprometidos para el programa. El postulante debe ser
 tan especifico como sea posible en cuanto a sus intereses y objetivos
 de investigación a corto y largo plazo, en una extensión no mas de
 tres paginas a espacio y medio.
 ***** Declaración de propósitos
-****** Motivación I
+#+AUTHOR: Luis Nicolás Luarte Rodríguez
+#+OPTIONS: toc:nil date:nil
+#+LATEX_HEADER: \usepackage{setspace}
+#+LATEX_HEADER: \onehalfspacing
+#+LATEX_HEADER: \usepackage[round]{natbib} 
+****** Motivación personal para el programa de Doctorado
 El cómo buscamos objetos, información, recompensas, alimentos, etc. Ha
 sido lo que ha inspirado en mayor medida mi interés en la
 neurociencia. A lo largo de mi vida he sentido profunda intriga en
@@ -368,50 +373,50 @@ de información incompleta, puede eventualmente, ser de gran utilidad
 para la comprensión tanto de procesos de memoria y aprendizaje cómo de
 ciertas patologías. Con la oportunidad del programa de Doctorado
 espero contribuir a la investigación del aprendizaje y memoria.
-****** Background
+
 Cómo parte de mi formación en el programa de Magíster en Neurociencias
 Social de la Universidad Diego Portales, investigue, cómo parte de un
 artículo de revisión, las raíces evolutivas de la búsqueda semántica
 (recuperación de memorias en tareas de evocación). Una de las
 principales conclusiones fue que, aunque solo en grado tentativo,
-parace existir un mecanismo compartido entre la búsqueda semántica y
+parece existir un mecanismo compartido entre la búsqueda semántica y
 el forrajeo ('foraging', el comportamiento de búsqueda de alimento),
 teniendo este último patrones relativamente marcados que se extienden
-a lo largo de miles de años, así cómo a través de multiples
-especies. La posibilidad de que un mecanismo tan ubiquo, responsable
-del comportamiento motil en la búsqueda de alimentos, pueda estar
+a lo largo de miles de años, así cómo a través de múltiples
+especies. La posibilidad de que un mecanismo tan ubicuo, responsable
+del comportamiento de desplazamiento en la búsqueda de alimentos, pueda estar
 relacionado por exaptación a un proceso fundamental de la memoria. Lo
 que abre una posibilidad de establecer un mapeo evolutivo al menos a
 este proceso de memoria.
-****** Motivación II
+
 Deseoso de aprender más sobre este posible vínculo entre forrajeo y
 memoria, me adentre en las principales áreas aledañas de conocimiento,
 tales como ecología, aprendizaje por reforzamiento ('reinforcement
 learning') y modelos computacionales. Por la alta carga de modelos
 estadísticos de las áreas mencionadas, me apunté para un programa de
 diplomado en ciencia de datos de la Universidad Católica de
-Chile. Además de este programa he realizado aprendizaje autonomo en
+Chile. Además de este programa he realizado aprendizaje autónomo en
 cursos en línea, con el fin de contar con todas las herramientas
 técnicas que son demandadas para el área.
-****** Motivación III (investigación) 
+
 Adicional los programas mencionados anteriormente, desde julio del año
 2018, me encuentro participando como investigador en un proyecto
 FONDECYT conjunto entre la escuela de Arquitectura y Psicología de la
-Univerdad Diego Portales. El tema central de esta investigación es el
-estudio de la percepción de peatones en diferentes ámbientes
+Universidad Diego Portales. El tema central de esta investigación es el
+estudio de la percepción de peatones en diferentes ambientes
 urbanos. Si bien, el tema no está relacionado directamente con el área
 de interés, mi rol ha consistido en utilización de técnicas de visión
 de máquina ('machine vision') y procesamiento de datos tanto para
 'Eye-tracker' cómo para análisis de frecuencia de objetos. Lo
-anterior, adicionado, a el aprendizaje de diversos lenguajes de
-programación (MATLAB, Python, R, Bash) me ha permitido desarrollar
+anterior, adicionado a el aprendizaje de diversos lenguajes de
+programación (MATLAB, Python, R, Bash), me ha permitido desarrollar
 herramientas que son útiles en la investigación en general cómo
-especificamente para el área de mi interés.
+específicamente para el área de mi interés.
+
 ****** Formulación tópico de interés
-******* Introducción
 Mi tópico de interés reside en el estudio de la memoria,
-especificamente la búsqueda semántica. Las memorias semánticas han
-sido pensadas, teoricamente, cómo elementos pertenecientes a cierto
+específicamente la búsqueda semántica. Las memorias semánticas han
+sido pensadas, teóricamente, cómo elementos pertenecientes a cierto
 'espacio' que correlaciona con la similitud en significado (Lund
 1996). Así se ha propuesto una 'distancia' entre los distintos
 contenidos semánticos (Montez 2015), considerando aquello es esperable
@@ -423,11 +428,11 @@ sido relacionadas a aquellas del forrajeo (Hills 2015, 2008, 2006,
 agrupan en 'parches' (Abbot 2015), y que la búsqueda a través de ellos
 puede ser descrita por caminatas aleatorias (Hills 2015), a la vez que
 siguen comportamiento basados en reglas similares a los del forrajeo
-(Davelaar 2015).
+(Davelaar 2015)
 
 Dado que la búsqueda semántica es un comportamiento orientado a
 objetivos, se puede conceptualizar cómo un comportamiento orientado a
-la obtención de recompensas en un espacio de mútliples
+la obtención de recompensas en un espacio de múltiples
 posibilidades. Por lo anterior, puede ser estudiado desde el dilema de
 exploración-explotación, dilema extensamente estudiado en la tarea
 'n-armed bandit' (Macready 1998, Vermorel 2005). Ha sido propuesto que
@@ -438,44 +443,58 @@ cuál aplicaria, igualmente, para estrategias en espacios semánticos
 conexión entre un mecanismo evolutivamente antiguo (forrajeo) y el
 proceso de acceso en la memoria. Lo cúal permitiria un enfoque
 evolutivo comprensivo al estudio de la memoria.
-******* Relevancia
+
 El cómo se realiza la búsqueda en espacios semánticos es de
-fundamental importacia, ya que es un espacio que está en activa
+fundamental importancia, ya que es un espacio que está en activa
 búsqueda durante la comprensión y producción de lenguaje, entre otras
 (https://doi.org/10.1111/cogs.12249), por lo mismo el alcance de su
 importancia para casi cualquier actividad cognitiva es de gran tamaño,
-puediendo afectar de manera importante el comportamiento ante múltiples y
+pudiendo afectar de manera importante el comportamiento ante múltiples y
 diferentes tareas.
+
 ****** Objetivos a corto plazo
 Uno de los principales tópicos de discusión en el área de búsqueda
 semántica es la organización y el tipo de la relaciones que conforman
 el espacio semántico (Lund & Burgess 1996). Uno de los primeros
 objetivos de investigación sería poder generar configuraciones
 experimentales que permitiesen determinar, principalmente, (a) efecto
-del contexto en las relaciones entre contenidos semánticos y (b) si el
-tipo de búsqueda es más verosimil para contenidos encadenados de
-manera asociativa o categorica.
+del contexto en las relaciones entre contenidos semánticos
+citep:schillerMemorySpaceUnderstanding2015 y (b) si el tipo de búsqueda es más
+verosímil para contenidos encadenados de manera asociativa o categórica
+citep:hillsOptimalForagingSemantic2012. 
 
-Secundariamente, de manera experimental, ajustar modelos en tareas de
-evocación de memoria, a modo de sugerir posibles mecanismos
+Cómo segundo objetivo a corto plazo, de manera experimental, ajustar modelos en
+tareas de evocación de memoria, a modo de sugerir posibles mecanismos
 generadores del comportamiento de búsqueda semántica. Los modelos mas
-relevantes son (a) aquellos basados en reglas (Charnov 1976), (b)
-modelos aleatorios simples (10.3389/fpsyg.2014.00086) y (c) modelos aleatorios
-complejos (buscar cita, compound brownian walks) 
-
-La metodología propuesta para el primer paso comprende,
-principalmente, revisión de la literatura y estudios experimentales de
-replica para el segundo paso. Las tareas especificas estarían
-orientadas a evocación de memoria simple basada en categoría dentro de
-franjas de tiempo.
+relevantes son (a) aquellos basados en reglas citep:charnovOptimalForagingMarginal1976, (b)
+modelos aleatorios simples citep:thompsonWalkingWikipediaScalefree2014 y (c) modelos aleatorios
+complejos cómo discutido en citep:benhamouHowManyAnimals2007  
 ****** Objetivos a largo plazo
-******* Hipótesis sobre mecanismos subyacentes
-******* Vinculación con mecanismos de búsqueda en espacios naturales
+Los objetivos a corto plazo están relacionados, principalmente, con estudio de
+comportamiento e inferencia de posibles mecanismos generadores. Por otra parte,
+los objetivos a largo plazo buscarían conectar dichos modelos a sus estructuras
+cerebrales (u otras) subyacentes. Uno de los candidatos parece ser el 'Locus
+coeruleus' citep:kaneIncreasedLocusCoeruleus2017, corteza medial pre-frontal
+ventromedial citep:kollingNeuralMechanismsForaging2012, corteza cingulada
+anterior citep:shenhavAnteriorCingulateEngagement2014, entre otras. Si bien la
+función del 'Locus coeruleus' es extendida en el sistema de arousal, se observa
+evidencia de participación significativa en comportamiento de
+exploración-explotación relacionados al forrajeo
+citep:aston-jonesAdaptiveGainRole2005, además la relativa facilidad en medición,
+en conjunto con otras técnicas como electro-encefalograma, ha permitido
+encontrar relación entre este y el forrajeo en situaciones experimentales
+citep:slanziCombiningEyeTracking2017.
 
-****** Compromiso
+Finalmente, cómo objetivo a mayor largo plazo, y sólo a nivel exploratorio,
+vincular las estructuras subyacentes a búsqueda semántica y forrajeo con sus
+raíces evolutivas. De esta manera generalizando la función de dichas estructuras
+al comportamiento orientado a objetivos citep:hillsAnimalForagingEvolution2006 
+****** Compromiso de dedicación al programa de Doctorado
 ******* Disposición de investigación, demostrar comportamiento pasado
 ******* Disposición a aprendizaje autonomo detallando técnicas a aprender
-**** TODO Fotocopia de la cedula de identidad o pasaporte
+bibliographystyle:apalike
+bibliography:ref.bib
+**** TODO Fotocopia de la cédula de identidad o pasaporte
      SCHEDULED: <2019-07-10 Wed>
 **** TODO Solicitud de ingreso a la universidad (segun formato)
      SCHEDULED: <2019-07-10 Wed>
@@ -747,3 +766,5 @@ data.frame(default = c(default.1$byClass["Sensitivity"], default.1$byClass["Spec
 
  
  
+
+#  LocalWords:  correlaciona
