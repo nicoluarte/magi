@@ -498,7 +498,7 @@ bibliography:ref.bib
      SCHEDULED: <2019-07-10 Wed>
 **** TODO Solicitud de ingreso a la universidad (segun formato)
      SCHEDULED: <2019-07-10 Wed>
-** Doctorado en ingenieria de sistemas complejos
+** Doctorado en ingeniería de sistemas complejos
 *** TODO postulacion
     SCHEDULED: <2019-09-01 Sun> DEADLINE: <2019-11-20 Wed>
 *** Documentos
@@ -528,8 +528,46 @@ scales
 ** Doctorado en ciencias de la complejidad social (TBD)
 [[https://dccs.udd.cl/es/][PHD PROGRAM]]
 ** Becas
-   SCHEDULED: <2019-07-12 Fri>
-*REVISAR*
+** Correos
+Diego Cosmelli: dcosmelli@uc.cl
+
+Estimado profesor Diego Cosmelli,
+
+Actualmente soy estudiante del programa de Magíster en Neurociencia Social de la
+Universidad Diego Portales. Me encuentro en proceso de finalización del
+Magíster, y he encontrado gran interés en el programa de Doctorado en
+Neurociencias de su Universidad. 
+
+Cómo parte de mi investigación de literatura tuve la oportunidad de leer su
+artículo 'Modeling Search Behaviors during the Acquisition of Expertise in a
+Sequential Decision-Making Task'. Específicamente el modelamiento de toma de
+decisiones secuenciales me provocó gran interés, ya que el tema principal de mi
+proyecto de tesis se centra en la raíces evolutivas de la toma de decisiones
+secuenciales y los mecanismos neuronales subyacentes. He estado en búsqueda de
+programas de Doctorado dónde pueda continuar el trabajo de investigación en esta
+área. Mi proyecto (tentativo) se centra en el modelamiento de toma de decisiones
+secuenciales tanto a nivel de comportamiento de desplazamiento en la búsqueda
+(foraging) cómo a nivel de búsqueda semántica en espacios cognitivos.
+Adicionalmente, recae mi interés en la formación de conciencia a través de los
+procesos mencionados anteriormente en el espíritu de 'From foraging to
+autonoetic consciousness: The primal self as a consequence of embodied
+prospective foraging'.
+
+Esperando no causar mayor molestia, quisiera saber si existe la posibilidad de
+saber, si actualmente, está recibiendo estudiantes en calidad de
+tutor/supervisor para el programa de Doctorado. Si es así, ¿estaría dispuesto a
+seguir esta conversación por el medio que más guste?, sea por correo, teléfono o
+una visita al campus/oficina. He investigado el sitio del programa en detalle, y
+creo existe buen ajuste con mi intereses de investigación, principalmente por el
+fuerte foco interdisciplinar (inherente al objeto de estudio de mi interés) y
+por la posibilidad de expandir un línea de investigación relativamente novedosa.
+
+Apreciando cualquier tiempo que me pudiese destinar, lo agradezco de antemano y
+quedo atento a su respuesta.
+
+Saludos cordiales,
+
+Nicolás Luarte
 
 * Projects
 ** FONDECYT
