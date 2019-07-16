@@ -325,24 +325,24 @@ confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
 
 * PhD
 ** Doctorado en neurociencias UC
-*** TODO postulacion
+*** TODO postulación
     DEADLINE: <2019-09-30 Mon> SCHEDULED: <2019-09-02 Mon>
     
 *** Documentos
 **** TODO Formulario de postulación (según formato en linea)
-    SCHEDULED: <2019-08-19 Mon>
+    SCHEDULED: <2019-07-16 Tue>
 **** TODO Certificado de titulo o grado académico, original o copia legalizada ante notario
-     SCHEDULED: <2019-08-05 Mon>
-**** TODO Concentración de notas de pregrado y otros estudios
-     SCHEDULED: <2019-08-05 Mon>
+     SCHEDULED: <2019-07-16 Tue>
+**** TODO Concentración de notas de pre-grado y otros estudios + ranking de egreso promoción
+     SCHEDULED: <2019-07-16 Tue>
 Incluyendo estudios de perfeccionamiento y postgrado
 **** TODO Dos cartas de recomendación confidenciales (según formato en linea)
-     SCHEDULED: <2019-08-05 Mon>
+     SCHEDULED: <2019-07-22 Mon>
 Estas debe ser enviadas directamente por las personas que
 recomiendan. Es deseable que las cartas provengan de personas con
-grado academico de Doctor
+grado académico de Doctor
 **** TODO Carta de intención
-     SCHEDULED: <2019-07-10 Wed>
+     SCHEDULED: <2019-07-17 Wed>
 Presentar una declaración de propósitos, que incluya la formulación de
 un tópico de interés relevante para su estudio durante el programa y
 la dedicación comprometidos para el programa. El postulante debe ser
@@ -495,10 +495,11 @@ al comportamiento orientado a objetivos citep:hillsAnimalForagingEvolution2006
 bibliographystyle:apalike
 bibliography:ref.bib
 **** TODO CV
+     SCHEDULED: <2019-07-17 Wed>
 **** TODO Fotocopia de la cédula de identidad o pasaporte
-     SCHEDULED: <2019-07-10 Wed>
+     SCHEDULED: <2019-07-16 Tue>
 **** TODO Solicitud de ingreso a la universidad (según formato)
-     SCHEDULED: <2019-07-10 Wed>
+     SCHEDULED: <2019-07-16 Tue>
 ** Doctorado en ingeniería de sistemas complejos
 *** TODO postulacion
     SCHEDULED: <2019-09-01 Sun> DEADLINE: <2019-11-20 Wed>
@@ -529,6 +530,9 @@ scales
 ** Doctorado en ciencias de la complejidad social (TBD)
 [[https://dccs.udd.cl/es/][PHD PROGRAM]]
 ** Becas
+   SCHEDULED: <2019-07-19 Fri>
+Leer e imprimir el manual de becas chile, ver en profundidad bases para la
+postulación de becas UC y UAI
 ** Correos
 Diego Cosmelli: dcosmelli@uc.cl
 
@@ -807,3 +811,6 @@ data.frame(default = c(default.1$byClass["Sensitivity"], default.1$byClass["Spec
  
 
 #  LocalWords:  correlaciona
+* Defensa de Tesis
+  SCHEDULED: <2019-07-21 Sun>
+Comenzar con la preparación de la presentación y revisión de artículos novedosos
