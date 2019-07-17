@@ -331,8 +331,10 @@ confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
 *** Documentos
 **** TODO Formulario de postulación (según formato en linea)
     SCHEDULED: <2019-07-16 Tue>
+[[file:formulario-postulacion-doctorado-neurociencia.doc][formulario]]
 **** TODO Certificado de titulo o grado académico, original o copia legalizada ante notario
      SCHEDULED: <2019-07-16 Tue>
+[[file:copiasimpletitulo.jpg][CopiaTitulos]]
 **** TODO Concentración de notas de pre-grado y otros estudios + ranking de egreso promoción
      SCHEDULED: <2019-07-16 Tue>
 Incluyendo estudios de perfeccionamiento y postgrado
@@ -496,6 +498,7 @@ bibliographystyle:apalike
 bibliography:ref.bib
 **** TODO CV
      SCHEDULED: <2019-07-17 Wed>
+
 **** TODO Fotocopia de la cédula de identidad o pasaporte
      SCHEDULED: <2019-07-16 Tue>
 **** TODO Solicitud de ingreso a la universidad (según formato)
