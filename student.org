@@ -906,5 +906,72 @@ data.frame(default = c(default.1$byClass["Sensitivity"], default.1$byClass["Spec
 
 #  LocalWords:  correlaciona
 * Defensa de Tesis
-  SCHEDULED: <2019-07-21 Sun>
-Comenzar con la preparación de la presentación y revisión de artículos novedosos
+** Gráficos
+#+begin_src python :results output
+  import numpy as np
+  import scipy
+  from scipy.stats import uniform
+  from scipy.stats import levy
+  from scipy.stats import powerlaw
+  import matplotlib.pyplot as plt
+
+  def levy_walk(n):
+      # uniform distribution for turning angles
+      angle = uniform.rvs(size=(n,), loc=0, scale=2.*np.pi)
+
+      # levy dist step length
+      r = powerlaw.rvs(0.05, size=n)
+
+      # coordinates
+      x = np.cumsum(r*np.cos(angle))
+      y = np.cumsum(r*np.sin(angle))
+
+      return np.array((x, y, r, angle))
+
+  # steps to be simulated
+  n = 500
+
+  # levy flight
+  foo = levy_walk(n)
+  foo2 = levy_walk(200)
+
+  fig = plt.figure(figsize=(14, 6))
+
+  # plot the walk
+  ax1 = fig.add_subplot(2,1,2)
+  ax1.plot(foo[0,:], foo[1,:], 'g--')
+  ax1.set_title('Simulated foraging pattern')
+  ax1.set_xticks([])
+  ax1.set_yticks([])
+
+  # plot the histogram
+  ax2 = fig.add_subplot(2,2,1)
+  ax2.set_yscale('log')
+  ax2.hist(foo[2,:], bins=int(n/10), color = 'green')
+  ax2.set_title('Foraging step-size histogram')
+  ax2.set_xticks([])
+  ax2.set_yticks([])
+
+  # IRI histogram
+  ax3 = fig.add_subplot(2,2,2)
+  ax3.set_yscale('log')
+  ax3.hist(foo2[2,:], bins=int(n/10), color = 'gray')
+  ax3.set_title('Inter-response interval histogram')
+  ax3.set_xticks([])
+  ax3.set_yticks([])
+
+  plt.show()
+
+  def truncated_power_law(a,m):
+      x = np.arange(1, m+1, dtype='float')
+      pmf = 1/x**a
+      pmf /= pmf.sum()
+      return scipy.stats.rv_discrete(values=(range(1, m+1), pmf))
+
+  a, m = 2, 10
+  d = truncated_power_law(a=a, m=m)
+
+  N = 1000
+  sample = d.rvs(size=N)
+#+end_src
+
