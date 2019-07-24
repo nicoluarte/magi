@@ -81,51 +81,51 @@ R code to generate a decision tree
 - Later on is pruned
 - In this example the difference is not very notorious
 #+BEGIN_SRC R :results output :session rs
-library(rpart)
-library(tree)
-setwd("/home/nicoluarte/Downloads")
-df = read.table('cleveland.txt', h=T)
-head(df)
-summary(df)
+  library(rpart)
+  library(tree)
+  setwd("/home/nicoluarte/Downloads")
+  df = read.table('cleveland.txt', h=T)
+  head(df)
+  summary(df)
 
-                                        # Using rpart
+                                          # Using rpart
 
-## no data standarization needed for trees
+  ## no data standarization needed for trees
 
-set.seed(123)
+  set.seed(123)
 
-## creating the first tree
+  ## creating the first tree
 
-tree.1 = rpart(df[,14] ~ .,
-               data=df[,1:13],
-               cp=0.0001,parms=list(split="information"),
-               method="class")
+  tree.1 = rpart(df[,14] ~ .,
+                 data=df[,1:13],
+                 cp=0.0001,parms=list(split="information"),
+                 method="class")
 
-##split information means entropy/ split could be gini - cp is the complexity parameter.
+  ##split information means entropy/ split could be gini - cp is the complexity parameter.
 
-par(xpd=TRUE)
-plot(tree.1, uniform=T);
-text(tree.1, all=T, pretty=T, fancy=T, use.n=T, fwidth=0.3, fheight=0.3)
+  par(xpd=TRUE)
+  plot(tree.1, uniform=T);
+  text(tree.1, all=T, pretty=T, fancy=T, use.n=T, fwidth=0.3, fheight=0.3)
 
-##pretty is for compatibility with tree package. Considers the minimum length for abbreviation of character or factor variables (4 L).
+  ##pretty is for compatibility with tree package. Considers the minimum length for abbreviation of character or factor variables (4 L).
 
-## Pruning
+  ## Pruning
 
-plotcp(tree.1) ## Cross-validation results
+  plotcp(tree.1) ## Cross-validation results
 
-printcp(tree.1)
+  printcp(tree.1)
 
-tree.1$cptable[which.min(tree.1$cptable[,"xerror"]),"CP"]
+  tree.1$cptable[which.min(tree.1$cptable[,"xerror"]),"CP"]
 
-tree.2<-prune(tree.1,cp=0.01102941)
+  tree.2<-prune(tree.1,cp=0.01102941)
 
-par(xpd=TRUE)
-plot(tree.2, uniform=T);
-text(tree.2, all=T, pretty=T, fancy=T, use.n=T, fwidth=0.3, fheight=0.3)
+  par(xpd=TRUE)
+  plot(tree.2, uniform=T)
+  text(tree.2, all=T, pretty=T, fancy=T, use.n=T, fwidth=0.3, fheight=0.3)
 
-plotcp(tree.2) ## Cross-validation results
+  plotcp(tree.2) ## Cross-validation results
 
-printcp(tree.2)
+  printcp(tree.2)
 
 #+END_SRC
 
@@ -323,6 +323,97 @@ preds_filtered <- as.numeric(predict(full.mdl.filtered, type = c("response")) > 
 confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
 #+END_SRC
 
+** 23/07/2019, Bagging, Random forest, Naive Bayes
+#+begin_src R :results output
+  library(randomForest)
+  library(gbm)
+  setwd("/home/nicoluarte/Downloads")
+  df <- read.table("cleveland.txt", h=T)
+
+
+  set.seed(123)
+
+  rf.1 <- randomForest(df[,14] ~ ., data = df[,1:13], mtry = 6,
+                       importance = T, ntree = 100)
+  print(rf.1)
+
+  layout(matrix(c(1,2), nrow=1), width = c(4,1))
+  par(mar=c(5,4,4,0))
+  plot(rf.1, log="y")
+  par(mar=c(5,0,4,2))
+  plot(c(0,1), type?"n", axes = F, xlab = "", ylab = "")
+  legend("top", colnames(rf.1$err.rate), col=c(1,2,3), cex = 0.8, fill = c(1,2,3))
+
+  rf.pred <- predict(rf.1, df[,1:13], type = "class")
+
+  table(rf.pred, df[,14])
+
+  importance(rf.1, type = 2)
+
+  varImpPlot(rf.1, type = 1)
+
+                                          # create train and test split
+  library(caret)
+  trainIdx <- createDataPartition(df[,14],
+                                  p = 0.8,
+                                  list = FALSE,
+                                  times = 1)
+  df_train <- df[trainIdx, ]
+  df_test <- df[-trainIdx, ]
+
+                                          # Train new random forest
+  rf.2 <- randomForest(df_train[,14] ~ ., data = df_train[,1:13], mtry = 6,
+                       importance = T, ntree = 100)
+  print(rf.2)
+#+end_src
+
+#+begin_src python :results output
+  import pandas as pd
+  import numpy as np
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  from sklearn import tree
+  from sklearn.model_selection import train_test_split, cross_val_score
+  from sklearn.externals.six import StringIO
+  from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier, export_graphviz
+  from sklearn.ensemble import BaggingClassifier, RandomForestClassifier, BaggingRegressor
+  from sklearn.metrics import mean_squared_error, confusion_matrix, classification_report
+
+  df = pd.read_csv("/home/nicoluarte/Downloads/heart.txt").drop('Unnamed: 0', axis=1).dropna()
+
+  # Generate labels for categorical variables
+  df.ChestPain = pd.factorize(df.ChestPain)[0]
+  df.Thal = pd.factorize(df.Thal)[0]
+
+  # Define I/O
+  x = df.drop('AHD', axis=1)
+  y = pd.factorize(df.AHD)[0]
+
+  # Bagging: using all features
+  clf = RandomForestClassifier(max_features=13, max_leaf_nodes=6, n_estimators=100)
+  clf.fit(x, y)
+  clf.score(x, y)
+
+  # Train and test
+  x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.5, random_state=0)
+
+  # Bagging: using all features
+  clf1 = RandomForestClassifier(max_features=13, max_leaf_nodes=6, n_estimators=100)
+  clf1.fit(x_train, y_train)
+  print(clf1.score(x_test, y_test))
+
+  # Predicting
+  pred = clf1.predict(x_test)
+
+  # Confusion matrix
+  cm = pd.DataFrame(confusion_matrix(y_test, pred).T, index=['No', 'Yes'], columns = ['No', 'Yes'])
+  cm.index.name = 'Predicted'
+  cm.columns.name = 'True'
+  print(cm)
+
+  # Importance
+  Importance = pd.DataFrame({'Importance':clf1.feature_importances_*100}, index=x.columns)
+#+end_src
 * PhD
 ** Doctorado en neurociencias UC
 *** TODO postulación
