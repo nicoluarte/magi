@@ -210,6 +210,136 @@ n= 296
 ** 11/07/2019, GLM
 *** Linear regression
 **** Conditions
+***** Multi-Collinearity
+Multi-collinearity is a phenomenon in which one predictor variable in a multiple
+regression model can be linearly predicted from the other with a substantial
+degree of accuracy. In this situation the coefficient estimates of the multiple
+regression may change erratically in response to small changes in the model or
+the data.
+
+Collinearity: is a linear association between two explanatory variables. Two
+variables are perfectly collinear if there is an exact linear relationship
+between them. For example, X_1 and X_2 are perfectly collinear if there exists
+parameters lambda_0 and lambda_1 such that, for all observations i, we have:
+
+\begin{equation}
+X_{2i} = \lambda_0 + \lambda_1 X_{1i}
+\end{equation}
+
+Multi-collinearity: refers to the situation in which two or more explanatory
+variables in a multiple regression model are highly linearly related. We have
+perfect multi-collinearity if, for example as in the equation above, the
+correlation between two independent variables is equal to 1 or -1. In practice,
+we rarely face perfect multi-collinearity in a data set. More commonly, the
+issue of multi-collinearity arises when there is an approximate linear
+relationship among two or more independent variables.
+
+\begin{equation}
+\lambda _{0}+\lambda _{1}X_{{1i}}+\lambda _{2}X_{{2i}}+\cdots +\lambda _{k}X_{{ki}}=0
+\end{equation}
+
+#+BEGIN_SRC R :results output :session linear-regression
+                                          # get sample dataset
+
+  data(swiss)
+
+                                          # visualize correlation matrix
+  library(corrplot)
+  cor_mat <- cor(swiss[,c(2:6)], method = c("pearson"))
+  corrplot(cor_mat, type = "upper", method = "square")
+  print(as.data.frame(cor_mat))
+
+                                          # calculate VIF
+  ## variance inflation factor: the VIF's of the linear regression indicate
+  ## the degree that the variances in the regression estimates are increased
+  ## due to multicollinearity.
+  ## VIF values higher that 10 indicate that there's a problem
+
+  ## first we need to fit a linear regression to our data
+  mdl.lnr.1 <- lm(Fertility ~ ., data = swiss)
+  summary(mdl.lnr.1)
+
+  ## calculate VIF
+  library(car)
+  vif(mdl.lnr.1)
+
+  ## there's no variable that exceeds a VIF of 10.
+  ## however we are going to center the data just to apply some functions
+
+  ## centering explanatory variables
+  df.cntrd <- data.frame(Fertility = swiss[, 1],
+                         sapply(swiss[,2:6], function(x) x - mean(x)))
+
+  ## scaling using r function
+  df.scld <- data.frame(Fertility = swiss[, 1],
+                        scale(swiss[,2:6]))
+
+  ## re-make linear model and calculate VIF
+  mdl.lnr.2 <- lm(Fertility ~ ., data = df.cntrd)
+  summary(mdl.lnr.2)
+  vif(mdl.lnr.2)
+
+  ## linear model and VIF for scaled data
+  mdl.lnr.3 <- lm(Fertility ~ ., data = df.scld)
+  summary(mdl.lnr.3)
+  vif(mdl.lnr.3)
+
+#+END_SRC
+***** Variability of independent variable should be positive
+Fairly straight-forward, it must exist at least some variability in the data set
+independent variables
+
+#+BEGIN_SRC R :results output :session linear-regression
+  ## LMAO
+  print(sapply(swiss, function(x) var(x)))
+#+END_SRC
+***** Independent variables and residuals are uncorrelated
+Not very important
+***** Independent variables are expected to be normally distributed
+#+BEGIN_SRC R :results output :session linear-regression
+  ## we're going to plot one histogram per independent variable
+  library(tidyr)
+  library(ggplot2)
+  ## we do this in order to get data in long form
+  swiss %>% gather() %>% head()
+
+  ## plot!
+  ggplot(gather(swiss), aes(value)) +
+    geom_histogram(bins = 10, aes(y=..density..), alpha=0.5,
+                   position = "identity") +
+    facet_wrap(~key, scales = 'free_x') +
+    geom_density(alpha=0.2)
+
+  ## using shapiro-wilks to test normality
+  ## H_0 = data is normally distributed
+  print(sapply(swiss, function(x) shapiro.test(x)))
+
+  ## check for skewness for data correction
+  library(moments)
+  print(skewness(swiss))
+
+  ## transform data based on skewness
+  ## Education is positively skewed
+  df_trns <- data.frame(swiss)
+  df_trns[,"Education"] <- log(df_trns[,"Education"])
+  ## Catholic is positively skewed
+  df_trns[,"Catholic"] <- log(df_trns[,"Catholic"])
+  ## Re-check for normality
+  print(sapply(df_trns, function(x) shapiro.test(x)))
+
+  ## plot to see the difference
+  ggplot(gather(df_trns), aes(value)) +
+    geom_histogram(bins = 10, aes(y=..density..), alpha=0.5,
+                   position = "identity") +
+    facet_wrap(~key, scales = 'free_x') +
+    geom_density(alpha=0.2)
+
+  ## we could also check distribution of dependent variable
+  hist(swiss[,"Fertility"])
+
+
+#+END_SRC
+
 **** Multiple linear regression
 *** GLM
 - A function is applied to the X's, or a transformation. These are
