@@ -544,6 +544,59 @@ confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
   # Importance
   Importance = pd.DataFrame({'Importance':clf1.feature_importances_*100}, index=x.columns)
 #+end_src
+** 30/07/2019, Naive Bayes, Support-vector machine
+*** Naive Bayes
+ #+BEGIN_SRC R :results output :session naive_bayes
+   setwd("/home/nicoluarte/Downloads/")
+
+                                           # libraries
+   library(e1071)
+   library(naivebayes)
+   library(dummies)
+   library(dplyr)
+
+                                           # read data
+   df <- data.frame(read.table('heart.txt', h=T, sep=","))
+   head(df)
+   summary(df)
+
+                                           # delete NA
+   df.old <- na.omit(df)
+   df.Sex <- dummy(df.old$Sex)
+   df.ChestPain <- dummy(df.old$ChestPain)
+   df.Thal <- dummy(df.old$Thal)
+   df.1 <- data.frame(df.ChestPain, df.Thal, df.Sex,
+                      select(df.old, -c(Sex, ChestPain, Thal, X)))
+
+                                           # naive bayes
+   sed.seed(123)
+   nb.1 <- naiveBayes(as.factor(df.1[,20]) ~ ., data = df.1[,1:19])
+   print(nb.1)
+
+                                           # predict
+   pred.1 <- predict(nb.1, newdata = df.1[,1:19], type = "class")
+
+                                           # confusion matrix
+   tab.1 <- table(df.1[,20], pred.1)
+
+                                           # accuracy
+   (tab.1[1,1]+tab.1[2,2]) / sum(tab.1)
+
+                                           # other naive bayes model
+   nb.2 <- naive_bayes(as.factor(df.1[,20]) ~ .,
+                       data = df.1[,1:19],
+                       usekernel = T)
+   pred.2 <- predict(nb.2, newdata = df.1[,1:19], type = "class")
+
+                                           # confusion matrix
+   tab.2 <- table(df.1[,20], pred.2)
+
+                                           # accuracy
+   (tab.2[1,1]+tab.2[2,2]) / sum(tab.2)
+ #+END_SRC
+*** Support-vector machine
+- Find vectors that best divide the data-set in hyper-planes
+- Linear classifier
 * PhD
 ** Doctorado en neurociencias UC
 *** TODO postulación
