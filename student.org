@@ -597,6 +597,80 @@ confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
 *** Support-vector machine
 - Find vectors that best divide the data-set in hyper-planes
 - Linear classifier
+** 01/08/2019, Time series
+#+BEGIN_SRC R :results output :session time_series
+  data(co2)
+
+                                          # arrange vector as time series
+  df.ts <- ts(c(co2), start=c(1959,1), frequency = 12)
+  plot(df.ts)
+
+                                          # decompose
+  df.decompose <- decompose(df.ts)
+  plot(df.decompose)
+
+                                          # auto-correlation
+  df.random <- acf(df.decompose$random, na.action = na.pass)
+
+                                          # Load air database
+  library(xlsx)
+  df.air <- data.frame(read.xlsx("/home/nicoluarte/Downloads/aircanada.xlsx", sheetIndex = 1))
+
+                                          # arrange air as timeseries
+  df.air.ts <- ts(df.air[7], start = c(2005, 7), frequency = 12)
+
+                                          # decompose
+  df.air.ts.decompose <- decompose(df.air.ts)
+  plot(df.air.ts.decompose)
+
+                                          # auto-correlation
+  df.air.random <- acf(df.air.ts.decompose$random, na.action = na.pass)
+
+                                          # convert to non-stationary to stationary
+  ## co2 example
+  ## diff technique
+  acf(co2, lag = 120)
+  plot(diff(co2))
+  acf(diff(co2), lag = 120)
+  plot(diff(diff(co2), lag = 120))
+  z <- diff(diff(co2), lag = 120)
+  par(mfrow = c(1,2))
+  acf(z[1:200])
+  acf(z[200:400], na.action = na.omit)
+
+  ## with regression
+  y <- c(co2)
+  x1 <- time(y)
+  x2 <- as.factor(rep(1:12, 39))
+  mdl.1 <- lm(y ~ x1 + x2)
+  plot(y~x1, type = "l")
+  lines(mdl.1$fitted.values~c(x1), col = "red")
+
+  ## non-parametric modelling
+  library(forecast)
+  hw.mdl <- HoltWinters(co2)
+  plot(forecast(hw.mdl, 24))
+
+                                          # using air df
+  ## complete this
+
+                                          # ARMA
+  ## AR(1): x[t] = Phi * x[t-1] + z[t], z[t] white noise
+  x <- c()
+  n <- 300
+  z <- rnorm(n, 0, 1)
+  phi <- 0.8
+  x[1] <- z[1]
+  for (t in 2:n)
+  {
+    x[t] <- phi*x[t-1]+z[t]
+  }
+
+  ## MA(1): x[t] = z[t] + Theta * z[t-1]
+  ## ARMA (1, 1): x[t] - Phi * x[t-1] = theta * z[t-1] + z[t]
+
+#+END_SRC
+
 * PhD
 ** Doctorado en neurociencias UC
 *** TODO postulación
@@ -858,75 +932,153 @@ Nicolás Luarte
 ** FONDECYT
 *** Initial inspection:
  #+BEGIN_SRC R :results output :session peatones
-                                        # load packages
-pkg <- c("dplyr", "ggplot2", "tidyverse", "corrplot", "Hmisc", "psycho")
-invisible(lapply(pkg, library, character.only = TRUE))
+                                           # load packages
+   pkg <- c("dplyr", "ggplot2", "tidyverse", "corrplot", "Hmisc", "psycho",
+            "broom", "gvlma", "pROC", "caret", "MASS", "effects", "car",
+            "ResourceSelection", "neuralnet")
+   invisible(lapply(pkg, library, character.only = TRUE))
 
-                                        # load database
-setwd("/home/nicoluarte/Downloads")
-df <- data.frame(read.csv("data_fondecyt.csv"))
-head(df)
+                                           # load database
+   setwd("/home/nicoluarte/Downloads")
+   df <- data.frame(read.csv("data_fondecyt.csv"))
+   head(df)
 
-                                        # inspect de data
-cor <- na.omit(df) %>%
-  correlation()
-summary(cor)
+                                           # models
+   ## null model
+   mdl.null <- glm(Valence_num ~ 1, data = df, family = binomial(link = "logit"))
+   ## simple model, only noise
+   mdl.1 <- glm(Valence_num ~ Noise, data = df, family = binomial(link = "logit"))
+   summary(mdl.1)
+   ## getting model estimate into a interpretable probability
+   ## y* = ln(p/1-p) = b_0 + b_1*Noise
+   ## p = exp(b_0 + b_1*Noise) / exp(b_0 + b_1*Noise) +1
+   ## p = exp(y*) / exp(y*)+1
 
-                                        # logistic regression model
-mdl.0 <- glm(Valence_num~Noise, data = df, family = binomial(link = "logit"))
-summary(mdl.0)
-t <- 0.5
-mdl.0.pred <- as.numeric(predict(mdl.0, type = c("response")) > t)
-caret::confusionMatrix(as.factor(mdl.0.pred), as.factor(df$Valence_num), positive = "1")
+                                           # plot first model
+   ilink <- family(mdl.1)$linkinv
+   pd <- with(df,
+              data.frame(Noise = seq(min(Noise),
+                                     max(Noise),
+                                     length = 100)))
+   pd <- cbind(pd, predict(mdl.1, pd, type = "link", se.fit = TRUE)[1:2])
+   pd <- transform(pd, Fitted = ilink(fit), Upper = ilink(fit + (2*se.fit)),
+                   Lower = ilink(fit - (2*se.fit)))
+   ## plot probabilities with confidence interval (Wald)
+   ggplot(df, aes(x = Noise, y = as.numeric(Valence_num))) +
+     geom_ribbon(data = pd, aes(ymin = Lower, ymax = Upper, x = Noise),
+                 fill = "gray", alpha = 0.2, inherit.aes = FALSE) +
+     geom_line(data = pd, aes(y = Fitted, x = Noise)) +
+     geom_point() +
+     labs(y = "Probability of positive mood", x = "Noise")
 
-                                        # cross-validation
-t.samples <- df$Valence_num %>%
-  caret::createDataPartition(p = 0.8, list = FALSE)
-t.data <- df[t.samples, ]
-val.data <- df[-t.samples, ]
+                                           # test models
+   ## measures of fit:
+   ## likelihood ratio test, comparing our model to the null model
+   lmtest::lrtest(mdl.null, mdl.1)
+   ## mdl.1 coefficient are significant
+   ## The reference for this is Joseph M. Hilbe (2009) Logistic Regression Methods, CRC Press, pages 81-82
+   ## Hosmer and lemeshow goodness of fit
+   mdl.simple.test <- hoslem.test(mdl.1$y, fitted(mdl.1), g = 10)
+   mdl.complete.test <- hoslem.test(mdl.complete$y, fitted(mdl.complete), g = 10)
 
-## re-build model with training data
-mdl.1 <- glm(Valence_num~Noise, data = t.data, family = binomial(link = "logit"))
-mdl.1.pred <- mdl.1 %>% predict(val.data, type = "response")
+   ## ROC
+   mdl.1.preds <- predict(mdl.1, type = "response")
+   mdl.1.roc <- roc(df$Valence_num, mdl.1.preds,
+                    smoothed = TRUE,
+                    ci = TRUE, ci.alpha = 0.5, stratified = FALSE,
+                    plot = TRUE, auc.polygon = TRUE, max.aux.polygon = TRUE, grid = TRUE,
+                    print.auc = TRUE, show.thres=TRUE)
+   ## mdl.1 has poor discrimination
+   ## get list of all possible thresholds and corresponding specificity and sensitivity
+   mdl.1.c <- coords(roc = mdl.1.roc, x = "all", transpose = FALSE)
+   ## we could calculate the threshold that maximizes the sum of specificity and sensitivity
+   mdl.1.optc <- coords(mdl.1.roc, "best", "threshold")
+   ## get both confusion matrices
+   ## c = 0.5
+   mdl.1.norm <- factor(ifelse(mdl.1.preds > 0.5, "Positive", "Negative"))
+   confusionMatrix(mdl.1.norm, df$Valence)
+   ## c = optimal <- 0.4396930
+   mdl.1.opt <- factor(ifelse(mdl.1.preds > mdl.1.optc["threshold"], "Positive", "Negative"))
+   confusionMatrix(mdl.1.opt, df$Valence)
 
-## ROC curve
-roc.curve <- pROC::roc(Valence_num~mdl.1.pred, data = val.data, plot = T)
 
-caret::confusionMatrix(as.factor(as.numeric(mdl.1.pred > t)),
-                       as.factor(val.data$Valence_num), positive = "1")
+   ## repeated k-fold cross-validation
+   cntrl <- trainControl(method = "repeatedcv",
+                         number = 10,
+                         repeats = 10)
+   mdl.1.kfold <- train(as.factor(Valence_num) ~ Noise,
+                        data = na.omit(df),
+                        method = "glm",
+                        family = binomial(link = "logit"),
+                        trControl = cntrl)
 
-                                        # Repeated k-fold cross-validation
-## fix pupil
-df$Pupil <- as.numeric(as.character(df$Pupil))
-t.control <- caret::trainControl(method = "repeatedcv",
-                                 number = 5, repeats = 10)
-mdl.2 <- caret::train(as.factor(Valence_num)~Noise+Pedestrians+Cars+Neighbourhood_num,
-                      data = na.omit(df),
-                      method = "glm",
-                      family = binomial(link = "logit"),
-                      trControl = t.control,
-                      preProcess=c("center", "scale"))
-print(mdl.2)
-mdl.2.pred <- mdl.2 %>% predict(val.data, type = "prob")
+                                           # step-wise models
+   ## step-wise regression
+   ## socioeconomic excluded 100% colinear with neighbourhood
+   mdl.1.step <- train(as.factor(Valence_num) ~ Noise + Pedestrians +
+                      Cars + Neighbourhood + Sex_num,
+                        data = na.omit(df),
+                        method = "glmStepAIC",
+                        family = binomial(link = "logit"),
+                      trControl = cntrl,
+                      trace = FALSE)
+   mdl.1.step$finalModel
+   summary(mdl.1.step$finalModel)
 
-                                        # testing different 't' simple model
-default <- caret::confusionMatrix(as.factor(as.numeric(mdl.1.pred > 0.5)),
-                                  as.factor(val.data$Valence_num), positive = "1")
-opt_t <- pROC::coords(roc.curve, "best")
-optimal <- caret::confusionMatrix(as.factor(as.numeric(mdl.1.pred > opt_t["threshold"])),
-                                  as.factor(val.data$Valence_num), positive = "1")
-data.frame(default = c(default$byClass["Sensitivity"], default$byClass["Specificity"]),
-           optimal = c(optimal$byClass["Sensitivity"], optimal$byClass["Specificity"]))
+   ## under Akaike information criterion (goodness of fit ~ simplicity)
+   ## Valence ~ Noise + Pedestrians + Neighbourhood
+   ## we could test only noise model against complete one
+   mdl.complete <- glm(Valence_num ~ Noise + Pedestrians + Neighbourhood,
+                       data = df,
+                       family = binomial(link = "logit"))
+   lmtest::lrtest(mdl.1, mdl.complete)
+   ## model coefficients are significant against simpler model
 
-                                        # testing different 't' complete model
-default.1 <- caret::confusionMatrix(as.factor(as.numeric(mdl.2.pred["1"] > 0.5)),
-                                  as.factor(val.data$Valence_num), positive = "1")
-roc.curve.1 <- pROC::roc(Valence_num~unlist(mdl.2.pred["1"]), data = val.data, plot = T)
-opt_t.1 <- pROC::coords(roc.curve.1, "best")
-optimal.1 <- caret::confusionMatrix(as.factor(as.numeric(unlist(mdl.2.pred["1"]) > opt_t.1["threshold"])),
-                                  as.factor(val.data$Valence_num), positive = "1")
-data.frame(default = c(default.1$byClass["Sensitivity"], default.1$byClass["Specificity"]),
-           optimal = c(optimal.1$byClass["Sensitivity"], optimal.1$byClass["Specificity"]))
+   ## confusion matrix, roc, and k-fold validation for complete model
+   ## ROC
+   mdl.complete.preds <- predict(mdl.complete, type = "response")
+   mdl.complete.roc <- roc(df$Valence_num, mdl.complete.preds,
+                    smoothed = TRUE,
+                    ci = TRUE, ci.alpha = 0.5, stratified = FALSE,
+                    plot = TRUE, auc.polygon = TRUE, max.aux.polygon = TRUE, grid = TRUE,
+                    print.auc = TRUE, show.thres=TRUE)
+   ## confusion matrices
+   ## we could calculate the threshold that maximizes the sum of specificity and sensitivity
+   mdl.complete.optc <- coords(mdl.complete.roc, "best", "threshold")
+   ## get both confusion matrices
+   ## c = 0.5
+   mdl.complete.norm <- factor(ifelse(mdl.complete.preds > 0.5, "Positive", "Negative"))
+   confusionMatrix(mdl.complete.norm, df$Valence)
+   ## c = optimal <- 0.4396930
+   mdl.complete.opt <- factor(ifelse(mdl.complete.preds > mdl.complete.optc["threshold"], "Positive", "Negative"))
+   confusionMatrix(mdl.complete.opt, df$Valence)
+   ## k-fold
+   mdl.complete.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians + Neighbourhood,
+                               data = na.omit(df),
+                        method = "glm",
+                        family = binomial(link = "logit"),
+                        trControl = cntrl)
+   ## accuracy of simple a complete model are almost the same
+
+
+                                           # coefficients interpretation
+   plot(allEffects(mdl.complete))
+
+                                           # what's left
+   ## checking for outlier influence
+
+                                           # neural-net
+   nn.control <- trainControl(method = "repeatedcv",
+                         number = 10,
+                         repeats = 10)
+   nn.grid <- expand.grid(size = seq(from = 1, to = 15, by = 1),
+                         decay = seq(from = 0.1, to = 0.5, by = 0.1))
+   nn.kfold <- train(as.factor(Valence_num) ~ (.)^2,
+                        data = select_if(df, is.numeric),
+                        method = "nnet",
+                     trControl = nn.control,
+                     preProcess = c('center', 'scale'),
+                     tuneGrid =  nn.grid)
  #+END_SRC
 
  #+RESULTS:
