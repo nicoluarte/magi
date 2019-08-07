@@ -1,4 +1,4 @@
-% Created 2019-07-29 Mon 15:25
+% Created 2019-08-07 Wed 19:19
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -21,10 +21,10 @@
 \renewcommand\refname{Referencias}
 \author{Luis Nicolás Luarte Rodríguez}
 \date{}
-\title{Declaración de propósitos}
+\title{Val \textasciitilde{} Noise}
 \hypersetup{
  pdfauthor={Luis Nicolás Luarte Rodríguez},
- pdftitle={Declaración de propósitos},
+ pdftitle={Val \textasciitilde{} Noise},
  pdfkeywords={},
  pdfsubject={},
  pdfcreator={Emacs 25.2.2 (Org mode 9.2.4)}, 
@@ -32,147 +32,133 @@
 \begin{document}
 
 \maketitle
-\section{Motivación personal para el programa de Doctorado}
-\label{sec:org18057e2}
-El cómo buscamos objetos, información, recompensas, alimentos, etc. Ha
-sido lo que ha inspirado en mayor medida mi interés en la
-neurociencia. A lo largo de mi vida he sentido profunda intriga en
-cómo los humanos buscan en el espacio de posibilidades, para tomar una
-decisión, para evocar una memoria en particular o bien simplemente
-para organizar cualquier comportamiento relativamente complejo. Investigar
-sobre los mecanismos subyacentes a ese fenómeno ha sido increíblemente
-enriquecedor debido al fuerte componente interdisciplinar del campo.
-Esto me ha llevado a generar un profundo interés en seguir
-desarrollando mi carrera en neurociencia, ya que, creo, el lograr
-entender ese aparentemente simple mecanismo de decisión en condiciones
-de información incompleta, puede, eventualmente, ser de gran utilidad
-para la comprensión tanto de procesos de memoria y aprendizaje cómo de
-ciertas patologías. Con la oportunidad del programa de Doctorado
-espero contribuir a la investigación del aprendizaje y memoria.
+\begin{verbatim}
+## fit simple model
+glm.mdl.null <- glm(Valence_num ~ 1,
+                   data = df,
+                   family = binomial(link = "logit"))
+glm.mdl.1 <- glm(Valence_num ~ Noise,
+                 data = df,
+                 family = binomial(link = "logit"))
+glm.mdl.2 <- glm(Valence_num ~ Noise + Pedestrians,
+                 data = df,
+                 family = binomial(link = "logit"))
+glm.mdl.3 <- glm(Valence_num ~ Noise + Cars,
+                 data = df,
+                 family = binomial(link = "logit"))
+glm.mdl.4 <- glm(Valence_num ~ Noise + Neighbourhood,
+                 data = df,
+                 family = binomial(link = "logit"))
+glm.mdl.5 <- glm(Valence_num ~ Noise + Socioeconomic,
+                 data = df,
+                 family = binomial(link = "logit"))
+glm.mdl.6 <- glm(Valence_num ~ Noise + Pedestrians + Cars,
+                 data = df,
+                 family = binomial(link = "logit"))
+glm.mdl.7 <- glm(Valence_num ~ Noise + Pedestrians + Neighbourhood,
+                 data = df,
+                 family = binomial(link = "logit"))
+glm.mdl.8 <- glm(Valence_num ~ Noise + Pedestrians + Socioeconomic,
+                 data = df,
+                 family = binomial(link = "logit"))
+glm.list <- list(glm.mdl.1, glm.mdl.2, glm.mdl.3, glm.mdl.4, glm.mdl.5,
+                 glm.mdl.6, glm.mdl.7, glm.mdl.8)
 
-Cómo parte de mi formación en el programa de Magíster en Neurociencias
-Social de la Universidad Diego Portales, investigue, cómo parte de un
-artículo de revisión, las raíces evolutivas de la búsqueda semántica
-(recuperación de memorias en tareas de evocación). Una de las
-principales conclusiones fue que, aunque solo en grado tentativo,
-parece existir un mecanismo compartido entre la búsqueda semántica y
-el forrajeo ('foraging', el comportamiento de búsqueda de alimento),
-teniendo este último patrones relativamente marcados, que se extienden
-a lo largo de miles de años, así cómo a través de múltiples
-especies. La posibilidad de que un mecanismo tan ubicuo, responsable
-del comportamiento de desplazamiento en la búsqueda de alimentos, pueda estar
-relacionado por exaptación a un proceso fundamental de la memoria abre una
-posibilidad de establecer un mapeo evolutivo al menos a este proceso de memoria.
+## walds-test
+glm.wald <- sapply(glm.list, function(x) Anova(x, test.statistic = c("Wald")),
+               simplify = FALSE)
+## likelihood ratio test
+glm.lr <- sapply(glm.list, function(x) anova(glm.mdl.null, x, test = "LRT"),
+                 simplify = FALSE)
+## score test
+glm.score <- sapply(glm.list, function(x) anova(glm.mdl.null, x, test = "Rao"),
+                    simplify = FALSE)
+## hosmer & lemeshow, g = covariates + 1
+glm.hl <- sapply(glm.list, function(x) hoslem.test(x$y, fitted(x), g= 3))
+## AIC for every model
+glm.aic <- sapply(glm.list, function(x) AIC(x))
+## VIF for all models
+glm.vif <- sapply(glm.list[2:8], function(x) vif(x))
 
-Deseoso de aprender más sobre este posible vínculo entre forrajeo y
-memoria, me adentre en las principales áreas aledañas de conocimiento,
-tales como ecología, aprendizaje por reforzamiento ('reinforcement
-learning') y otros modelos computacionales. Por la alta carga de modelos
-estadísticos en las áreas mencionadas, me apunté para un programa de
-diplomado en ciencia de datos de la Universidad Católica de
-Chile. Además de este programa he realizado aprendizaje autónomo en
-cursos en línea, con el fin de contar con todas las herramientas
-técnicas que son demandadas para el área.
+## repeated k-fold cross validated models
+cntrl <- trainControl(method = "repeatedcv",                      number = 10,
+                      repeats = 10,
+                      savePredictions = TRUE)
+mdl.1.kfold <- train(as.factor(Valence_num) ~ Noise,
+                     data = na.omit(df),
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = cntrl)
+mdl.2.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians,
+                     data = na.omit(df),
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = cntrl)
+mdl.3.kfold <- train(as.factor(Valence_num) ~ Noise + Cars,
+                     data = na.omit(df),
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = cntrl)
+mdl.4.kfold <- train(as.factor(Valence_num) ~ Noise + Neighbourhood,
+                     data = na.omit(df),
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = cntrl)
+mdl.5.kfold <- train(as.factor(Valence_num) ~ Noise + Socioeconomic,
+                     data = na.omit(df),
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = cntrl)
+mdl.6.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians + Cars,
+                     data = na.omit(df),
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = cntrl)
+mdl.7.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians + Neighbourhood,
+                     data = na.omit(df),
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = cntrl)
+mdl.8.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians + Socioeconomic,
+                     data = na.omit(df),
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = cntrl)
 
-Adicional a los programas mencionados anteriormente, desde julio del año
-2018, me encuentro participando como investigador en un proyecto
-FONDECYT conjunto entre la escuela de Arquitectura y Psicología de la
-Universidad Diego Portales. El tema central de esta investigación es el
-estudio de la percepción de peatones en diferentes ambientes
-urbanos. Si bien el tema no está relacionado directamente con el área
-de interés, mi rol ha consistido en utilización de técnicas de visión
-de máquina ('machine vision') y procesamiento de datos tanto para
-'Eye-tracker' cómo para análisis de frecuencia de objetos. Lo
-anterior, adicionado a el aprendizaje de diversos lenguajes de
-programación (MATLAB, Python, R, Bash), me ha permitido desarrollar
-herramientas que son útiles en la investigación en general cómo
-específicamente para el área de mi interés.
 
-\section{Formulación tópico de interés}
-\label{sec:org8731e1d}
-Mi tópico de interés reside en el estudio de la memoria, específicamente, la
-búsqueda semántica, esto es, las estrategias o patrones utilizados al momento de
-recuperar un contenido de memoria, a través del estudio de patrones
-evolutivamente semejantes tales como el de 'forrajeo'.
+mdl.1.pred <- predict(mdl.1.kfold)
+mdl.2.pred <- predict(mdl.2.kfold)
+mdl.3.pred <- predict(mdl.3.kfold)
+mdl.4.pred <- predict(mdl.4.kfold)
+mdl.5.pred <- predict(mdl.4.kfold)
+mdl.6.pred <- predict(mdl.4.kfold)
+mdl.7.pred <- predict(mdl.4.kfold)
+mdl.8.pred <- predict(mdl.4.kfold)
 
- Las memorias semánticas han sido pensadas, teóricamente, cómo elementos
-pertenecientes a cierto 'espacio' constituido por la similitud en significado
-\citep{lundProducingHighdimensionalSemantic1996}. Así, se ha propuesto una
-'distancia' entre los distintos contenidos semánticos
-\citep{montezRoleSemanticClustering2015} y por lo tanto la posibilidad de
-'navegar' entre dichos contenidos. Considerando lo anterior, es esperable que a
-lo largo de la evolución se hayan generado estrategias para acceder, de manera
-útil e eficiente, a dichos contenidos. Las estrategias de búsqueda para acceder
-a los contenidos semánticos han sido relacionadas a aquellas del forrajeo
-\citep{ForagingSemanticFields,hillsAnimalForagingEvolution2006,hillsOptimalForagingSemantic2012},
-en tanto las estrategias, para ambos casos, deben lidiar con el dilema de
-explorar/explotar.
+mdl.1.cm <- caret::confusionMatrix(mdl.1.pred, as.factor(df$Valence_num))
+mdl.2.cm <- caret::confusionMatrix(mdl.2.pred, as.factor(df$Valence_num))
+mdl.3.cm <- caret::confusionMatrix(mdl.3.pred, as.factor(df$Valence_num))
+mdl.4.cm <- caret::confusionMatrix(mdl.4.pred, as.factor(df$Valence_num))
+mdl.5.cm <- caret::confusionMatrix(mdl.1.pred, as.factor(df$Valence_num))
+mdl.6.cm <- caret::confusionMatrix(mdl.2.pred, as.factor(df$Valence_num))
+mdl.7.cm <- caret::confusionMatrix(mdl.3.pred, as.factor(df$Valence_num))
+mdl.8.cm <- caret::confusionMatrix(mdl.4.pred, as.factor(df$Valence_num))
 
-Se ha observado que los 'algoritmos' utilizados en el forrajeo, pueden proveer
-de soluciones óptimas para dicho dilema
-\citep{bartumeusAnimalSearchStrategies2005a}, lo cuál aplicaría, igualmente, para
-estrategias en espacios semánticos \citep{montezRoleSemanticClustering2015}. De
-esta manera se puede observar una conexión entre un mecanismo evolutivamente
-antiguo (forrajeo) y la búsqueda semántica. Permitiendo un enfoque evolutivo
-comprensivo al estudio de la memoria, correspondiente al tema de mi interés.
 
-El cómo se realiza la búsqueda en espacios semánticos es de
-fundamental importancia, ya que es un espacio que está en activa
-búsqueda durante la comprensión y producción de lenguaje, entre otras
-\citep{montezRoleSemanticClustering2015}, por lo mismo, el alcance de su
-importancia para casi cualquier actividad cognitiva es de gran tamaño,
-pudiendo afectar de manera importante el comportamiento ante múltiples y
-diferentes tareas.
+par(mfrow = c(4,2))
+fourfoldplot(mdl.1.cm$table, main = "Noise")
+fourfoldplot(mdl.2.cm$table, main = "Noise + Pedestrians")
+fourfoldplot(mdl.3.cm$table, main = "Noise + Cars")
+fourfoldplot(mdl.4.cm$table, main = "Noise + Neighborhood")
+fourfoldplot(mdl.4.cm$table, main = "Noise + Socioeconomic")
+fourfoldplot(mdl.4.cm$table, main = "Noise + Pedestrians + Cars")
+fourfoldplot(mdl.4.cm$table, main = "Noise + Pedestrians + Neighborhood")
+fourfoldplot(mdl.4.cm$table, main = "Noise + Pedestrians + Socioeconomic")
 
-\section{Objetivos a corto plazo}
-\label{sec:org2c35155}
-Uno de los principales tópicos de discusión en el área de búsqueda
-semántica es la organización y el tipo de la relaciones que conforman
-el espacio semántico \citep{lundProducingHighdimensionalSemantic1996}. Así, Uno de los primeros
-objetivos de investigación sería poder generar configuraciones
-experimentales que permitiesen determinar, principalmente, (a) efecto
-del contexto en las relaciones entre contenidos semánticos
-\citep{schillerMemorySpaceUnderstanding2015} y (b) si el tipo de búsqueda es más
-verosímil para contenidos encadenados de manera asociativa o categórica
-\citep{hillsOptimalForagingSemantic2012}. 
+library(MASS)
+odd.ratio <- sapply(glm.list, function(x) exp(cbind(coef(x), confint(x))))
 
-Cómo segundo objetivo a corto plazo, de manera experimental, modelar el
-comportamiento en tareas de evocación de memoria, a modo de sugerir posibles
-mecanismos generadores del comportamiento de búsqueda semántica. Los modelos mas
-relevantes son (a) aquellos basados en reglas
-\citep{charnovOptimalForagingMarginal1976}, (b) modelos aleatorios simples
-\citep{thompsonWalkingWikipediaScalefree2014} y (c) modelos aleatorios complejos
-cómo discutido en \citep{benhamouHowManyAnimals2007}
-\section{Objetivos a largo plazo}
-\label{sec:orgbe60ffa}
-Los objetivos a corto plazo están relacionados, principalmente, con el
-modelamiento de comportamiento en tareas de búsqueda semántica. Por otro lado,
-los objetivos a largo plazo buscarían conectar dichos modelos a sus estructuras
-cerebrales (u otras) subyacentes. Uno de los candidatos parece ser el 'Locus
-coeruleus' \citep{kaneIncreasedLocusCoeruleus2017}, corteza medial pre-frontal
-ventromedial \citep{kollingNeuralMechanismsForaging2012}, corteza cingulada
-anterior \citep{shenhavAnteriorCingulateEngagement2014}, entre otras. Si bien la
-función del 'Locus Coeruleus' es extendida en el sistema de arousal, se observa
-evidencia de participación significativa en comportamiento de
-exploración-explotación relacionados al forrajeo
-\citep{aston-jonesAdaptiveGainRole2005}, además la relativa facilidad en medición,
-en conjunto con otras técnicas como electro-encefalograma, ha permitido
-encontrar relación entre este y el forrajeo en situaciones experimentales
-\citep{slanziCombiningEyeTracking2017}. Esto implicaría la combinación de modelos
-de comportamiento y registro de medidas fisiológicas, tales como diámetro de
-pupila. El tener un modelo de comportamiento, en el marco de explorar/explotar,
-permitiría eventualmente, tener una idea de que estrategia se esta ocupando en
-cada decisión y por ende evaluar la contribución de las diferentes estructuras
-cerebrales a esto.
-
-Adicionalmente, se encuentra dentro de mis objetivos a largo plazo la docencia
-en el área de neurociencias, principalmente buscando ser un aporte para la
-promoción de la ciencia experimental en Psicología, la cual tradicionalmente
-tiene un espacio muy reducido en el currículo de pre-grado, desaprovechando un
-campo muy fértil en investigación.
-\begin{Latex}
-\pagebreak
-\end{Latex}
-\bibliographystyle{apa}
-\bibliography{ref}
+## plot linear odd-ratio
+sapply(glm.list, function(x) plot(allEffects(x)))
+\end{verbatim}
 \end{document}

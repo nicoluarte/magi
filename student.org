@@ -671,6 +671,161 @@ confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
 
 #+END_SRC
 
+** 06/08/2019, Naive bayes, neural nets
+#+BEGIN_SRC R :results output :session neural_net
+  ##Libraries
+
+  library(e1071)
+
+  library(ggplot2)
+
+  library(dummies)
+
+  library(dplyr)
+
+  ##Path
+
+  setwd("/home/nicoluarte/Downloads")
+
+  ##Simulated data
+
+  set.seed(123)
+
+  ##Input
+  X <- matrix(rnorm(40), 20, 2)
+  colnames(X) <- c("X1","X2")
+
+  ##Output
+  y <- c(rep(-1,10), rep(1,10))
+  X[y == 1, ] <- X[y == 1, ] + 1
+
+  datos <- data.frame(X,y)
+
+  ##Plot
+  ggplot(data = datos, aes(x = X1, y = X2, color = as.factor(y)))+geom_point(size = 6) +theme_bw()
+
+  ##Support vector machine
+
+  datos$y <- as.factor(datos$y)##Convertir variable en factor
+
+  svm.1 <- svm(formula = y ~ X1 + X2, data = datos, kernel = "linear",cost = 10, scale = T)##kernel=SVM lineal o no lineal/scale=T implica estandarizar las variables (media 0 y varianza 1)/cost=parametro de regularizacion
+
+  summary(svm.1)##resumen del SVM
+
+  svm.1$index##observaciones que son vectores de soporte
+
+  ##Classification plot
+
+  plot(svm.1,datos)
+
+  ##Cross-validation for C
+
+  svm_cv <-tune("svm", y ~ X1 + X2, data = datos,kernel = 'linear',ranges = list(cost = c(0.001, 0.01, 0.1, 1, 5, 10, 20, 50, 100,150, 200)))
+
+  summary(svm_cv)
+
+  svm_cv$best.model
+
+  ## Heart Data
+
+  ##Data
+
+  datos.full<-read.table('heart.txt',h=T, sep=",")
+
+  head(datos.full)
+
+  summary(datos.full)
+
+  ##Delete NA
+
+  datos.old<-datos.full
+
+  datos.Sex<-dummy(datos.full$Sex)
+
+  datos.ChestPain<-dummy(datos.old$ChestPain)
+
+  datos.Thal<-dummy(datos.old$Thal)
+
+  ##New frame
+
+  datos<-data.frame(datos.ChestPain,datos.Thal,datos.Sex,select(datos.old,-c(Sex,ChestPain,Thal, X)))
+
+  head(datos)
+
+  summary(datos)
+
+  ##Scaled variables
+
+  dim(datos)
+
+  datos.std<-datos
+
+  datos.std[,1:19]<-scale(datos[,1:19])
+
+  ##Support Vector Machine
+
+  set.seed(123)
+
+  svm.2<-svm(AHD ~ . ,data=datos.std,kernel="linear",scale=T,cost=0.01)
+
+  print(svm.2)
+
+  ##Prediction
+
+  pred<-predict(svm.2,newdata = datos.std)
+
+  caret::confusionMatrix(pred, datos.std$AHD[1:299])
+
+  ##Classification plot
+
+  plot(svm.2,datos,RestBP ~ MaxHR,slice=list(ChestPainasymptomatic=3,ChestPainnonanginal=4,ChestPainnontypical=5,ChestPaintypical=6,Thalfixed=7,Thalnormal=8,Thalreversable=9,Sex0=10,Sex1=11,Age=12,Chol=13,Fbs=14,RestECG=15,ExAng=16,Oldpeak=17,Slope=18,Ca=19))
+
+  ##Cross-validation for cost
+
+  svm_cv <-tune("svm", AHD ~ . , data = datos.std,kernel = 'linear',ranges = list(cost = c(0.001, 0.01, 0.1, 1, 10)),scale=T)
+
+  summary(svm_cv)
+
+
+  best<-svm_cv$best.model
+
+  ##Prediction
+
+  pred<-predict(best,newdata = datos.std[1:299,])
+
+  tabla<-table(prediccion = pred, valor_real = datos.std$AHD)## Confusion matrix
+
+  caret::confusionMatrix(pred, datos.std$AHD[1:296])
+
+  ###Using train and test
+
+  set.seed(123)
+
+  p.train<-0.8
+
+  n<-nrow(datos.std)
+  trainIndex<-sample(1:n,size=round(p.train*n),replace=F)
+
+  train.s<-data.frame(datos.std[trainIndex,])
+  test.s<-data.frame(datos.std[-trainIndex,])
+
+  ##Cross-validation for C
+
+  svm_cv <-tune("svm", AHD ~ . , data = train.s,kernel = 'linear',ranges = list(cost = c(0.001, 0.01, 0.1, 1, 5, 10, 20, 50, 100,150, 200)))
+
+  summary(svm_cv)
+
+  best<-svm_cv$best.model
+
+  ##Prediction
+
+  pred<-predict(best,test.s[,-20])
+
+  tabla<-table(prediccion = pred, valor_real = test.s$AHD)## Confusion matrix
+
+  (tabla[1,1]+tabla[2,2])/sum(tabla)
+
+#+END_SRC
 * PhD
 ** Doctorado en neurociencias UC
 *** TODO postulación
@@ -935,7 +1090,7 @@ Nicolás Luarte
                                            # load packages
    pkg <- c("dplyr", "ggplot2", "tidyverse", "corrplot", "Hmisc", "psycho",
             "broom", "gvlma", "pROC", "caret", "MASS", "effects", "car",
-            "ResourceSelection", "neuralnet")
+            "ResourceSelection", "neuralnet", "lmtest")
    invisible(lapply(pkg, library, character.only = TRUE))
 
                                            # load database
@@ -1236,13 +1391,229 @@ Nicolás Luarte
  Sensitivity 0.4655172 0.8103448
  Specificity 0.7065217 0.4673913
  #+end_example
+*** Model check
+Complete model with interactions
+#+BEGIN_SRC R :results output :session peatones
+                                          # complete model with interactions
+  log.mdl.full <- train(as.factor(Valence_num) ~ (Noise + Pedestrians +
+                                                  Cars + Neighbourhood + Sex_num)^2,
+                        data = na.omit(df),
+                        method = "glmStepAIC",
+                        family = binomial(link = "logit"),
+                        trControl = cntrl,
+                        trace = FALSE)
+  ## save model
+  saveRDS(log.mdl.full, "full_log_mdl.rds")
+
+  ## confusion matrix of complete model with interactions
+  log.mdl.full.preds <- predict(log.mdl.full$finalModel, type = "response")
+  log.mdl.preds <- factor(ifelse(log.mdl.full.preds > 0.5, "Positive", "Negative"))
+  confusionMatrix(log.mdl.preds, df$Valence)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+Error in train(as.factor(Valence_num) ~ (Noise
+Pedestrians
+Cars
+ : 
+  could not find function "train"
+Error in saveRDS(log.mdl.full, "full_log_mdl.rds") : 
+  object 'log.mdl.full' not found
+Error in predict(log.mdl.full$finalModel, type = "response") : 
+  object 'log.mdl.full' not found
+Error in ifelse(log.mdl.full.preds
+0.5, "Positive", "Negative") : 
+  object 'log.mdl.full.preds' not found
+Error in confusionMatrix(log.mdl.preds, df$Valence) : 
+  could not find function "confusionMatrix"
+#+end_example
+
+Overall model evaluation
+#+BEGIN_SRC R :results output :session peatones
+  ## build all simple models
+  log.mdl.1 <- glm(Valence_num ~ Noise, data = df, family = binomial(link = "logit"))
+  log.mdl.2 <- glm(Valence_num ~ Pedestrians, data = df, family = binomial(link = "logit"))
+  log.mdl.3 <- glm(Valence_num ~ Cars, data = df, family = binomial(link = "logit"))
+  log.mdl.4 <- glm(Valence_num ~ Neighbourhood, data = df, family = binomial(link = "logit"))
+  log.mdl.5 <- glm(Valence_num ~ Socioeconomic, data = df, family = binomial(link = "logit"))
+  log.mdl.6 <- glm(Valence_num ~ Sex_num, data = df, family = binomial(link = "logit"))
+
+  ## build all 2 predictor models
+  log.mdl.7 <- glm(Valence_num ~ Noise + Pedestrians, data = df, family = binomial(link = "logit"))
+  log.mdl.8 <- glm(Valence_num ~ Noise + Cars, data = df, family = binomial(link = "logit"))
+  log.mdl.9 <- glm(Valence_num ~ Noise + Neighbourhood, data = df, family = binomial(link = "logit"))
+  log.mdl.10 <- glm(Valence_num ~ Noise + Socioeconomic, data = df, family = binomial(link = "logit"))
+  log.mdl.11 <- glm(Valence_num ~ Noise + Sex_num, data = df, family = binomial(link = "logit"))
+
+  ## Build all 3 predictor models
+  log.mdl.12 <- glm(Valence_num ~ Noise + Pedestrians + Cars, data = df, family = binomial(link = "logit"))
+  log.mdl.13 <- glm(Valence_num ~ Noise + Pedestrians + Neighbourhood, data = df, family = binomial(link = "logit"))
+  log.mdl.14 <- glm(Valence_num ~ Noise + Pedestrians + Socioeconomic, data = df, family = binomial(link = "logit"))
+  log.mdl.15 <- glm(Valence_num ~ Noise + Pedestrians + Sex_num, data = df, family = binomial(link = "logit"))
+  log.mdl.16 <- glm(Valence_num ~ Noise + Cars + Neighbourhood, data = df, family = binomial(link = "logit"))
+  log.mdl.17 <- glm(Valence_num ~ Noise + Cars + Socioeconomic, data = df, family = binomial(link = "logit"))
+  log.mdl.18 <- glm(Valence_num ~ Noise + Cars + Sex_num, data = df, family = binomial(link = "logit"))
+
+  ## list all models
+  mdl.list <- list(log.mdl.1, log.mdl.2, log.mdl.3, log.mdl.3, log.mdl.4, log.mdl.5,
+                   log.mdl.6, log.mdl.7, log.mdl.8, log.mdl.9, log.mdl.10,
+                   log.mdl.11, log.mdl.12, log.mdl.13, log.mdl.14, log.mdl.15, log.mdl.16,
+                   log.mdl.17, log.mdl.18)
+
+  ## likelihood ratio test
+  lrt <- sapply(mdl.list, function(x) c(lrtest(mdl.null, x)))
+  ## Wald test
+  walds <- sapply(mdl.list, function(x) data.frame(summary.glm(x)$coefficients))
 
 
+                                          # comparison with intercept only model
+  ## likelihood ratio model 1
+  likelihood.raio.test <- lrtest(mdl.null
 
- 
- 
 
-#  LocalWords:  correlaciona
+#+END_SRC
+*** Complete models
+#+BEGIN_SRC R :results output :session peatones
+  ## fit simple model
+  glm.mdl.null <- glm(Valence_num ~ 1,
+                     data = df,
+                     family = binomial(link = "logit"))
+  glm.mdl.1 <- glm(Valence_num ~ Noise,
+                   data = df,
+                   family = binomial(link = "logit"))
+  glm.mdl.2 <- glm(Valence_num ~ Noise + Pedestrians,
+                   data = df,
+                   family = binomial(link = "logit"))
+  glm.mdl.3 <- glm(Valence_num ~ Noise + Cars,
+                   data = df,
+                   family = binomial(link = "logit"))
+  glm.mdl.4 <- glm(Valence_num ~ Noise + Neighbourhood,
+                   data = df,
+                   family = binomial(link = "logit"))
+  glm.mdl.5 <- glm(Valence_num ~ Noise + Socioeconomic,
+                   data = df,
+                   family = binomial(link = "logit"))
+  glm.mdl.6 <- glm(Valence_num ~ Noise + Pedestrians + Cars,
+                   data = df,
+                   family = binomial(link = "logit"))
+  glm.mdl.7 <- glm(Valence_num ~ Noise + Pedestrians + Neighbourhood,
+                   data = df,
+                   family = binomial(link = "logit"))
+  glm.mdl.8 <- glm(Valence_num ~ Noise + Pedestrians + Socioeconomic,
+                   data = df,
+                   family = binomial(link = "logit"))
+  glm.list <- list(glm.mdl.1, glm.mdl.2, glm.mdl.3, glm.mdl.4, glm.mdl.5,
+                   glm.mdl.6, glm.mdl.7, glm.mdl.8)
+
+  ## walds-test
+  glm.wald <- sapply(glm.list, function(x) Anova(x, test.statistic = c("Wald")),
+                 simplify = FALSE)
+  ## likelihood ratio test
+  glm.lr <- sapply(glm.list, function(x) anova(glm.mdl.null, x, test = "LRT"),
+                   simplify = FALSE)
+  ## score test
+  glm.score <- sapply(glm.list, function(x) anova(glm.mdl.null, x, test = "Rao"),
+                      simplify = FALSE)
+  ## hosmer & lemeshow, g = covariates + 1
+  glm.hl <- sapply(glm.list, function(x) hoslem.test(x$y, fitted(x), g= 3))
+  ## AIC for every model
+  glm.aic <- sapply(glm.list, function(x) AIC(x))
+  ## VIF for all models
+  glm.vif <- sapply(glm.list[2:8], function(x) vif(x))
+
+  ## repeated k-fold cross validated models
+  cntrl <- trainControl(method = "repeatedcv",                      number = 10,
+                        repeats = 10,
+                        savePredictions = TRUE)
+  mdl.1.kfold <- train(as.factor(Valence_num) ~ Noise,
+                       data = na.omit(df),
+                       method = "glm",
+                       family = binomial(link = "logit"),
+                       trControl = cntrl)
+  mdl.2.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians,
+                       data = na.omit(df),
+                       method = "glm",
+                       family = binomial(link = "logit"),
+                       trControl = cntrl)
+  mdl.3.kfold <- train(as.factor(Valence_num) ~ Noise + Cars,
+                       data = na.omit(df),
+                       method = "glm",
+                       family = binomial(link = "logit"),
+                       trControl = cntrl)
+  mdl.4.kfold <- train(as.factor(Valence_num) ~ Noise + Neighbourhood,
+                       data = na.omit(df),
+                       method = "glm",
+                       family = binomial(link = "logit"),
+                       trControl = cntrl)
+  mdl.5.kfold <- train(as.factor(Valence_num) ~ Noise + Socioeconomic,
+                       data = na.omit(df),
+                       method = "glm",
+                       family = binomial(link = "logit"),
+                       trControl = cntrl)
+  mdl.6.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians + Cars,
+                       data = na.omit(df),
+                       method = "glm",
+                       family = binomial(link = "logit"),
+                       trControl = cntrl)
+  mdl.7.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians + Neighbourhood,
+                       data = na.omit(df),
+                       method = "glm",
+                       family = binomial(link = "logit"),
+                       trControl = cntrl)
+  mdl.8.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians + Socioeconomic,
+                       data = na.omit(df),
+                       method = "glm",
+                       family = binomial(link = "logit"),
+                       trControl = cntrl)
+
+
+  mdl.1.pred <- predict(mdl.1.kfold)
+  mdl.2.pred <- predict(mdl.2.kfold)
+  mdl.3.pred <- predict(mdl.3.kfold)
+  mdl.4.pred <- predict(mdl.4.kfold)
+  mdl.5.pred <- predict(mdl.4.kfold)
+  mdl.6.pred <- predict(mdl.4.kfold)
+  mdl.7.pred <- predict(mdl.4.kfold)
+  mdl.8.pred <- predict(mdl.4.kfold)
+
+  mdl.1.cm <- caret::confusionMatrix(mdl.1.pred, as.factor(df$Valence_num))
+  mdl.2.cm <- caret::confusionMatrix(mdl.2.pred, as.factor(df$Valence_num))
+  mdl.3.cm <- caret::confusionMatrix(mdl.3.pred, as.factor(df$Valence_num))
+  mdl.4.cm <- caret::confusionMatrix(mdl.4.pred, as.factor(df$Valence_num))
+  mdl.5.cm <- caret::confusionMatrix(mdl.1.pred, as.factor(df$Valence_num))
+  mdl.6.cm <- caret::confusionMatrix(mdl.2.pred, as.factor(df$Valence_num))
+  mdl.7.cm <- caret::confusionMatrix(mdl.3.pred, as.factor(df$Valence_num))
+  mdl.8.cm <- caret::confusionMatrix(mdl.4.pred, as.factor(df$Valence_num))
+
+
+  par(mfrow = c(4,2))
+  fourfoldplot(mdl.1.cm$table, main = "Noise")
+  fourfoldplot(mdl.2.cm$table, main = "Noise + Pedestrians")
+  fourfoldplot(mdl.3.cm$table, main = "Noise + Cars")
+  fourfoldplot(mdl.4.cm$table, main = "Noise + Neighborhood")
+  fourfoldplot(mdl.4.cm$table, main = "Noise + Socioeconomic")
+  fourfoldplot(mdl.4.cm$table, main = "Noise + Pedestrians + Cars")
+  fourfoldplot(mdl.4.cm$table, main = "Noise + Pedestrians + Neighborhood")
+  fourfoldplot(mdl.4.cm$table, main = "Noise + Pedestrians + Socioeconomic")
+
+  library(MASS)
+  odd.ratio <- sapply(glm.list, function(x) exp(cbind(coef(x), confint(x))))
+
+  ## plot linear odd-ratio
+##  sapply(glm.list, function(x) plot(allEffects(x)))
+#+END_SRC
+
+#+RESULTS:
+: Waiting for profiling to be done...
+: Waiting for profiling to be done...
+: Waiting for profiling to be done...
+: Waiting for profiling to be done...
+: Waiting for profiling to be done...
+: Waiting for profiling to be done...
+: Waiting for profiling to be done...
+: Waiting for profiling to be done...
+
 * Defensa de Tesis
 ** Gráficos
 #+begin_src python :results output
@@ -1312,4 +1683,5 @@ Nicolás Luarte
   N = 1000
   sample = d.rvs(size=N)
 #+end_src
+
 
