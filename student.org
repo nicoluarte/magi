@@ -1687,6 +1687,98 @@ Overall model evaluation
 : Waiting for profiling to be done...
 : Waiting for profiling to be done...
 
+*** Simple models
+#+BEGIN_SRC R :results output :session 
+                                          # load packages
+  pkg <- c("dplyr", "ggplot2", "tidyverse", "corrplot", "Hmisc", "psycho",
+           "broom", "gvlma", "pROC", "caret", "MASS", "effects", "car",
+           "ResourceSelection", "neuralnet", "lmtest", "pROC")
+  invisible(lapply(pkg, library, character.only = TRUE))
+                                           # load database
+  setwd("/home/nicoluarte/Downloads")
+  df <- data.frame(read.csv("data_fondecyt.csv"))
+  head(df)
+
+  df$Pupil <- as.numeric(df$Pupil)
+  df.hot <- dummyVars(Valence ~ ., data = df)
+  df.use <- data.frame(predict(df.hot, newdata = df))
+  head(df.use)
+
+  ##########################
+  ## k-fold cv parameters ##
+  ##########################
+  control <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 10,
+                          savePredictions = TRUE)
+
+  #################
+  ## Valence ~ 1 ##
+  #################
+  mdl.null <- glm(Valence ~ 1,
+                  family = binomial(link = "logit"),
+                  data = df)
+
+  #####################
+  ## Valence ~ Noise ##
+  #####################
+  mdl.1 <- train(Valence ~ Noise,
+                 data = df,
+                 method = "glm",
+                 family = binomial(link = "logit"),
+                 trControl = control)
+                                          # Cross validation results
+  ## Accuracy: 0.6130058
+  ## Kappa: 0.1291081
+  ## Confusion matrix
+  mdl.1.cm <- caret::confusionMatrix(mdl.1,
+                                     norm = "overall",
+                                     dnn = c("Prediction", "Reference"))
+  print(mdl.1.cm) # this is a percentage
+  ## Confusion matrix with "optimized" cutoff
+  probsTrain <- predict(mdl.1, type = "prob")
+  rocCurve   <- roc(response = df$Valence,
+                    predictor = probsTrain[,"Positive"])
+  plot(rocCurve, print.thres = "best")
+  ## highest combined (sensitivity and specificity)
+  mdl.1.cutoff <- rocCurve$thresholds[which(
+                             rocCurve$sensitivities +
+                             rocCurve$specificities ==
+                             max(rocCurve$sensitivities +
+                                 rocCurve$specificities))]
+  mdl.1.pred <- factor(ifelse(probsTrain[, "Positive"] > mdl.1.cutoff,
+                              "Positive", "Negative") )
+  mdl.1.cm.opt <- caret::confusionMatrix(mdl.1.pred, df$Valence)
+  ## with this cutoff we obtain a way better kappa, accuracy might be
+  ## misleading because of class unbalance
+
+                                          # Model evaluation
+  ## Wald-test
+  mdl.1.wald <- Anova(mdl.1$finalModel, test.statistic = c("Wald"))
+  print(mdl.1.wald)
+  ## Score-test
+  mdl.1.score <- anova(mdl.1$finalModel, test = "Rao")
+  print(mdl.1.score)
+  ## likelihood ratio test
+  mdl.1.lrt <- lrtest(mdl.null, mdl.1$finalModel)
+  print(mdl.1.lrt)
+                                          # Fit
+  ## Hosmer & Lemeshow g = covariate + 1
+  mdl.1.hoslem <- hoslem.test(mdl.1$finalModel$y, fitted(mdl.1), g = 3)
+  print(mdl.1.hoslem)
+
+  #########################################
+  ## Valence ~ Noise + Car + Pedestrians ##
+  #########################################
+
+  #####################################
+  ## Valence ~ Noise + Neighbourhood ##
+  #####################################
+
+  #####################################
+  ## Valence ~ Noise + Socioeconomic ##
+  #####################################
+#+END_SRC
 * Defensa de Tesis
 ** Gráficos
 #+begin_src python :results output
