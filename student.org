@@ -826,6 +826,79 @@ confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
   (tabla[1,1]+tabla[2,2])/sum(tabla)
 
 #+END_SRC
+** 08/08/2019, SARIMAX
+#+BEGIN_SRC R :results output :session SARIMAX
+  ###############
+  ## libraries ##
+  ###############
+  library(forecast)
+
+  ################
+  ## ARMA model ##
+  ################
+
+                                          #AR(1)
+  set.seed(123)
+  mdl.1 <- arima.sim(n = 1000, model = list(order = c(1,0,0), ar = 0.7))
+  ts.plot(mdl.1)
+  acf(mdl.1)
+
+                                          #MA(1)
+  set.seed(111)
+  mdl.2 <- arima.sim(n = 1000, model = list(order = c(0,0,1), ma = 0.8))
+  ts.plot(mdl.1)
+  acf(mdl.1)
+
+                                          # ARMA
+  mdl.3 <- arima.sim(n = 1000, model = list(order = c(1,0,1),
+                                            ma = 0.8,
+                                            ar = 0.7))
+
+  ## plots
+  par(mfrow = c(2,3))
+  ts.plot(mdl.1)
+  acf(mdl.1) # indicates ma model order(q)
+  pacf(mdl.1) # indicate ar model order(p)
+  ts.plot(mdl.2)
+  acf(mdl.2)
+  pacf(mdl.2)
+
+                                          # AUTO ARIMA
+  mdl.1.aa <- auto.arima(mdl.1)
+  mdl.2.aa <- auto.arima(mdl.2)
+  mdl.3.aa <- auto.arima(mdl.3)
+
+                                          # differentiation
+  par(mfrow = c(2,2))
+  plot(co2)
+  plot(diff(co2)) # removes trend
+  plot(diff(diff(co2, lag = 12))) # removes stationationality
+  acf(diff(diff(co2, lag = 12))) # removes stationationality
+
+                                          # AUTO ARIMA
+  mdl.aa.2 <- auto.arima(co2, d=1, D=1)
+
+  mdl.aa.3 <- arima(co2, order = c(1,1,1),
+                    seasonal = list(order = c(1,1,2),
+                                    period = 12),
+                    xreg = NULL, include.mean = TRUE)
+
+  mdl.aa.4 <- arima(co2, order = c(1,1,1),
+                    seasonal = list(order = c(1,1,2),
+                                    period = 12),
+                    xreg = NULL, include.mean = TRUE,
+                    fixed = c(NA, NA,NA,0,NA))
+
+  ts.diag(mdl.aa.4$residuals)
+  plot(forecast(mdl.aa.4, 360))
+
+  ## prediction quality
+  mean(abs(mdl.aa.4$residuals)/co2)*100
+  ## compare with holt winter
+  hw <- HoltWinters(co2)
+  err <- hw$fitted[,1] - hw$x
+  mean(abs(err)/co2)*100
+#+END_SRC
 * PhD
 ** Doctorado en neurociencias UC
 *** TODO postulación
