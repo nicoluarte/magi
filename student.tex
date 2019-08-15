@@ -1,4 +1,4 @@
-% Created 2019-08-07 Wed 19:19
+% Created 2019-08-15 Thu 16:05
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -21,10 +21,10 @@
 \renewcommand\refname{Referencias}
 \author{Luis Nicolás Luarte Rodríguez}
 \date{}
-\title{Val \textasciitilde{} Noise}
+\title{Curriculum Vitae}
 \hypersetup{
  pdfauthor={Luis Nicolás Luarte Rodríguez},
- pdftitle={Val \textasciitilde{} Noise},
+ pdftitle={Curriculum Vitae},
  pdfkeywords={},
  pdfsubject={},
  pdfcreator={Emacs 25.2.2 (Org mode 9.2.4)}, 
@@ -32,133 +32,55 @@
 \begin{document}
 
 \maketitle
-\begin{verbatim}
-## fit simple model
-glm.mdl.null <- glm(Valence_num ~ 1,
-                   data = df,
-                   family = binomial(link = "logit"))
-glm.mdl.1 <- glm(Valence_num ~ Noise,
-                 data = df,
-                 family = binomial(link = "logit"))
-glm.mdl.2 <- glm(Valence_num ~ Noise + Pedestrians,
-                 data = df,
-                 family = binomial(link = "logit"))
-glm.mdl.3 <- glm(Valence_num ~ Noise + Cars,
-                 data = df,
-                 family = binomial(link = "logit"))
-glm.mdl.4 <- glm(Valence_num ~ Noise + Neighbourhood,
-                 data = df,
-                 family = binomial(link = "logit"))
-glm.mdl.5 <- glm(Valence_num ~ Noise + Socioeconomic,
-                 data = df,
-                 family = binomial(link = "logit"))
-glm.mdl.6 <- glm(Valence_num ~ Noise + Pedestrians + Cars,
-                 data = df,
-                 family = binomial(link = "logit"))
-glm.mdl.7 <- glm(Valence_num ~ Noise + Pedestrians + Neighbourhood,
-                 data = df,
-                 family = binomial(link = "logit"))
-glm.mdl.8 <- glm(Valence_num ~ Noise + Pedestrians + Socioeconomic,
-                 data = df,
-                 family = binomial(link = "logit"))
-glm.list <- list(glm.mdl.1, glm.mdl.2, glm.mdl.3, glm.mdl.4, glm.mdl.5,
-                 glm.mdl.6, glm.mdl.7, glm.mdl.8)
+\vspace{-13mm}
+\begin{center}
+18.126.883-2
 
-## walds-test
-glm.wald <- sapply(glm.list, function(x) Anova(x, test.statistic = c("Wald")),
-               simplify = FALSE)
-## likelihood ratio test
-glm.lr <- sapply(glm.list, function(x) anova(glm.mdl.null, x, test = "LRT"),
-                 simplify = FALSE)
-## score test
-glm.score <- sapply(glm.list, function(x) anova(glm.mdl.null, x, test = "Rao"),
-                    simplify = FALSE)
-## hosmer & lemeshow, g = covariates + 1
-glm.hl <- sapply(glm.list, function(x) hoslem.test(x$y, fitted(x), g= 3))
-## AIC for every model
-glm.aic <- sapply(glm.list, function(x) AIC(x))
-## VIF for all models
-glm.vif <- sapply(glm.list[2:8], function(x) vif(x))
+Santiago, San José de Maipo, Los Acasios 2785
 
-## repeated k-fold cross validated models
-cntrl <- trainControl(method = "repeatedcv",                      number = 10,
-                      repeats = 10,
-                      savePredictions = TRUE)
-mdl.1.kfold <- train(as.factor(Valence_num) ~ Noise,
-                     data = na.omit(df),
-                     method = "glm",
-                     family = binomial(link = "logit"),
-                     trControl = cntrl)
-mdl.2.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians,
-                     data = na.omit(df),
-                     method = "glm",
-                     family = binomial(link = "logit"),
-                     trControl = cntrl)
-mdl.3.kfold <- train(as.factor(Valence_num) ~ Noise + Cars,
-                     data = na.omit(df),
-                     method = "glm",
-                     family = binomial(link = "logit"),
-                     trControl = cntrl)
-mdl.4.kfold <- train(as.factor(Valence_num) ~ Noise + Neighbourhood,
-                     data = na.omit(df),
-                     method = "glm",
-                     family = binomial(link = "logit"),
-                     trControl = cntrl)
-mdl.5.kfold <- train(as.factor(Valence_num) ~ Noise + Socioeconomic,
-                     data = na.omit(df),
-                     method = "glm",
-                     family = binomial(link = "logit"),
-                     trControl = cntrl)
-mdl.6.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians + Cars,
-                     data = na.omit(df),
-                     method = "glm",
-                     family = binomial(link = "logit"),
-                     trControl = cntrl)
-mdl.7.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians + Neighbourhood,
-                     data = na.omit(df),
-                     method = "glm",
-                     family = binomial(link = "logit"),
-                     trControl = cntrl)
-mdl.8.kfold <- train(as.factor(Valence_num) ~ Noise + Pedestrians + Socioeconomic,
-                     data = na.omit(df),
-                     method = "glm",
-                     family = binomial(link = "logit"),
-                     trControl = cntrl)
-
-
-mdl.1.pred <- predict(mdl.1.kfold)
-mdl.2.pred <- predict(mdl.2.kfold)
-mdl.3.pred <- predict(mdl.3.kfold)
-mdl.4.pred <- predict(mdl.4.kfold)
-mdl.5.pred <- predict(mdl.4.kfold)
-mdl.6.pred <- predict(mdl.4.kfold)
-mdl.7.pred <- predict(mdl.4.kfold)
-mdl.8.pred <- predict(mdl.4.kfold)
-
-mdl.1.cm <- caret::confusionMatrix(mdl.1.pred, as.factor(df$Valence_num))
-mdl.2.cm <- caret::confusionMatrix(mdl.2.pred, as.factor(df$Valence_num))
-mdl.3.cm <- caret::confusionMatrix(mdl.3.pred, as.factor(df$Valence_num))
-mdl.4.cm <- caret::confusionMatrix(mdl.4.pred, as.factor(df$Valence_num))
-mdl.5.cm <- caret::confusionMatrix(mdl.1.pred, as.factor(df$Valence_num))
-mdl.6.cm <- caret::confusionMatrix(mdl.2.pred, as.factor(df$Valence_num))
-mdl.7.cm <- caret::confusionMatrix(mdl.3.pred, as.factor(df$Valence_num))
-mdl.8.cm <- caret::confusionMatrix(mdl.4.pred, as.factor(df$Valence_num))
-
-
-par(mfrow = c(4,2))
-fourfoldplot(mdl.1.cm$table, main = "Noise")
-fourfoldplot(mdl.2.cm$table, main = "Noise + Pedestrians")
-fourfoldplot(mdl.3.cm$table, main = "Noise + Cars")
-fourfoldplot(mdl.4.cm$table, main = "Noise + Neighborhood")
-fourfoldplot(mdl.4.cm$table, main = "Noise + Socioeconomic")
-fourfoldplot(mdl.4.cm$table, main = "Noise + Pedestrians + Cars")
-fourfoldplot(mdl.4.cm$table, main = "Noise + Pedestrians + Neighborhood")
-fourfoldplot(mdl.4.cm$table, main = "Noise + Pedestrians + Socioeconomic")
-
-library(MASS)
-odd.ratio <- sapply(glm.list, function(x) exp(cbind(coef(x), confint(x))))
-
-## plot linear odd-ratio
-sapply(glm.list, function(x) plot(allEffects(x)))
-\end{verbatim}
++569 421 626 99
+\end{center}
+\section*{Antecedentes académicos}
+\label{sec:orgaf3f8f7}
+\subsection*{Formación de pre-grado:}
+\label{sec:org77645b4}
+\begin{itemize}
+\item 2010 - 2014 Título Psicólogo Universidad Adolfo Ibáñez
+\end{itemize}
+\subsection*{Formación de post-grado:}
+\label{sec:org213e74d}
+\begin{itemize}
+\item 2014 - 2015 Magíster en Psicología de las Organizaciones Universidad Adolfo Ibáñez
+\item 2017 - 2019 Nagíster en Neurociencia Social Universidad Diego Portales (En proceso de titulación)
+\end{itemize}
+\section*{Otros antecedentes académicos}
+\label{sec:org9b3569b}
+\begin{itemize}
+\item 2018 - Presente Tesista e investigador en proyecto FONDECYT regular
+\item 2017 - Presente Ayudante de investigación Laboratorio Neurociencia Cognitiva y Social UDP
+\item 2019 - Presente Diplomado en Data Science Universidad Católica de Chile
+\item 2018 Workshop: Brain Connectomics Hackaton I
+\item 2018 Workshop: Brain Connectomics Hackaton II, Machine Learning
+\item 2018 Workshop: Brain Connectomics Hackaton III, Modelamiento lineal de la señal de EEG
+\end{itemize}
+\section*{Experiencia laboral}
+\label{sec:orgfb34ecb}
+\begin{itemize}
+\item 2015 - 2017 Consultor en desarrollo organizacional Partners \& Success
+\end{itemize}
+\section*{Investigaciones}
+\label{sec:org2288438}
+\begin{itemize}
+\item Análisis de la experiencia y carga perceptual en primera persona durante una caminata programada por el Gran Santiago (FONDECYT No1170292)
+\end{itemize}
+\section*{Publicaciones}
+\label{sec:org15e9787}
+\begin{itemize}
+\item Rossi, A., Grasso-Cladera, A., Luarte, N., Riillo, A., \& Parada, F. J. (2019). The brain/body-in-the-world system is cognitive science’s study object for the twenty-first century / El sistema cerebro/cuerpo-en-el-mundo es el objeto de estudio de la ciencia cognitiva en el siglo XXI. Estudios de Psicología, 40(2), 363–395. \url{https://doi.org/10.1080/02109395.2019.1596704}
+\end{itemize}
+\section*{Becas}
+\label{sec:org36d172e}
+\begin{itemize}
+\item Beca excelencia académica 2010 - 2014
+\end{itemize}
 \end{document}

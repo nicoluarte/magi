@@ -1,0 +1,52 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/nicoluarte/magi/student.org
+
+
+* Multi-Collinearity
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-25 Thu 00:06
+  :ARCHIVE_FILE: ~/magi/student.org
+  :ARCHIVE_OLPATH: Data science program/11/07/2019, GLM/Linear regression/Conditions
+  :ARCHIVE_CATEGORY: student
+  :END:
+Multi-collinearity is a phenomenon in which one predictor variable in a multiple
+regression model can be linearly predicted from the other with a substantial
+degree of accuracy. In this situation the coefficient estimates of the multiple
+regression may change erratically in response to small changes in the model or
+the data.
+
+Collinearity: is a linear association between two explanatory variables. Two
+variables are perfectly collinear if there is an exact linear relationship
+between them. For example, X_1 and X_2 are perfectly collinear if there exists
+parameters lambda_0 and lambda_1 such that, for all observations i, we have:
+
+\begin{equation}
+X_{2i} = \lambda_0 + \lambda_1 X_{1i}
+\end{equation}
+
+Multi-collinearity: refers to the situation in which two or more explanatory
+variables in a multiple regression model are highly linearly related. We have
+perfect multi-collinearity if, for example as in the equation above, the
+correlation between two independent variables is equal to 1 or -1. In practice,
+we rarely face perfect multi-collinearity in a data set. More commonly, the
+issue of multi-collinearity arises when there is an approximate linear
+relationship among two or more independent variables.
+
+\begin{equation}
+\lambda _{0}+\lambda _{1}X_{{1i}}+\lambda _{2}X_{{2i}}+\cdots +\lambda _{k}X_{{ki}}=0
+\end{equation}
+
+
+
+
+
+* 30/07/2019, 
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-30 Tue 18:32
+  :ARCHIVE_FILE: ~/magi/student.org
+  :ARCHIVE_OLPATH: Data science program
+  :ARCHIVE_CATEGORY: student
+  :END:
+

@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2019-07-29 Mon 12:03 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Declaración de propósitos</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Luis Nicolás Luarte Rodríguez" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Declaración de propósitos</h1>
+<div id="outline-container-org62a1ada" class="outline-2">
+<h2 id="org62a1ada"><span class="section-number-2">1</span> Motivación personal para el programa de Doctorado</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+El cómo buscamos objetos, información, recompensas, alimentos, etc. Ha
+sido lo que ha inspirado en mayor medida mi interés en la
+neurociencia. A lo largo de mi vida he sentido profunda intriga en
+cómo los humanos buscan en el espacio de posibilidades, para tomar una
+decisión, para evocar una memoria en particular o bien simplemente
+para organizar cualquier comportamiento relativamente complejo, esto
+es, sin tener de antemano consideradas todas las posibilidades y aún
+pese a eso tener un buen desempeño en múltiples tareas. Investigar
+sobre los mecanismo subyacentes a ese fenómeno ha sido increíblemente
+enriquecedor debido al fuerte componente interdisciplinar que subyace al
+campo. Esto me ha llevado a generar un profunda interés en seguir
+desarrollando carrera en neurociencia, ya que, creo, el lograr
+entender ese aparentemente simple mecanismo de decisión en condiciones
+de información incompleta, puede eventualmente, ser de gran utilidad
+para la comprensión tanto de procesos de memoria y aprendizaje cómo de
+ciertas patologías. Con la oportunidad del programa de Doctorado
+espero contribuir a la investigación del aprendizaje y memoria.
+</p>
+
+<p>
+Cómo parte de mi formación en el programa de Magíster en Neurociencias
+Social de la Universidad Diego Portales, investigue, cómo parte de un
+artículo de revisión, las raíces evolutivas de la búsqueda semántica
+(recuperación de memorias en tareas de evocación). Una de las
+principales conclusiones fue que, aunque solo en grado tentativo,
+parece existir un mecanismo compartido entre la búsqueda semántica y
+el forrajeo ('foraging', el comportamiento de búsqueda de alimento),
+teniendo este último patrones relativamente marcados que se extienden
+a lo largo de miles de años, así cómo a través de múltiples
+especies. La posibilidad de que un mecanismo tan ubicuo, responsable
+del comportamiento de desplazamiento en la búsqueda de alimentos, pueda estar
+relacionado por exaptación a un proceso fundamental de la memoria. Lo
+que abre una posibilidad de establecer un mapeo evolutivo al menos a
+este proceso de memoria.
+</p>
+
+<p>
+Deseoso de aprender más sobre este posible vínculo entre forrajeo y
+memoria, me adentre en las principales áreas aledañas de conocimiento,
+tales como ecología, aprendizaje por reforzamiento ('reinforcement
+learning') y modelos computacionales. Por la alta carga de modelos
+estadísticos de las áreas mencionadas, me apunté para un programa de
+diplomado en ciencia de datos de la Universidad Católica de
+Chile. Además de este programa he realizado aprendizaje autónomo en
+cursos en línea, con el fin de contar con todas las herramientas
+técnicas que son demandadas para el área.
+</p>
+
+<p>
+Adicional los programas mencionados anteriormente, desde julio del año
+2018, me encuentro participando como investigador en un proyecto
+FONDECYT conjunto entre la escuela de Arquitectura y Psicología de la
+Universidad Diego Portales. El tema central de esta investigación es el
+estudio de la percepción de peatones en diferentes ambientes
+urbanos. Si bien, el tema no está relacionado directamente con el área
+de interés, mi rol ha consistido en utilización de técnicas de visión
+de máquina ('machine vision') y procesamiento de datos tanto para
+'Eye-tracker' cómo para análisis de frecuencia de objetos. Lo
+anterior, adicionado a el aprendizaje de diversos lenguajes de
+programación (MATLAB, Python, R, Bash), me ha permitido desarrollar
+herramientas que son útiles en la investigación en general cómo
+específicamente para el área de mi interés.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdfe1e87" class="outline-2">
+<h2 id="orgdfe1e87"><span class="section-number-2">2</span> Formulación tópico de interés</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Mi tópico de interés reside en el estudio de la memoria,
+específicamente la búsqueda semántica. Las memorias semánticas han
+sido pensadas, teóricamente, cómo elementos pertenecientes a cierto
+'espacio' que correlaciona con la similitud en significado (Lund
+1996). Así se ha propuesto una 'distancia' entre los distintos
+contenidos semánticos (Montez 2015), considerando aquello es esperable
+que a lo largo de la evolución se hayan generado estrategias para
+acceder, de manera útil e eficiente, a dichos contenidos. Las
+estrategias de búsqueda para acceder a los contenidos semánticos han
+sido relacionadas a aquellas del forrajeo (Hills 2015, 2008, 2006,
+2009, Abbott 2015). Más aún, se ha propuesto que dichos contenidos se
+agrupan en 'parches' (Abbot 2015), y que la búsqueda a través de ellos
+puede ser descrita por caminatas aleatorias (Hills 2015), a la vez que
+siguen comportamiento basados en reglas similares a los del forrajeo
+(Davelaar 2015)
+</p>
+
+<p>
+Dado que la búsqueda semántica es un comportamiento orientado a
+objetivos, se puede conceptualizar cómo un comportamiento orientado a
+la obtención de recompensas en un espacio de múltiples
+posibilidades. Por lo anterior, puede ser estudiado desde el dilema de
+exploración-explotación, dilema extensamente estudiado en la tarea
+'n-armed bandit' (Macready 1998, Vermorel 2005). Ha sido propuesto que
+los 'algoritmos' utilizados en el forrajeo, pueden proveer de
+soluciones óptimas para dicho dilema (Viswanathan, Bartumeus 2005), lo
+cuál aplicaria, igualmente, para estrategias en espacios semánticos
+(Abbot 2015, Montez 2015). De esta manera se puede observar una
+conexión entre un mecanismo evolutivamente antiguo (forrajeo) y el
+proceso de acceso en la memoria. Lo cúal permitiria un enfoque
+evolutivo comprensivo al estudio de la memoria.
+</p>
+
+<p>
+El cómo se realiza la búsqueda en espacios semánticos es de
+fundamental importancia, ya que es un espacio que está en activa
+búsqueda durante la comprensión y producción de lenguaje, entre otras
+(<a href="https://doi.org/10.1111/cogs.12249">https://doi.org/10.1111/cogs.12249</a>), por lo mismo el alcance de su
+importancia para casi cualquier actividad cognitiva es de gran tamaño,
+pudiendo afectar de manera importante el comportamiento ante múltiples y
+diferentes tareas.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0c59b80" class="outline-2">
+<h2 id="org0c59b80"><span class="section-number-2">3</span> Objetivos a corto plazo</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Uno de los principales tópicos de discusión en el área de búsqueda
+semántica es la organización y el tipo de la relaciones que conforman
+el espacio semántico (Lund &amp; Burgess 1996). Uno de los primeros
+objetivos de investigación sería poder generar configuraciones
+experimentales que permitiesen determinar, principalmente, (a) efecto
+del contexto en las relaciones entre contenidos semánticos
+<a class='org-ref-reference' href="#schillerMemorySpaceUnderstanding2015">schillerMemorySpaceUnderstanding2015</a> y (b) si el tipo de búsqueda es más
+verosímil para contenidos encadenados de manera asociativa o categórica
+<a class='org-ref-reference' href="#hillsOptimalForagingSemantic2012">hillsOptimalForagingSemantic2012</a>. 
+</p>
+
+<p>
+Cómo segundo objetivo a corto plazo, de manera experimental, ajustar modelos en
+tareas de evocación de memoria, a modo de sugerir posibles mecanismos
+generadores del comportamiento de búsqueda semántica. Los modelos mas
+relevantes son (a) aquellos basados en reglas <a class='org-ref-reference' href="#charnovOptimalForagingMarginal1976">charnovOptimalForagingMarginal1976</a>, (b)
+modelos aleatorios simples <a class='org-ref-reference' href="#thompsonWalkingWikipediaScalefree2014">thompsonWalkingWikipediaScalefree2014</a> y (c) modelos aleatorios
+complejos cómo discutido en <a class='org-ref-reference' href="#benhamouHowManyAnimals2007">benhamouHowManyAnimals2007</a>  
+</p>
+</div>
+</div>
+<div id="outline-container-org79fd668" class="outline-2">
+<h2 id="org79fd668"><span class="section-number-2">4</span> Objetivos a largo plazo</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Los objetivos a corto plazo están relacionados, principalmente, con el
+modelamiento de comportamiento en tareas de búsqueda semántica. Por otro lado,
+los objetivos a largo plazo buscarían conectar dichos modelos a sus estructuras
+cerebrales (u otras) subyacentes. Uno de los candidatos parece ser el 'Locus
+coeruleus' <a class='org-ref-reference' href="#kaneIncreasedLocusCoeruleus2017">kaneIncreasedLocusCoeruleus2017</a>, corteza medial pre-frontal
+ventromedial <a class='org-ref-reference' href="#kollingNeuralMechanismsForaging2012">kollingNeuralMechanismsForaging2012</a>, corteza cingulada
+anterior <a class='org-ref-reference' href="#shenhavAnteriorCingulateEngagement2014">shenhavAnteriorCingulateEngagement2014</a>, entre otras. Si bien la
+función del 'Locus Coeruleus' es extendida en el sistema de arousal, se observa
+evidencia de participación significativa en comportamiento de
+exploración-explotación relacionados al forrajeo
+<a class='org-ref-reference' href="#aston-jonesAdaptiveGainRole2005">aston-jonesAdaptiveGainRole2005</a>, además la relativa facilidad en medición,
+en conjunto con otras técnicas como electro-encefalograma, ha permitido
+encontrar relación entre este y el forrajeo en situaciones experimentales
+<a class='org-ref-reference' href="#slanziCombiningEyeTracking2017">slanziCombiningEyeTracking2017</a>.
+</p>
+
+<p>
+Adicionalmente, se encuentra dentro de mis objetivos a largo plazo la docencia
+en el área de neurociencias, principalmente buscando ser un aporte para la
+promoción de la ciencia experimental en Psicología, la cual tradicionalmente
+tiene un espacio muy reducido en el currículo de pre-grado, desaprovechando un
+campo muy fértil en investigación.
+</p>
+
+<p>
+
+<h1 class='org-ref-bib-h1'>Bibliography</h1>
+<ul class='org-ref-bib'><li><a id="schillerMemorySpaceUnderstanding2015">[schillerMemorySpaceUnderstanding2015]</a> <a name="schillerMemorySpaceUnderstanding2015"></a>Schiller, Eichenbaum, Buffalo, Davachi, Foster, Leutgeb & Ranganath, Memory and Space: Towards an Understanding of the Cognitive Map, <i>Journal of Neuroscience</i>, <b>35(41)</b>, 13904-13911 (2015). <a href="http://dx.doi.org/10.1523/JNEUROSCI.2618-15.2015">doi</a>.</li>
+<li><a id="hillsOptimalForagingSemantic2012">[hillsOptimalForagingSemantic2012]</a> <a name="hillsOptimalForagingSemantic2012"></a>Hills, Jones & Todd, Optimal Foraging in Semantic Memory., <i>Psychological Review</i>, <b>119(2)</b>, 431-440 (2012). <a href="http://dx.doi.org/10.1037/a0027373">doi</a>.</li>
+<li><a id="charnovOptimalForagingMarginal1976">[charnovOptimalForagingMarginal1976]</a> <a name="charnovOptimalForagingMarginal1976"></a>Charnov, Optimal Foraging, the Marginal Value Theorem, <i>Theoretical Population Biology</i>, <b>9(2)</b>, 129-136 (1976). <a href="http://dx.doi.org/10.1016/0040-5809(76)90040-X">doi</a>.</li>
+<li><a id="thompsonWalkingWikipediaScalefree2014">[thompsonWalkingWikipediaScalefree2014]</a> <a name="thompsonWalkingWikipediaScalefree2014"></a>Thompson & Kello, Walking across Wikipedia: A Scale-Free Network Model of Semantic Memory Retrieval, <i>Frontiers in Psychology</i>, <b>5</b>, (2014). <a href="http://dx.doi.org/10.3389/fpsyg.2014.00086">doi</a>.</li>
+<li><a id="benhamouHowManyAnimals2007">[benhamouHowManyAnimals2007]</a> <a name="benhamouHowManyAnimals2007"></a>Benhamou, How Many Animals Really Do the L\'evy Walk?, <i>Ecology</i>, <b>88(8)</b>, 1962-1969 (2007). <a href="http://dx.doi.org/10.1890/06-1769.1">doi</a>.</li>
+<li><a id="kaneIncreasedLocusCoeruleus2017">[kaneIncreasedLocusCoeruleus2017]</a> <a name="kaneIncreasedLocusCoeruleus2017"></a>Kane, Vazey, Wilson, Shenhav, Daw, Aston-Jones & Cohen, Increased Locus Coeruleus Tonic Activity Causes Disengagement from a Patch-Foraging Task, <i>Cognitive, Affective, & Behavioral Neuroscience</i>, <b>17(6)</b>, 1073-1083 (2017). <a href="http://dx.doi.org/10.3758/s13415-017-0531-y">doi</a>.</li>
+<li><a id="kollingNeuralMechanismsForaging2012">[kollingNeuralMechanismsForaging2012]</a> <a name="kollingNeuralMechanismsForaging2012"></a>Kolling, Behrens, Mars & Rushworth, Neural Mechanisms of Foraging, <i>Science</i>, <b>336(6077)</b>, 95-98 (2012). <a href="http://dx.doi.org/10.1126/science.1216930">doi</a>.</li>
+<li><a id="shenhavAnteriorCingulateEngagement2014">[shenhavAnteriorCingulateEngagement2014]</a> <a name="shenhavAnteriorCingulateEngagement2014"></a>Shenhav, Straccia, Cohen & Botvinick, Anterior Cingulate Engagement in a Foraging Context Reflects Choice Difficulty, Not Foraging Value, <i>Nature Neuroscience</i>, <b>17(9)</b>, 1249-1254 (2014). <a href="http://dx.doi.org/10.1038/nn.3771">doi</a>.</li>
+<li><a id="aston-jonesAdaptiveGainRole2005">[aston-jonesAdaptiveGainRole2005]</a> <a name="aston-jonesAdaptiveGainRole2005"></a>Aston-Jones & Cohen, Adaptive Gain and the Role of the Locus Coeruleus\textendashNorepinephrine System in Optimal Performance, <i>Journal of Comparative Neurology</i>, <b>493(1)</b>, 99-110 (2005). <a href="http://dx.doi.org/10.1002/cne.20723">doi</a>.</li>
+<li><a id="slanziCombiningEyeTracking2017">[slanziCombiningEyeTracking2017]</a> <a name="slanziCombiningEyeTracking2017"></a>Slanzi, Balazs & Vel\'asquez, Combining Eye Tracking, Pupil Dilation and EEG Analysis for Predicting Web Users Click Intention, <i>Information Fusion</i>, <b>35</b>, 51-57 (2017). <a href="http://dx.doi.org/10.1016/j.inffus.2016.09.003">doi</a>.</li>
+</ul></p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Luis Nicolás Luarte Rodríguez</p>
+<p class="date">Created: 2019-07-29 Mon 12:03</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

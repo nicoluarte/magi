@@ -899,6 +899,59 @@ confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
   err <- hw$fitted[,1] - hw$x
   mean(abs(err)/co2)*100
 #+END_SRC
+** 13/08/2019, Supervised algorithms
+#+BEGIN_SRC R :results output :session supervised
+  #########
+  ## KNN ##
+  #########
+
+  ## libs
+  pkg <- c("class", "cluster", "dummies", "dplyr", "caret")
+  invisible(lapply(pkg, library, character.only = TRUE))
+  setwd("/home/nicoluarte/Downloads")
+
+  ## load data
+  df <- read.table("heart.txt", sep = ",", header = TRUE)
+  df <- df[, -1]
+  head(df)
+
+  ## clean data
+  df.old <- na.omit(df)
+  df.ChestPain <- dummy(df.old$ChestPain)
+  df.Thal <- dummy(df.old$Thal)
+  df.Sex <- dummy(df.old$Sex)
+  df.clean <- data.frame(df.ChestPain,
+                         df.Thal,
+                         df.Sex,
+                         select(df.old, -c(Sex, ChestPain, Thal)))
+  ## scale
+  dim(df.clean)
+  df.std <- df.clean
+  df.std[,1:19] <- scale(df.clean[,1:19])
+
+  ## cross-validation
+  set.seed(123)
+  control <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 3,
+                          savePredictions = TRUE)
+  knn.mdl.0 <- train(AHD ~ .,
+                     data = df.std,
+                     method = "knn",
+                     trControl = control,
+                     tuneGrid = expand.grid(k = 1:297))
+  confusionMatrix(knn.mdl.0)
+
+  ########################
+  ## K-means clustering ##
+  ########################
+  kmeans.mdl <- kmeans(x = df.std[, 1:19], centers = 2, nstart = 20)
+
+  ##################################
+  ## Principal component analysis ##
+  ##################################
+#+END_SRC
+
 * PhD
 ** Doctorado en neurociencias UC
 *** TODO postulación
@@ -1075,13 +1128,45 @@ campo muy fértil en investigación.
 #+End_Latex
 bibliographystyle:apa
 bibliography:ref.bib
-**** TODO CV
-     SCHEDULED: <2019-07-17 Wed>
+**** DONE CV
+     CLOSED: [2019-08-15 Thu 16:07] SCHEDULED: <2019-07-17 Wed>
+***** Curriculum Vitae
+#+OPTIONS: num:nil
+\vspace{-13mm}
+\begin{center}
+18.126.883-2
 
-**** TODO Fotocopia de la cédula de identidad o pasaporte
-     SCHEDULED: <2019-07-16 Tue>
-**** TODO Solicitud de ingreso a la universidad (según formato)
-     SCHEDULED: <2019-07-16 Tue>
+Santiago, San José de Maipo, Los Acasios 2785
+
++569 421 626 99
+\end{center}
+****** Antecedentes académicos
+******* Formación de pre-grado:
+- 2010 - 2014 Título Psicólogo Universidad Adolfo Ibáñez
+******* Formación de post-grado:
+- 2014 - 2015 Magíster en Psicología de las Organizaciones Universidad Adolfo Ibáñez
+- 2017 - 2019 Nagíster en Neurociencia Social Universidad Diego Portales (En proceso de titulación)
+****** Otros antecedentes académicos
+- 2018 - Presente Tesista e investigador en proyecto FONDECYT regular 
+- 2017 - Presente Ayudante de investigación Laboratorio Neurociencia Cognitiva y Social UDP
+- 2019 - Presente Diplomado en Data Science Universidad Católica de Chile
+- 2019 - Presente conversatorios regulares en estudio de la pupila UDP
+- 2018 Workshop: Brain Connectomics Hackaton I
+- 2018 Workshop: Brain Connectomics Hackaton II, Machine Learning
+- 2018 Workshop: Brain Connectomics Hackaton III, Modelamiento lineal de la señal de EEG
+****** Experiencia laboral
+- 2015 - 2017 Consultor en desarrollo organizacional Partners & Success
+****** Investigaciones
+- Análisis de la experiencia y carga perceptual en primera persona durante una caminata programada por el Gran Santiago (FONDECYT No1170292)
+****** Publicaciones
+- Rossi, A., Grasso-Cladera, A., Luarte, N., Riillo, A., & Parada, F. J. (2019). The brain/body-in-the-world system is cognitive science’s study object for the twenty-first century / El sistema cerebro/cuerpo-en-el-mundo es el objeto de estudio de la ciencia cognitiva en el siglo XXI. Estudios de Psicología, 40(2), 363–395. https://doi.org/10.1080/02109395.2019.1596704
+****** Becas
+- Beca excelencia académica 2010 - 2014
+
+**** DONE Fotocopia de la cédula de identidad o pasaporte
+     CLOSED: [2019-08-15 Thu 16:24] SCHEDULED: <2019-07-16 Tue>
+**** DONE Solicitud de ingreso a la universidad (según formato)
+     CLOSED: [2019-08-15 Thu 16:14] SCHEDULED: <2019-07-16 Tue>
 ** Doctorado en ingeniería de sistemas complejos
 *** TODO postulacion
     SCHEDULED: <2019-09-01 Sun> DEADLINE: <2019-11-20 Wed>
@@ -1688,97 +1773,659 @@ Overall model evaluation
 : Waiting for profiling to be done...
 
 *** Simple models
-#+BEGIN_SRC R :results output :session 
-                                          # load packages
-  pkg <- c("dplyr", "ggplot2", "tidyverse", "corrplot", "Hmisc", "psycho",
-           "broom", "gvlma", "pROC", "caret", "MASS", "effects", "car",
-           "ResourceSelection", "neuralnet", "lmtest", "pROC")
-  invisible(lapply(pkg, library, character.only = TRUE))
-                                           # load database
-  setwd("/home/nicoluarte/Downloads")
-  df <- data.frame(read.csv("data_fondecyt.csv"))
-  head(df)
+#+BEGIN_SRC R :results both :session 
+                                            # load packages
+      pkg <- c("dplyr", "ggplot2", "tidyverse", "corrplot", "Hmisc", "psycho",
+              "broom", "gvlma", "pROC", "caret", "MASS", "effects", "car",
+              "ResourceSelection", "neuralnet", "lmtest", "pROC", "latexpdf",
+              "export", "InformationValue", "MuMIn")
+      invisible(lapply(pkg, library, character.only = TRUE))
+                                              # load database
+      setwd("/home/nicoluarte/Downloads")
+      df <- data.frame(read.csv("data_fondecyt.csv"))
 
-  df$Pupil <- as.numeric(df$Pupil)
-  df.hot <- dummyVars(Valence ~ ., data = df)
-  df.use <- data.frame(predict(df.hot, newdata = df))
-  head(df.use)
+      ##########################
+      ## k-fold cv parameters ##
+      ##########################
+      control <- trainControl(method = "repeatedcv",
+                              number = 10,
+                              repeats = 2,
+                              savePredictions = TRUE)
 
-  ##########################
-  ## k-fold cv parameters ##
-  ##########################
-  control <- trainControl(method = "repeatedcv",
-                          number = 10,
-                          repeats = 10,
-                          savePredictions = TRUE)
+      #################
+      ## Valence ~ 1 ##
+      #################
+      mdl.null <- glm(Valence ~ 1,
+                      family = binomial(link = "logit"),
+                      data = df)
 
-  #################
-  ## Valence ~ 1 ##
-  #################
-  mdl.null <- glm(Valence ~ 1,
-                  family = binomial(link = "logit"),
-                  data = df)
+      #####################
+      ## Valence ~ Noise ##
+      #####################
+      glm.1 <- glm(Valence ~ Noise,
+                   data = df,
+                   family = binomial(link = "logit"))
+      mdl.1 <- train(Valence ~ Noise,
+                     data = df,
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = control)
+                                              # Cross validation results
+      ## Accuracy: 0.6130058
+      ## Kappa: 0.1291081
+      ## Confusion matrix
+      mdl.1.cm <- caret::confusionMatrix(mdl.1,
+                                         norm = "overall",
+                                         dnn = c("Prediction", "Reference"))
+      print(mdl.1.cm) # this is a percentage
+      ## Confusion matrix with "optimized" cutoff
+      probsTrain <- predict(mdl.1, type = "prob")
+      rocCurve   <- roc(response = df$Valence,
+                        predictor = probsTrain[,"Positive"])
+      plot(rocCurve, print.thres = "best")
+      ## highest combined (sensitivity and specificity)
+      mdl.1.cutoff <- rocCurve$thresholds[which(
+                                 rocCurve$sensitivities +
+                                 rocCurve$specificities ==
+                                 max(rocCurve$sensitivities +
+                                     rocCurve$specificities))]
+      mdl.1.pred <- factor(ifelse(probsTrain[, "Positive"] > mdl.1.cutoff,
+                                  "Positive", "Negative") )
+      mdl.1.cm.opt <- caret::confusionMatrix(mdl.1.pred, df$Valence)
+      ## with this cutoff we obtain a way better kappa, accuracy might be
+      ## misleading because of class unbalance
 
-  #####################
-  ## Valence ~ Noise ##
-  #####################
-  mdl.1 <- train(Valence ~ Noise,
-                 data = df,
+                                              # Model evaluation
+      ## Wald-test
+      mdl.1.wald <- Anova(mdl.1$finalModel, test.statistic = c("Wald"))
+      print(mdl.1.wald)
+      ## Score-test
+      mdl.1.score <- anova(mdl.1$finalModel, test = "Rao")
+      print(mdl.1.score)
+      ## likelihood ratio test
+      mdl.1.lrt <- lrtest(mdl.null, mdl.1$finalModel)
+      print(mdl.1.lrt)
+                                              # Fit
+      ## Hosmer & Lemeshow g = covariate + 1
+      mdl.1.hoslem <- hoslem.test(mdl.1$finalModel$y, fitted(mdl.1), g = 3)
+      print(mdl.1.hoslem)
+
+                                              # Odd ratios
+      print(exp(mdl.1$finalModel$coefficients))
+
+                                              # Plots
+      mdl.1.plt <- plot(allEffects(glm.1))
+      mdl.1.cm.plt <- fourfoldplot(round(mdl.1.cm$table, 2), conf.level = 0, main = "Noise")
+
+      #########################################
+      ## Valence ~ Noise + Cars + Pedestrians ##
+      #########################################
+      glm.2 <- glm(Valence ~ Noise + Cars + Pedestrians,
+                   data = df,
+                   family = binomial(link = "logit"))
+      mdl.2 <- train(Valence ~ Noise + Cars + Pedestrians,
+                     data = df,
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = control)
+                                              # Cross validation results
+      ## Confusion matrix
+      mdl.2.cm <- caret::confusionMatrix(mdl.2,
+                                         norm = "overall",
+                                         dnn = c("Prediction", "Reference"))
+      print(mdl.2.cm) # this is a percentage
+      ## Confusion matrix with "optimized" cutoff
+      probsTrain.2 <- predict(mdl.2, type = "prob")
+      rocCurve.2   <- roc(response = df$Valence,
+                        predictor = probsTrain.2[,"Positive"])
+      plot(rocCurve.2, print.thres = "best")
+
+      ## highest combined (sensitivity and specificity)
+      mdl.2.cutoff <- rocCurve.2$thresholds[which(
+                                 rocCurve.2$sensitivities +
+                                 rocCurve.2$specificities ==
+                                 max(rocCurve.2$sensitivities +
+                                     rocCurve.2$specificities))]
+      mdl.2.pred <- factor(ifelse(probsTrain.2[, "Positive"] > mdl.2.cutoff,
+                                  "Positive", "Negative") )
+      mdl.2.cm.opt <- caret::confusionMatrix(mdl.2.pred, df$Valence)
+
+                                              # Model evaluation
+      ## Wald-test
+      mdl.2.wald <- Anova(mdl.2$finalModel, test.statistic = c("Wald"))
+      print(mdl.2.wald)
+      ## Score-test
+      mdl.2.score <- anova(mdl.2$finalModel, test = "Rao")
+      print(mdl.2.score)
+      ## likelihood ratio test
+      mdl.2.lrt <- lrtest(mdl.null, mdl.2$finalModel)
+      print(mdl.2.lrt)
+                                              # Fit
+      ## Hosmer & Lemeshow g = covariate + 1
+      mdl.2.hoslem <- hoslem.test(mdl.2$finalModel$y, fitted(mdl.2), g = 4)
+      print(mdl.2.hoslem)
+
+                                              # Odd ratios
+      print(exp(mdl.2$finalModel$coefficients))
+
+                                              # Plots
+      mdl.2.plt <- plot(allEffects(glm.2))
+      mdl.2.cm.plt <- fourfoldplot(round(mdl.2.cm$table, 2), conf.level = 0, main = "Noise + Cars + Pedestrians")
+
+      #####################################
+      ## Valence ~ Noise + Neighbourhood ##
+      #####################################
+
+      glm.3 <- glm(Valence ~ Noise + Neighbourhood,
+                   data = df,
+                   family = binomial(link = "logit"))
+      mdl.3 <- train(Valence ~ Noise + Neighbourhood,
+                     data = df,
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = control)
+                                              # Cross validation results
+      ## Confusion matrix
+      mdl.3.cm <- caret::confusionMatrix(mdl.3,
+                                         norm = "overall",
+                                         dnn = c("Prediction", "Reference"))
+      print(mdl.3.cm) # this is a percentage
+      ## Confusion matrix with "optimized" cutoff
+      probsTrain.3 <- predict(mdl.3, type = "prob")
+      rocCurve.3   <- roc(response = df$Valence,
+                        predictor = probsTrain.3[,"Positive"])
+      plot(rocCurve.3, print.thres = "best")
+
+      ## highest combined (sensitivity and specificity)
+      mdl.3.cutoff <- rocCurve.3$thresholds[which(
+                                 rocCurve.3$sensitivities +
+                                 rocCurve.3$specificities ==
+                                 max(rocCurve.3$sensitivities +
+                                     rocCurve.3$specificities))]
+      mdl.3.pred <- factor(ifelse(probsTrain.3[, "Positive"] > mdl.3.cutoff,
+                                  "Positive", "Negative") )
+      mdl.3.cm.opt <- caret::confusionMatrix(mdl.3.pred, df$Valence)
+
+                                              # Model evaluation
+      ## Wald-test
+      mdl.3.wald <- Anova(mdl.3$finalModel, test.statistic = c("Wald"))
+      print(mdl.3.wald)
+      ## Score-test
+      mdl.3.score <- anova(mdl.3$finalModel, test = "Rao")
+      print(mdl.3.score)
+      ## likelihood ratio test
+      mdl.3.lrt <- lrtest(mdl.null, mdl.3$finalModel)
+      print(mdl.3.lrt)
+                                              # Fit
+      ## Hosmer & Lemeshow g = covariate + 1
+      mdl.3.hoslem <- hoslem.test(mdl.3$finalModel$y, fitted(mdl.3), g = 4)
+      print(mdl.3.hoslem)
+
+                                              # Odd ratios
+      print(exp(mdl.3$finalModel$coefficients))
+
+                                              # Plots
+      mdl.3.plt <- plot(allEffects(glm.3))
+      mdl.3.cm.plt <- fourfoldplot(round(mdl.3.cm$table, 2), conf.level = 0, main = "Noise + Neighbourhood")
+
+
+      #####################################
+      ## Valence ~ Noise + Socioeconomic ##
+      #####################################
+
+      glm.4 <- glm(Valence ~ Noise + Socioeconomic,
+                   data = df,
+                   family = binomial(link = "logit"))
+      mdl.4 <- train(Valence ~ Noise + Socioeconomic,
+                     data = df,
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = control)
+                                              # Cross validation results
+      ## Confusion matrix
+      mdl.4.cm <- caret::confusionMatrix(mdl.4,
+                                         norm = "overall",
+                                         dnn = c("Prediction", "Reference"))
+      print(mdl.4.cm) # this is a percentage
+      ## Confusion matrix with "optimized" cutoff
+      probsTrain.4 <- predict(mdl.4, type = "prob")
+      rocCurve.4   <- roc(response = df$Valence,
+                        predictor = probsTrain.4[,"Positive"])
+      plot(rocCurve.4, print.thres = "best")
+
+      ## highest combined (sensitivity and specificity)
+      mdl.4.cutoff <- rocCurve.4$thresholds[which(
+                                 rocCurve.4$sensitivities +
+                                 rocCurve.4$specificities ==
+                                 max(rocCurve.4$sensitivities +
+                                     rocCurve.4$specificities))]
+      mdl.4.pred <- factor(ifelse(probsTrain.4[, "Positive"] > mdl.4.cutoff,
+                                  "Positive", "Negative") )
+      mdl.4.cm.opt <- caret::confusionMatrix(mdl.4.pred, df$Valence)
+
+                                              # Model evaluation
+      ## Wald-test
+      mdl.4.wald <- Anova(mdl.4$finalModel, test.statistic = c("Wald"))
+      print(mdl.4.wald)
+      ## Score-test
+      mdl.4.score <- anova(mdl.4$finalModel, test = "Rao")
+      print(mdl.4.score)
+      ## likelihood ratio test
+      mdl.4.lrt <- lrtest(mdl.null, mdl.4$finalModel)
+      print(mdl.4.lrt)
+                                              # Fit
+      ## Hosmer & Lemeshow g = covariate + 1
+      mdl.4.hoslem <- hoslem.test(mdl.4$finalModel$y, fitted(mdl.4), g = 4)
+      print(mdl.4.hoslem)
+
+                                              # Odd ratios
+      print(exp(mdl.4$finalModel$coefficients))
+                                              # Plots
+      png(file = "/home/nicoluarte/Downloads/effects_1.png")
+      plot(allEffects(glm.1))
+      dev.off()
+      png(file = "/home/nicoluarte/Downloads/effects_2.png")
+      plot(allEffects(glm.2))
+      dev.off()
+      png(file = "/home/nicoluarte/Downloads/effects_3.png")
+      plot(allEffects(glm.3))
+      dev.off()
+      png(file = "/home/nicoluarte/Downloads/effects_4.png")
+      plot(allEffects(glm.4))
+      dev.off()
+      mdl.4.cm.plt <- fourfoldplot(round(mdl.4.cm$table, 2), conf.level = 0, main = "Noise + Socioeconomic")
+
+      ###################
+      ## Merge results ##
+      ###################
+
+      acc <- data.frame(mdl.1.cm.opt$overall, mdl.2.cm.opt$overall, mdl.3.cm.opt$overall, mdl.4.cm.opt$overall)
+      acc <- tibble::rownames_to_column(acc, "Statistic")
+      acc[1:7, 2:5] <- round(acc[1:7, 2:5], 3)
+      as.pdf(acc)
+
+      png(file = "/home/nicoluarte/Downloads/confusion_matrices.png")
+      par(mfrow = c(2,2))
+      fourfoldplot(round(mdl.1.cm$table, 2), conf.level = 0, main = "Noise")
+      fourfoldplot(round(mdl.2.cm$table, 2), conf.level = 0, main = "Noise + Cars + Pedestrians")
+      fourfoldplot(round(mdl.3.cm$table, 2), conf.level = 0, main = "Noise + Neighbourhood")
+      fourfoldplot(round(mdl.4.cm$table, 2), conf.level = 0, main = "Noise + Socioeconomic")
+      dev.off()
+
+
+      a <- boxplot.stats(df$Noise)
+      b <- boxplot.stats(df$Cars)
+      c <- boxplot.stats(df$Pedestrians)
+      d <- which(a$out %in% df$Noise)
+      e <- which(b$out %in% df$Cars)
+      f <- which(c$out %in% df$Pedestrians)
+
+      test.df <- df[-c(d, e, f), ]
+      test.df[, c("Noise", "Pedestrians", "Cars")] <- scale(test.df[, c("Noise", "Pedestrians", "Cars")])
+      glm.n <- glm(Valence ~ Noise + Cars + Pedestrians,
+                   family = binomial(link = "logit"),
+                   data = test.df)
+      mdl.n <- train(Valence ~ Noise + Cars + Pedestrians,
+                     data = test.df,
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = control)
+      mdl.n.1 <- train(Valence ~ Noise + Cars:Pedestrians,
+                     data = test.df,
+                     method = "glm",
+                     family = binomial(link = "logit"),
+                     trControl = control)
+      probsTrain.n <- predict(mdl.n, type = "prob")
+      rocCurve.n   <- roc(response = test.df$Valence,
+                          predictor = probsTrain.n[,"Positive"])
+      mdl.n.cutoff <- rocCurve.n$thresholds[which(
+                                   rocCurve.n$sensitivities +
+                                   rocCurve.n$specificities ==
+                                   max(rocCurve.n$sensitivities +
+                                       rocCurve.n$specificities))]
+      mdl.n.pred <- factor(ifelse(probsTrain.n[, "Positive"] > mdl.n.cutoff,
+                                  "Positive", "Negative") )
+      mdl.n.cm.opt <- caret::confusionMatrix(mdl.n.pred, test.df$Valence)
+
+      all.mdl.1 <- list(mdl.1.lrt, mdl.1.score, mdl.1.wald,
+                        mdl.2.lrt, mdl.2.score, mdl.2.wald,
+                        mdl.3.lrt, mdl.3.score, mdl.3.wald,
+                        mdl.4.lrt, mdl.4.score, mdl.4.wald )
+      mdl.name <- c("mdl_1_lrt", "mdl_1_score", "mdl_1_wald",
+                    "mdl_2_lrt", "mdl_2_score", "mdl_2_wald",
+                    "mdl_3_lrt", "mdl_3_score", "mdl_3_wald",
+                    "mdl_4_lrt", "mdl_4_score", "mdl_4_wald")
+      mdl.tbl <- function(mdl, filen)
+      {
+        path <- paste("/home/nicoluarte/Downloads/", filen, sep = "")
+        mdl.t <- mdl
+        table2doc(x = mdl.t, file = path)
+      }
+      mapply(table2doc, all.mdl.1, mdl.name)
+
+      ggroc(list("Noise" = rocCurve,
+                 "Noise + Cars + Pedestrians" = rocCurve.2,
+                 "Noise + Neighbourhood" = rocCurve.3,
+                 "Noise + Socioeconomic" = rocCurve.4),
+            legacy.axes = TRUE) +
+        geom_segment(aes(x = 0,
+                         xend = 1,
+                         y = 0,
+                         yend = 1),
+                     color = "darkgrey",
+                     linetype = "dashed") +
+        ggtitle("Models ROC curve")
+      ggsave("roc.png")
+
+      ## concordance
+      Concordance(df$Valence_num, glm.1$fitted.values)
+      Concordance(df$Valence_num, glm.2$fitted.values)
+      Concordance(df$Valence_num, glm.3$fitted.values)
+      Concordance(df$Valence_num, glm.4$fitted.values)
+
+      ## opt thresholds
+      coords(rocCurve, "best", transpose = TRUE)
+      coords(rocCurve.2, "best", transpose = TRUE)
+      coords(rocCurve.3, "best", transpose = TRUE)
+      coords(rocCurve.4, "best", transpose = TRUE)
+
+      ## miss class
+      1-sum(diag(mdl.1.cm.opt$table))/sum(mdl.1.cm.opt$table)
+      1-sum(diag(mdl.2.cm.opt$table))/sum(mdl.2.cm.opt$table)
+      1-sum(diag(mdl.3.cm.opt$table))/sum(mdl.3.cm.opt$table)
+      1-sum(diag(mdl.4.cm.opt$table))/sum(mdl.4.cm.opt$table)
+
+
+
+      glm.x <- glm(Valence ~ Noise + Socioeconomic,
+                   data = df,
+                   family = binomial(link = "logit"))
+
+  ###############################
+  ## Step-wise model selection ##
+  ###############################
+
+  glm.all <- glm(Valence ~ (Noise + Cars + Pedestrians + Neighbourhood)^2,
+                 data = test.df,
+                 family = binomial(link = "logit"),
+                 na.action = na.pass)
+
+  models <- stepAIC(glm.all, direction = c("both"))
+
+  mdl.opt <- train(Valence ~ Noise + Cars + Pedestrians + Neighbourhood + Noise:Pedestrians +
+                  Noise:Neighbourhood + Cars:Pedestrians + Cars:Neighbourhood,
+                 data = test.df,
                  method = "glm",
                  family = binomial(link = "logit"),
                  trControl = control)
-                                          # Cross validation results
-  ## Accuracy: 0.6130058
-  ## Kappa: 0.1291081
-  ## Confusion matrix
-  mdl.1.cm <- caret::confusionMatrix(mdl.1,
-                                     norm = "overall",
-                                     dnn = c("Prediction", "Reference"))
-  print(mdl.1.cm) # this is a percentage
-  ## Confusion matrix with "optimized" cutoff
-  probsTrain <- predict(mdl.1, type = "prob")
-  rocCurve   <- roc(response = df$Valence,
-                    predictor = probsTrain[,"Positive"])
-  plot(rocCurve, print.thres = "best")
-  ## highest combined (sensitivity and specificity)
-  mdl.1.cutoff <- rocCurve$thresholds[which(
-                             rocCurve$sensitivities +
-                             rocCurve$specificities ==
-                             max(rocCurve$sensitivities +
-                                 rocCurve$specificities))]
-  mdl.1.pred <- factor(ifelse(probsTrain[, "Positive"] > mdl.1.cutoff,
-                              "Positive", "Negative") )
-  mdl.1.cm.opt <- caret::confusionMatrix(mdl.1.pred, df$Valence)
-  ## with this cutoff we obtain a way better kappa, accuracy might be
-  ## misleading because of class unbalance
+  caret::confusionMatrix(mdl.opt)
 
-                                          # Model evaluation
-  ## Wald-test
-  mdl.1.wald <- Anova(mdl.1$finalModel, test.statistic = c("Wald"))
-  print(mdl.1.wald)
-  ## Score-test
-  mdl.1.score <- anova(mdl.1$finalModel, test = "Rao")
-  print(mdl.1.score)
-  ## likelihood ratio test
-  mdl.1.lrt <- lrtest(mdl.null, mdl.1$finalModel)
-  print(mdl.1.lrt)
-                                          # Fit
-  ## Hosmer & Lemeshow g = covariate + 1
-  mdl.1.hoslem <- hoslem.test(mdl.1$finalModel$y, fitted(mdl.1), g = 3)
-  print(mdl.1.hoslem)
+  mdl.tree <- train(Valence ~ Noise + Cars + Pedestrians + Neighbourhood + Noise:Pedestrians +
+                      Noise:Neighbourhood + Cars:Pedestrians + Cars:Neighbourhood,
+                   data = test.df,
+                   method = "gbm",
+                   trControl = control)
+  caret::confusionMatrix(mdl.tree)
 
-  #########################################
-  ## Valence ~ Noise + Car + Pedestrians ##
-  #########################################
+  library(fastDummies)
+  library(FactoMineR)
+  df.test <- test.df
+  df.test$Neighbourhood <- as.numeric(as.factor(test.df$Neighbourhood))
+  df.test$Socioeconomic <- as.numeric(as.factor(test.df$Socioeconomic))
+  df.test <- subset(df.test, select = -c(Subjects, Valence_num, Neighbourhood_num,
+                                         Socioeconomic_num, Pupil, Sex_num))
+  pca.df <- prcomp(df.test[, c(2:6)], center = TRUE, scale. = TRUE)
+  df.test$PCA1 <- pca.df$x[, 1]
+  df.test$PCA2 <- pca.df$x[, 2]
+  df.test$PCA3 <- pca.df$x[, 3]
 
-  #####################################
-  ## Valence ~ Noise + Neighbourhood ##
-  #####################################
+  kmm <- kmeans(df.test[, c(2:6)], centers = 2)
 
-  #####################################
-  ## Valence ~ Noise + Socioeconomic ##
-  #####################################
+  knn.mdl.pca <- train(Valence ~ (PCA1 + PCA2 + PCA3)^2,
+                       data = df.test,
+                       method = "knn",
+                       trControl = control,
+                       tuneGrid = expand.grid(k = 1:100))
+
+  knn.mdl.pca <- train(Valence ~ (PCA1 + PCA2 + PCA3)^2,
+                       data = df.test,
+                       method = "glm",
+                       trControl = control,
+                       family = binomial(link = "logit"))
+
+  knn.mdl.val <- train(Valence ~ Noise + Cars + Pedestrians + Neighbourhood + Noise:Pedestrians + Noise:Neighbourhood + Cars:Pedestrians + Cars:Neighbourhood,
+                       data = df,
+                       method = "knn",
+                       trControl = control,
+                       tuneGrid = expand.grid(k = 1:30))
 #+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+── [1mAttaching packages[22m ─────────────────────────────────────── tidyverse 1.2.1 ──
+[32m✔[39m [34mtibble [39m 2.1.3     [32m✔[39m [34mpurrr  [39m 0.3.2
+[32m✔[39m [34mtidyr  [39m 0.8.3     [32m✔[39m [34mstringr[39m 1.4.0
+[32m✔[39m [34mreadr  [39m 1.3.1     [32m✔[39m [34mforcats[39m 0.4.0
+── [1mConflicts[22m ────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+corrplot 0.84 loaded
+Loading required package: lattice
+Loading required package: survival
+Loading required package: Formula
+
+Attaching package: ‘Hmisc’
+
+The following objects are masked from ‘package:dplyr’:
+
+    src, summarize
+
+The following objects are masked from ‘package:base’:
+
+    format.pval, units
+
+Registered S3 method overwritten by 'MuMIn':
+  method         from
+  predict.merMod lme4
+Registered S3 methods overwritten by 'huge':
+  method    from   
+  plot.sim  BDgraph
+  print.sim BDgraph
+Registered S3 method overwritten by 'xts':
+  method     from
+  as.zoo.xts zoo 
+message: psycho's `analyze()` is deprecated in favour of the report package. Check it out at https://github.com/easystats/report
+Registered S3 methods overwritten by 'pROC':
+  method    from
+  print.roc huge
+  plot.roc  huge
+Type 'citation("pROC")' for a citation.
+
+Attaching package: ‘pROC’
+
+The following objects are masked from ‘package:stats’:
+
+    cov, smooth, var
+
+Registered S3 methods overwritten by 'lava':
+  method    from
+  plot.sim  huge
+  print.sim huge
+
+Attaching package: ‘caret’
+
+The following object is masked from ‘package:survival’:
+
+    cluster
+
+The following object is masked from ‘package:purrr’:
+
+    lift
+
+
+Attaching package: ‘MASS’
+
+The following object is masked from ‘package:dplyr’:
+
+    select
+
+Loading required package: carData
+Use the command
+    lattice::trellis.par.set(effectsTheme())
+  to customize lattice options for effects plots.
+See ?effectsTheme for details.
+Registered S3 methods overwritten by 'car':
+  method                          from
+  influence.merMod                lme4
+  cooks.distance.influence.merMod lme4
+  dfbeta.influence.merMod         lme4
+  dfbetas.influence.merMod        lme4
+
+Attaching package: ‘car’
+
+The following object is masked from ‘package:purrr’:
+
+    some
+
+The following object is masked from ‘package:dplyr’:
+
+    recode
+
+ResourceSelection 0.3-5 	 2019-07-22
+
+Attaching package: ‘neuralnet’
+
+The following object is masked from ‘package:dplyr’:
+
+    compute
+
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+  Subjects Valence_num  Valence       Noise Pedestrians      Cars       Pupil
+1        1           0 Negative 0.010767789  0.00000000 0.0000000         2.3
+2        1           0 Negative 0.012513303  0.46391753 0.1546392          []
+3        1           1 Positive 0.010372872  0.41237113 0.0000000  2.52325703
+4        1           1 Positive 0.009794006  0.09278351 0.0000000 2.079852955
+5        1           1 Positive 0.013058803  0.48453608 0.0000000 2.505264791
+6        1           1 Positive 0.024941132  0.16494845 0.0000000 2.590279936
+  Neighbourhood_num Neighbourhood Socioeconomic_num Socioeconomic Sex_num
+1                 1          Cumm                 1        Middle       0
+2                 1          Cumm                 1        Middle       0
+3                 1          Cumm                 1        Middle       0
+4                 1          Cumm                 1        Middle       0
+5                 1          Cumm                 1        Middle       0
+6                 1          Cumm                 1        Middle       0
+
+Warning message:
+In model.frame.default(Terms, newdata, na.action = na.action, xlev = object$lvls) :
+  variable 'Valence' is not a factor
+
+  Subjects Valence_num       Noise Pedestrians      Cars Pupil
+1        1           0 0.010767789  0.00000000 0.0000000   138
+2        1           0 0.012513303  0.46391753 0.1546392     1
+3        1           1 0.010372872  0.41237113 0.0000000   254
+4        1           1 0.009794006  0.09278351 0.0000000    45
+5        1           1 0.013058803  0.48453608 0.0000000   243
+6        1           1 0.024941132  0.16494845 0.0000000   288
+  Neighbourhood_num Neighbourhood.Bilbao Neighbourhood.Colon Neighbourhood.Cumm
+1                 1                    0                   0                  1
+2                 1                    0                   0                  1
+3                 1                    0                   0                  1
+4                 1                    0                   0                  1
+5                 1                    0                   0                  1
+6                 1                    0                   0                  1
+  Neighbourhood.Ecuador Neighbourhood.Hurtado Neighbourhood.StaAna
+1                     0                     0                    0
+2                     0                     0                    0
+3                     0                     0                    0
+4                     0                     0                    0
+5                     0                     0                    0
+6                     0                     0                    0
+  Socioeconomic_num Socioeconomic.High Socioeconomic.Low Socioeconomic.Middle
+1                 1                  0                 0                    1
+2                 1                  0                 0                    1
+3                 1                  0                 0                    1
+4                 1                  0                 0                    1
+5                 1                  0                 0                    1
+6                 1                  0                 0                    1
+  Sex_num
+1       0
+2       0
+3       0
+4       0
+5       0
+6       0
+
+Cross-Validated (10 fold, repeated 10 times) Confusion Matrix 
+
+(entries are percentual average cell counts across resamples)
+ 
+          Reference
+Prediction Negative Positive
+  Negative     51.8     32.5
+  Positive      6.3      9.4
+                            
+ Accuracy (average) : 0.6121
+
+Setting levels: control = Negative, case = Positive
+Setting direction: controls < cases
+
+Analysis of Deviance Table (Type II tests)
+
+Response: .outcome
+      Df  Chisq Pr(>Chisq)    
+Noise  1 21.921  2.841e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Analysis of Deviance Table
+
+Model: binomial, link: logit
+
+Response: .outcome
+
+Terms added sequentially (first to last)
+
+
+      Df Deviance Resid. Df Resid. Dev    Rao  Pr(>Chi)    
+NULL                    753     1025.4                     
+Noise  1   24.577       752     1000.9 23.071 1.562e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Likelihood ratio test
+
+Model 1: Valence ~ 1
+Model 2: .outcome ~ Noise
+  #Df  LogLik Df  Chisq Pr(>Chisq)    
+1   1 -512.72                         
+2   2 -500.43  1 24.577   7.14e-07 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+	Hosmer and Lemeshow goodness of fit (GOF) test
+
+data:  mdl.1$finalModel$y, fitted(mdl.1)
+X-squared = 7.1985, df = 1, p-value = 0.007296
+#+end_example
+
 * Defensa de Tesis
 ** Gráficos
 #+begin_src python :results output
