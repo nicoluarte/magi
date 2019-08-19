@@ -952,6 +952,259 @@ confusionMatrix(as.factor(preds_filtered), as.factor(clean_df$Classification))
   ##################################
 #+END_SRC
 
+** Classification models
+- Load Boston database
+- Generate binary variable out of criminality
+#+BEGIN_SRC R :results output :session cls_mdl :exports both
+  library(MASS)
+  library(dplyr)
+  ## load database
+  df <- Boston
+
+  ## transform crim to binary
+  df$crim <- ifelse(df$crim >= mean(df$crim), 1, 0)
+  print(head(df))
+#+END_SRC
+
+#+RESULTS:
+:   crim zn indus chas   nox    rm  age    dis rad tax ptratio  black lstat medv
+: 1    0 18  2.31    0 0.538 6.575 65.2 4.0900   1 296    15.3 396.90  4.98 24.0
+: 2    0  0  7.07    0 0.469 6.421 78.9 4.9671   2 242    17.8 396.90  9.14 21.6
+: 3    0  0  7.07    0 0.469 7.185 61.1 4.9671   2 242    17.8 392.83  4.03 34.7
+: 4    0  0  2.18    0 0.458 6.998 45.8 6.0622   3 222    18.7 394.63  2.94 33.4
+: 5    0  0  2.18    0 0.458 7.147 54.2 6.0622   3 222    18.7 396.90  5.33 36.2
+: 6    0  0  2.18    0 0.458 6.430 58.7 6.0622   3 222    18.7 394.12  5.21 28.7
+
+- Generate train and test partition (0.7, 0.3)
+#+BEGIN_SRC R :results output :session cls_mdl :exports both
+  ## option 1 self-made
+  df_partition <- function(data, train_size)
+  {
+    set.seed(101)
+    # get indices
+    sample <- sample.int(n = nrow(data),
+                         size = floor(train_size*nrow(data)),
+                         replace = F)
+    # generate train data
+    train <- data[sample, ]
+    # and test data
+    test  <- data[-sample, ]
+    # list of train and test
+    return(list(train, test))
+                                          # return it
+  }
+
+  ## example
+  fun_list <- df_partition(df, 0.7)
+  df_train <- fun_list[[1]]
+  df_test <- fun_list[[2]]
+
+  ## option 2 using caret
+  library(caret)
+  ## LGOCV <- leave group out
+  ## p <- train percentage
+  ## number <- iterations
+  ## same as 1 train/test split
+  train_control <- trainControl(method = "LGOCV",
+                                p = 0.7,
+                                number = 1,
+                                savePredictions = TRUE)
+
+  ## the first function will be used since it's easier to deal with
+  ## native R objects
+#+END_SRC
+
+#+RESULTS:
+
+- Train following models
+- KNN
+- SVM
+- Decision tree
+- Neural net
+#+BEGIN_SRC R :results output :session cls_mdl :exports both
+  ##########################
+  ## K-nearest-neighbours ##
+  ##########################
+  ## knn parameter is number neighbours 'k'
+  library(class)
+  knn_mdl <- knn(as.factor(crim) ~ .,
+                 data = df,
+                 k = 3)
+  ## confusion matrix
+  tbl <- table(knn_mdl, df_test$crim)
+  accuracy <- function(x){sum(diag(x)/(sum(rowSums(x)))) * 100}
+  accuracy(tbl)
+
+  ## optimize with grid search
+  grid <- seq(from = 1, to = 200, by = 1)
+  k_opt <- sapply(grid, function(x) accuracy(table(knn(df_train,
+                               df_test,
+                               cl = as.factor(df_train$crim),
+                               k = x), df_test$crim)))
+
+  ## using caret
+  knn_caret <- train(as.factor(crim) ~ .,
+                     data = df,
+                     method = "knn",
+                     trControl = train_control,
+                     tuneGrid = expand.grid(k = 1:200))
+  ## we can get the optimal parameter back a train using that
+  knn_mdl_opt <- knn(df_train,
+                 df_test,
+                 cl = as.factor(df_train$crim),
+                 k = knn_caret$bestTune$k)
+  ## confusion matrix optimal model
+  tbl_2 <- table(knn_mdl, df_test$crim)
+  accuracy(tbl_2)
+
+  ############################
+  ## Support vector machine ##
+  ############################
+  ## here on out I'll be using caret because is way much faster
+  ## assumming a linear kernel there's only one parameter to optimize
+  ## the cost o C
+  ## parallel so it goes faster
+  library(doParallel)
+  registerDoParallel(cores=8)
+  svm_caret <- train(as.factor(crim) ~ .,
+                     data = df, method = "svmLinear",
+                     tuneGrid = expand.grid(C = 1:100),
+                     preProcess = c("scale"),
+                     metric = "Accuracy")
+
+  ## we do the same as before
+  library(e1017)
+  svm_mdl_opt <- svm(as.factor(crim) ~ .,
+                     data = df_train,
+                     kernel.type="linear",
+                     cost = svm_caret$bestTune$C)
+  svm_pred <- predict(svm_mdl_opt, newdata = df_test)
+  ## confusion matrix optimal model
+  tbl_3 <- table(svm_pred, df_test$crim)
+  accuracy(tbl_3)
+
+  ###################
+  ## Decision tree ##
+  ###################
+  ## trained in all data
+  library(tree)
+  tree_boston <- tree(as.factor(crim) ~ .,
+                   data = df)
+  par(mfrow = c(1,3))
+  plot(tree_boston)
+  text(tree_boston, pretty = 0)
+  ## using train test
+  tree_boston_cv = tree(as.factor(crim) ~ .,
+                        data = df_train)
+  plot(tree_boston_cv)
+  text(tree_boston_cv, pretty=0)
+  ## check accuracy
+  tree_pred = predict(tree_boston_cv, newdata = df_train, type="class")
+  tbl_4 <- with(df_train, table(tree_pred, crim))
+  accuracy(tbl_4)
+
+  ## prune the tree
+  tree_boston_prune <- cv.tree(tree_boston_cv, FUN = prune.misclass)
+  plot(tree_boston_prune)
+
+  ####################
+  ## neural network ##
+  ####################
+  library(nnet)
+  nnet_boston <- train(as.factor(crim) ~ .,
+                       data = df,
+                       method = "nnet",
+                       trControl = train_control,
+                       tuneGrid = expand.grid(size = 1:20, decay = 0.1))
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+Error in knn(as.factor(crim_bin) ~ ., data = df, k = 3) : 
+  unused argument (data = df)
+Error in table(knn_mdl, df_test$crim_bin) : 
+  all arguments must have the same length
+[1] 98.02632
+Error in knn(df_train, df_test, cl = as.factor(df_train$crim_bin), k = x) : 
+  'train' and 'class' have different lengths
+Error in is.factor(x) : object 'crim_bin' not found
+Error in knn(df_train, df_test, cl = as.factor(df_train$crim_bin), k = knn_caret$bestTune$k) : 
+  'train' and 'class' have different lengths
+Error in table(knn_mdl, df_test$crim_bin) : 
+  all arguments must have the same length
+[1] 98.02632
+Error in is.factor(x) : object 'crim_bin' not found
+Error in library(e1017) : there is no package called ‘e1017’
+Error in is.factor(x) : object 'crim_bin' not found
+Error in table(svm_pred, df_test$crim_bin) : 
+  all arguments must have the same length
+[1] 98.68421
+Error in is.factor(x) : object 'crim_bin' not found
+#+end_example
+
+- Compare models
+#+BEGIN_SRC R :results output :session cls_mdl :exports both
+  df_cmp <- Boston
+  compare_control <- trainControl(method = "repeatedcv",
+                                  number = 10,
+                                  repeats = 3,
+                                savePredictions = TRUE,
+                                classProbs = TRUE)
+
+  library(doParallel)
+  cl = makeCluster(8)
+  registerDoParallel(cl)
+
+  mdl_nn <- train(make.names(crim) ~ .,
+                  data = df_cmp,
+                  method = "nnet",
+                  trControl = compare_control,
+                  tuneGrid = expand.grid(size = 1:20, decay = 0.1),
+                  metric = "Kappa")
+
+  dtree <- train(make.names(crim) ~ .,
+                 data = df_cmp,
+                 method = "rpart",
+                 trControl = compare_control,
+                 tuneLength = 30,
+                 metric = "Kappa")
+
+  k_near <- train(make.names(crim) ~ .,
+                  data = df_cmp,
+                  method = "rpart",
+                  trControl = compare_control,
+                  tuneLength = 40,
+                  metric = "Kappa")
+
+  stopCluster(cl)
+  remove(cl)
+  registerDoSEQ()
+
+  results <- resamples(list(NeuralNetwork=mdl_nn,
+                            DecisionTree=dtree,
+                            KNN=k_near))
+  results$values
+
+                                          # summarize the distributions
+  summary(results)
+
+                                          # boxplot of results
+  bwplot(results)
+#+END_SRC
+
+- Export database to python
+#+BEGIN_SRC R :results output :session cls_mdl :exports both
+  xx <- Boston
+  head(xx)
+  setwd("/home/nicoluarte/magi")
+  write.csv(xx, "boston.csv")
+#+END_SRC
+
+*** Python code
+#+BEGIN_SRC python :results output :session py_mdl
+
+#+END_SRC
+
 * PhD
 ** Doctorado en neurociencias UC
 *** TODO postulación
