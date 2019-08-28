@@ -1205,6 +1205,80 @@ Error in is.factor(x) : object 'crim_bin' not found
 
 #+END_SRC
 
+** 27/08/2019, Particle swarm optimization
+- citep:kennedyParticleSwarmOptimization1995 
+- meta-heuristic, little no assumptions
+- cant be optimized, non differentiable
+- optimal solution is not guaranteed
+- actualization: inertia + personal influence + social influence 
+#+BEGIN_SRC R :results output :session swarm
+  #################################
+  ## particle swarm optimization ##
+  #################################
+
+  cost <- function(x)
+  {
+    return(sqrt(x[1]^2+x[2]^2))
+  }
+
+  cost2 <- function(x, y)
+  {
+    return(sqrt(x^2+y^2))
+  }
+
+  x <- seq(-10, 10, len = 1000)
+  y <- seq(-10, 10, len = 1000)
+  z <- outer(x, y, function(x,y){cost2(x,y)})
+
+  library(GA)
+  persp3D(x = x, y = y, z = z)
+
+  ## algorithm
+  pso <- function(n.part = 100, iterations = 1000, omega = 0.5,
+                  phip = 0.4, phig = 1-phip, lower, upper)
+  {
+    particles <- matrix(0, nrow = n.part, ncol = 2)
+    for(i in 1:n.part){particles[i,] <- runif(2, lower, upper)}
+    ss <- particles
+    velocity <- matrix(rnorm(2*n.part), nrow = n.part, ncol = 2)
+
+    localbest <- particles
+    costlocalbest <- apply(localbest, 1, cost)
+
+    globalbest <- particles[which.min(costlocalbest),]
+    costglobalbest <- cost(globalbest)
+
+    for(i in 1:iterations)
+    {
+      cat("Iteration: ", i, "\n")
+
+      for(j in 1:n.part)
+      {
+        rp <- runif(2)
+        rg <- runif(2)
+        velocity[j,] <- omega*velocity[j,] +
+          phip*rp*(localbest[j,]-particles[j,]) +
+          phig*rg*(globalbest-particles[j,])
+        particles[j,] <- particles[j,] + velocity[j,]
+
+        if(cost(particles[j,] < costlocalbest[j]))
+        {
+          localbest[j,] <- particles[j,]
+          costlocalbest[j] <- cost(localbest[j,])
+        }
+      }
+    }
+
+    position <- which.min(costlocalbest)
+    if(costlocalbest[position] < costglobalbest)
+    {
+      globalbest <- localbest[position,]
+      costglobalbest <- cost(globalbest)
+    }
+    return(globalbest)
+  }
+#+END_SRC
+
 * PhD
 ** Doctorado en neurociencias UC
 *** TODO postulación
@@ -1243,82 +1317,68 @@ tres paginas a espacio y medio.
 #+LATEX_HEADER: \usepackage[margin=1.2in]{geometry}
 #+LATEX_HEADER: \renewcommand\refname{Referencias}
 ****** Motivación personal para el programa de Doctorado
-El cómo buscamos objetos, información, recompensas, alimentos, etc. Ha
-sido lo que ha inspirado en mayor medida mi interés en la
-neurociencia. A lo largo de mi vida he sentido profunda intriga en
-cómo los humanos buscan en el espacio de posibilidades, para tomar una
-decisión, para evocar una memoria en particular o bien simplemente
-para organizar cualquier comportamiento relativamente complejo. Investigar
-sobre los mecanismos subyacentes a ese fenómeno ha sido increíblemente
-enriquecedor debido al fuerte componente interdisciplinar del campo.
-Esto me ha llevado a generar un profundo interés en seguir
-desarrollando mi carrera en neurociencia, ya que, creo, el lograr
-entender ese aparentemente simple mecanismo de decisión en condiciones
-de información incompleta, puede, eventualmente, ser de gran utilidad
-para la comprensión tanto de procesos de memoria y aprendizaje cómo de
-ciertas patologías. Con la oportunidad del programa de Doctorado
-espero contribuir a la investigación del aprendizaje y memoria.
+El cómo buscamos objetos, información, recompensas, alimentos, etc. Ha sido lo
+que ha inspirado en mayor medida mi interés en la neurociencia. A lo largo de mi
+vida he sentido profunda intriga en cómo los humanos buscan en el espacio de
+posibilidades, para tomar una decisión, para evocar una memoria en particular o
+bien simplemente para organizar cualquier comportamiento relativamente complejo.
+Investigar sobre los mecanismos subyacentes a ese fenómeno ha sido
+increíblemente enriquecedor debido al fuerte componente interdisciplinar del
+campo. Esto me ha llevado a generar un profundo interés en seguir desarrollando
+mi carrera en neurociencia, ya que, creo, el realizar avances en la comprensión
+de los mecanismos de decisión y búsqueda en condiciones de información
+incompleta, puede, eventualmente, ser de gran utilidad para comprender los
+procesos de memoria y aprendizaje, en tanto estos últimos se pueden comprender
+como un proceso de búsqueda de contenidos en un espacio mental. Con la
+oportunidad del programa de Doctorado espero contribuir a la investigación del
+aprendizaje y memoria.
 
-Cómo parte de mi formación en el programa de Magíster en Neurociencias
-Social de la Universidad Diego Portales, investigue, cómo parte de un
-artículo de revisión, las raíces evolutivas de la búsqueda semántica
-(recuperación de memorias en tareas de evocación). Una de las
-principales conclusiones fue que, aunque solo en grado tentativo,
-parece existir un mecanismo compartido entre la búsqueda semántica y
-el forrajeo ('foraging', el comportamiento de búsqueda de alimento),
-teniendo este último patrones relativamente marcados, que se extienden
-a lo largo de miles de años, así cómo a través de múltiples
-especies. La posibilidad de que un mecanismo tan ubicuo, responsable
-del comportamiento de desplazamiento en la búsqueda de alimentos, pueda estar
-relacionado por exaptación a un proceso fundamental de la memoria abre una
-posibilidad de establecer un mapeo evolutivo al menos a este proceso de memoria.
+En el programa de Magíster en Neurociencias Social de la Universidad Diego
+Portales, investigue, como parte de un artículo de revisión, las raíces
+evolutivas de la búsqueda semántica (recuperación de memorias en tareas de
+evocación). Una de las principales conclusiones fue que, aunque sólo en grado
+tentativo, parece existir un mecanismo compartido entre la búsqueda semántica y
+el forrajeo ('foraging', el comportamiento de búsqueda de alimento), teniendo
+este último patrones relativamente marcados, que se extienden a lo largo de
+miles de años, así como a través de múltiples especies. La posibilidad de que un
+mecanismo tan ubicuo, responsable del comportamiento de desplazamiento en la
+búsqueda de alimentos, pueda estar relacionado por exaptación a un proceso
+fundamental de la memoria abre una posibilidad de establecer un mapeo evolutivo
+al menos a este proceso de memoria.
 
-Deseoso de aprender más sobre este posible vínculo entre forrajeo y
-memoria, me adentre en las principales áreas aledañas de conocimiento,
-tales como ecología, aprendizaje por reforzamiento ('reinforcement
-learning') y otros modelos computacionales. Por la alta carga de modelos
-estadísticos en las áreas mencionadas, me apunté para un programa de
-diplomado en ciencia de datos de la Universidad Católica de
-Chile. Además de este programa he realizado aprendizaje autónomo en
-cursos en línea, con el fin de contar con todas las herramientas
-técnicas que son demandadas para el área.
+En la investigación mencionada anteriormente, hallé interesantes vínculos
+interdisciplinares, por ejemplo, entre neurociencia de la toma de decisiones y
+etología citep:mobbsForagingFoundationsDecision2018a, lo que me permitió
+postular la toma de decisiones bajo modelos de forrajeo, tales como los
+propuestos por el 'Marginal Value Theorem'
+citep:charnovOptimalForagingMarginal1976. Además, me adentre en modelos
+computacionales de la toma de decisiones
+citep:aston-jonesINTEGRATIVETHEORYLOCUS2005a, y finalmente relacionar los
+diversos modelos de toma de decisiones secuenciales con la búsqueda de
+contenidos semánticos citep:hillsForagingSemanticFields2015. Siendo lo
+anteriores tópicos de mi particular interés.
 
-Adicional a los programas mencionados anteriormente, desde julio del año
-2018, me encuentro participando como investigador en un proyecto
-FONDECYT conjunto entre la escuela de Arquitectura y Psicología de la
-Universidad Diego Portales. El tema central de esta investigación es el
-estudio de la percepción de peatones en diferentes ambientes
-urbanos. Si bien el tema no está relacionado directamente con el área
-de interés, mi rol ha consistido en utilización de técnicas de visión
-de máquina ('machine vision') y procesamiento de datos tanto para
-'Eye-tracker' cómo para análisis de frecuencia de objetos. Lo
-anterior, adicionado a el aprendizaje de diversos lenguajes de
-programación (MATLAB, Python, R, Bash), me ha permitido desarrollar
-herramientas que son útiles en la investigación en general cómo
-específicamente para el área de mi interés.
+****** Formulación del tópico de interés
+Mi tópico de interés principal reside en el estudio de la memoria,
+específicamente, la búsqueda semántica, esto es, las estrategias o patrones
+utilizados al momento de recuperar un contenido de memoria.
 
-****** Formulación tópico de interés
-Mi tópico de interés reside en el estudio de la memoria, específicamente, la
-búsqueda semántica, esto es, las estrategias o patrones utilizados al momento de
-recuperar un contenido de memoria, a través del estudio de patrones
-evolutivamente semejantes tales como el de 'forrajeo'.
-
- Las memorias semánticas han sido pensadas, teóricamente, cómo elementos
+ Las memorias semánticas han sido pensadas, teóricamente, como elementos
 pertenecientes a cierto 'espacio' constituido por la similitud en significado
 citep:lundProducingHighdimensionalSemantic1996. Así, se ha propuesto una
 'distancia' entre los distintos contenidos semánticos
-citep:montezRoleSemanticClustering2015 y por lo tanto la posibilidad de
+citep:montezRoleSemanticClustering2015, y por lo tanto, la posibilidad de
 'navegar' entre dichos contenidos. Considerando lo anterior, es esperable que a
 lo largo de la evolución se hayan generado estrategias para acceder, de manera
 útil e eficiente, a dichos contenidos. Las estrategias de búsqueda para acceder
 a los contenidos semánticos han sido relacionadas a aquellas del forrajeo
 citep:ForagingSemanticFields,hillsAnimalForagingEvolution2006,hillsOptimalForagingSemantic2012,
 en tanto las estrategias, para ambos casos, deben lidiar con el dilema de
-explorar/explotar.
+explorar/explotar citep:berger-talExplorationExploitationDilemmaMultidisciplinary2014.
 
 Se ha observado que los 'algoritmos' utilizados en el forrajeo, pueden proveer
 de soluciones óptimas para dicho dilema
-citep:bartumeusAnimalSearchStrategies2005a, lo cuál aplicaría, igualmente, para
+citep:bartumeusAnimalSearchStrategies2005a, lo cual aplicaría, igualmente, para
 estrategias en espacios semánticos citep:montezRoleSemanticClustering2015. De
 esta manera se puede observar una conexión entre un mecanismo evolutivamente
 antiguo (forrajeo) y la búsqueda semántica. Permitiendo un enfoque evolutivo
@@ -1331,12 +1391,11 @@ citep:montezRoleSemanticClustering2015, por lo mismo, el alcance de su
 importancia para casi cualquier actividad cognitiva es de gran tamaño,
 pudiendo afectar de manera importante el comportamiento ante múltiples y
 diferentes tareas.
-
 ****** Objetivos a corto plazo
 Uno de los principales tópicos de discusión en el área de búsqueda
 semántica es la organización y el tipo de la relaciones que conforman
 el espacio semántico citep:lundProducingHighdimensionalSemantic1996. Así, Uno de los primeros
-objetivos de investigación sería poder generar configuraciones
+objetivos de investigación sería poder generar tareas
 experimentales que permitiesen determinar, principalmente, (a) efecto
 del contexto en las relaciones entre contenidos semánticos
 citep:schillerMemorySpaceUnderstanding2015 y (b) si el tipo de búsqueda es más
@@ -1345,7 +1404,7 @@ citep:hillsOptimalForagingSemantic2012.
 
 Cómo segundo objetivo a corto plazo, de manera experimental, modelar el
 comportamiento en tareas de evocación de memoria, a modo de sugerir posibles
-mecanismos generadores del comportamiento de búsqueda semántica. Los modelos mas
+mecanismos generadores del comportamiento de búsqueda semántica. Los modelos más
 relevantes son (a) aquellos basados en reglas
 citep:charnovOptimalForagingMarginal1976, (b) modelos aleatorios simples
 citep:thompsonWalkingWikipediaScalefree2014 y (c) modelos aleatorios complejos
@@ -1367,7 +1426,7 @@ encontrar relación entre este y el forrajeo en situaciones experimentales
 citep:slanziCombiningEyeTracking2017. Esto implicaría la combinación de modelos
 de comportamiento y registro de medidas fisiológicas, tales como diámetro de
 pupila. El tener un modelo de comportamiento, en el marco de explorar/explotar,
-permitiría eventualmente, tener una idea de que estrategia se esta ocupando en
+permitiría eventualmente, tener una idea de qué estrategia se está ocupando en
 cada decisión y por ende evaluar la contribución de las diferentes estructuras
 cerebrales a esto.
 
@@ -1381,6 +1440,28 @@ campo muy fértil en investigación.
 #+End_Latex
 bibliographystyle:apa
 bibliography:ref.bib
+****** Conocimiento relevante
+  Por la alta carga de modelos estadísticos en las áreas de interés mencionadas,
+  me apunté para un programa de diplomado en ciencia de datos de la Universidad
+  Católica de Chile, dónde he aprendido fundamentos computacionales usados en
+  teorías de toma de decisiones, además de herramientas estadísticas necesarias.
+  Adicionalmente, he aprendido teoría de aprendizaje por refuerzo
+  ('reinforcement learning') citep:suttonReinforcementLearningDirect1992, lo que
+  aporta una base para la comprensión de muchos de los modelos mencionados con
+  anterioridad.
+
+  Adicional a los programas mencionados anteriormente, desde julio del año 2018,
+  me encuentro participando como investigador en un proyecto FONDECYT conjunto
+  entre la escuela de Arquitectura y Psicología de la Universidad Diego
+  Portales. El tema central de esta investigación es el estudio de la percepción
+  de peatones en diferentes ambientes urbanos. Si bien el tema no está
+  relacionado directamente con el área de interés, mi rol ha consistido en
+  ajuste de modelos estadísticos, utilización de técnicas de visión de máquina
+  ('machine vision') y procesamiento de datos tanto para 'Eye-tracker' cómo para
+  análisis de frecuencia de objetos. Lo anterior, adicionado a el aprendizaje de
+  diversos lenguajes de programación (MATLAB, Python, R, Bash), me ha permitido
+  desarrollar herramientas que son útiles en la investigación en general cómo
+  específicamente para el área de mi interés.
 **** DONE CV
      CLOSED: [2019-08-15 Thu 16:07] SCHEDULED: <2019-07-17 Wed>
 ***** Curriculum Vitae
@@ -1508,6 +1589,9 @@ Nicolás Luarte
    setwd("/home/nicoluarte/Downloads")
    df <- data.frame(read.csv("data_fondecyt.csv"))
    head(df)
+
+   ## metricas con el valence ~ socioeconimic + socioeconimic:noise
+   ## permutacion valence ~ Socioeconomic
 
                                            # models
    ## null model
@@ -2679,6 +2763,136 @@ data:  mdl.1$finalModel$y, fitted(mdl.1)
 X-squared = 7.1985, df = 1, p-value = 0.007296
 #+end_example
 
+*** Permutations model
+#+BEGIN_SRC R :results output :session perm_mdl
+                                          # load packages
+  pkg <- c("dplyr", "ggplot2", "tidyverse", "corrplot", "Hmisc", "psycho",
+           "broom", "gvlma", "pROC", "caret", "MASS", "effects", "car",
+           "ResourceSelection", "neuralnet", "lmtest")
+  invisible(lapply(pkg, library, character.only = TRUE))
+
+                                          # load database
+  setwd("/home/nicoluarte/Downloads")
+  df <- data.frame(read.csv("data_fondecyt.csv"))
+  head(df)
+
+  ## metricas con el valence ~ socioeconimic + socioeconimic:noise
+  ## permutacion valence ~ Socioeconomic
+  perm_test <- function(df, label, nperm)
+  {
+    c_vec <- c()
+    nrows <- dim(df)[1]
+    y <- df[[label]]
+    x <- df[, setdiff(colnames(df), y), drop = FALSE]
+    for (i in seq_len(nperm))
+    {
+      idx <- sample.int(nrows, size = nrows, replace = TRUE)
+      mdl <- glm(y ~ Socioeconomic + 0,
+                 data = cbind(y = y[idx], x),
+                 family = binomial(link = "logit"))
+      c_vec <- rbind(c_vec, mdl$coefficients)
+    }
+    return(c_vec)
+  }
+
+  logit2prob <- function(logit){
+    odds <- exp(logit)
+    prob <- odds / (1 + odds)
+    return(prob)
+  }
+
+
+  t.mdl <- glm(Valence_num ~ Socioeconomic + 0,
+               data = df,
+               family = binomial(link = "logit"))
+  t.mdl.2 <- glm(Valence_num ~ Socioeconomic,
+               data = df,
+               family = binomial(link = "logit"))
+  summary(t.mdl)
+  summary(t.mdl.2)
+
+  t.ci <- logit2prob(confint.default(t.mdl))
+  t.coef <- data.frame(variable = c("High",
+                                    "Low",
+                                    "Middle"),
+                       value = logit2prob(t.mdl$coefficients))
+
+  library(doParallel)
+  library(reshape2)
+  library(ggplot2)
+  cl = makeCluster(8)
+  registerDoParallel(cl)
+  p <- perm_test(df, "Valence_num", 10000)
+  p <- data.frame(p)
+  p_melt <- melt(p)
+  p_melt$value <- logit2prob(p_melt$value)
+  levels(p_melt$variable) <- c("High", "Low", "Middle")
+
+  ggplot(p_melt, aes(x=variable, y=value, col = variable)) +
+    geom_jitter(alpha = 0.2) +
+    geom_point(data = t.coef, col = "black") +
+    geom_errorbar(data = t.coef,
+                  aes(ymin = t.ci[,1],
+                      ymax = t.ci[,2]),
+                  col = c("red", "green", "blue"))
+
+  library(Rmisc)
+
+  ci_perm <- CI(p_melt$value, ci = 0.95)
+
+  ## socioeconomic model
+  mdl_se <- glm(Valence_num ~ Socioeconomic + Socioeconomic:Noise,
+                data = df,
+                family = binomial(link = "logit"))
+  mdl_se2 <- glm(as.factor(Valence_num) ~ Socioeconomic + Socioeconomic:Noise + 0,
+                data = df,
+                family = binomial(link = "logit"))
+  mdl_se3 <- glm(Valence_num ~ Socioeconomic:Noise + 0,
+                 data = df,
+                 family = binomial(link = "logit"))
+  mdl_null <- glm(Valence_num ~ Noise,
+                data = df,
+                family = binomial(link = "logit"))
+  summary(mdl_se3)
+  plot(allEffects(mdl_se))
+  plot(allEffects(mdl_se2))
+  low <- subset(df, Socioeconomic == "Low")
+  mid <- subset(df, Socioeconomic == "Middle")
+  high <- subset(df, Socioeconomic == "High")
+  scatter.smooth(df$Noise ~ df$Valence_num)
+  scatter.smooth(xx$Noise ~ xx$Valence_num)
+
+  par(mfrow = c(1,3))
+  plot(low$Noise, low$Valence_num)
+  plot(mid$Noise, mid$Valence_num)
+  plot(high$Noise, high$Valence_num)
+
+  library(broom)
+  tidy(mdl_se)
+  Anova(mdl_se, test.statistic = c("Wald"))
+  Anova(mdl_se3, test.statistic = c("Wald"))
+  anova(mdl_se, mdl_null, test = "Chisq")
+  TukeyHSD(bb)
+
+  wt <- c()
+  xxx <- wald.test(b = coef(mdl_se2), Sigma = vcov(mdl_se2), Terms = 6)
+  wt[1] <- wald.test(b = coef(mdl_se2), Sigma = vcov(mdl_se2), Terms = 1)$result$chi2[1]
+  wt[2] <- wald.test(b = coef(mdl_se2), Sigma = vcov(mdl_se2), Terms = 2)$result$chi2[1]
+  wt[3] <- wald.test(b = coef(mdl_se2), Sigma = vcov(mdl_se2), Terms = 3)$result$chi2[1]
+  wt[4] <- wald.test(b = coef(mdl_se2), Sigma = vcov(mdl_se2), Terms = 4)$result$chi2[1]
+  wt[5] <- wald.test(b = coef(mdl_se2), Sigma = vcov(mdl_se2), Terms = 5)$result$chi2[1]
+  wt[6] <- wald.test(b = coef(mdl_se2), Sigma = vcov(mdl_se2), Terms = 6)$result$chi2[1]
+
+  mdl_se2_pred <- predict(mdl_se2, type = "response")
+  mdscore::wald.test(model = mdl_se, terms = 6)
+
+
+  mdl_se2_norm <- factor(ifelse(mdl_se2_pred > 0.5, "Positive", "Negative"))
+  cm_se2 <- confusionMatrix(mdl_se2_norm, df$Valence)
+  tidy(cm_se2)
+#+END_SRC
+
+*** 
 * Defensa de Tesis
 ** Gráficos
 #+begin_src python :results output
@@ -2748,5 +2962,3 @@ X-squared = 7.1985, df = 1, p-value = 0.007296
   N = 1000
   sample = d.rvs(size=N)
 #+end_src
-
-
