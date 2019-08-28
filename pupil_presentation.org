@@ -1,0 +1,38 @@
+#+REVEAL_ROOT: /home/nicoluarte/Downloads/reveal.js-3.8.0 
+#+OPTIONS: num:nil toc:nil
+#+Title: PupiLunch
+#+Author: Nicolás Luarte
+#+Email: nicolas@luarte.net
+#+REVEAL_THEME: simple
+* Transient pupil dilation after subsaccadic microstimulation of primate frontal eye fields
+** Notas
+- Es posible inducir dilatación de la pupila a partir de estimulación en los FRONTAL EYE FIELDS (FEF)
+- Esta área sobre un umbral induce movimiento sacadicos
+- Bajo el umbral solo induce dilatación de pupila
+- Estimulación en las cercanías del FEF induce dilatación de pupila
+- Dilatación aumenta de la mano del nivel de estimulación de la zona
+- La dilatación de la pupila está en función de la actividad oculomotora
+** Lo que encontré interesante
+- Si la expectativa en un tarea dada genera un estado 'S' en la pupila
+- Luego, una demanda cognitiva, se asume genera una actividad 'C' en la pupila
+- Si buscamos determinar 'C', pero estamos en presencia de 'S', el estado medido
+  va a corresponder a una combinación S+C, S*C, ...?
+- El efecto es aditivo sería ""fácil"" remover 'S' de 'C', pero si existe alguna
+  interacción esto se complica más
+* A circuit for pupil orienting responses
+** Notas
+- Presentación del Colículo superior como estructura candadita a la modulación
+  de el tamaño de pupila
+- Parece ser un nodo de convergencia para información sensorial bottom-up tanto
+  como para señales *orientadas a objetivos*
+** Lo que encontré interesante
+- Se presenta que una estructura de múltiples entradas modula la actividad de la
+  pupila, indicado la posibilidad de una modulación dependiente del estado
+  actual
+- De otra manera, una misma 'señal' detectada puede ser 'emanada' de estado
+  diferentes
+- Podríamos asumir que el siguiente estado de un sujeto, depende solo del estado
+  presente y eso simplificaría el punto anterior
+- Pero que pasa con efectos retardados mediados por memoria?
+* Microstimulation of the monket superior collicus induces pupil dilation without evoking saccades
+

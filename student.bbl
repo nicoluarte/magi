@@ -7,6 +7,13 @@ Aston-Jones, G. and Cohen, J.~D. (2005).
   coeruleus\textendash{}norepinephrine system in optimal performance.
 \newblock {\em Journal of Comparative Neurology}, 493(1):99--110.
 
+\bibitem[\protect\astroncite{{Aston-Jones} and
+  Cohen}{2005}]{aston-jonesINTEGRATIVETHEORYLOCUS2005a}
+{Aston-Jones}, G. and Cohen, J.~D. (2005).
+\newblock {{AN INTEGRATIVE THEORY OF LOCUS COERULEUS}}-{{NOREPINEPHRINE
+  FUNCTION}}: {{Adaptive Gain}} and {{Optimal Performance}}.
+\newblock {\em Annual Review of Neuroscience}, 28(1):403--450.
+
 \bibitem[\protect\astroncite{Bartumeus
   et~al.}{2005}]{bartumeusAnimalSearchStrategies2005a}
 Bartumeus, F., da~Luz, M. G.~E., Viswanathan, G.~M., and Catalan, J. (2005).
@@ -18,6 +25,13 @@ Bartumeus, F., da~Luz, M. G.~E., Viswanathan, G.~M., and Catalan, J. (2005).
 Benhamou, S. (2007).
 \newblock How {{Many Animals Really Do}} the {{L{\'e}vy Walk}}?
 \newblock {\em Ecology}, 88(8):1962--1969.
+
+\bibitem[\protect\astroncite{{Berger-Tal}
+  et~al.}{2014}]{berger-talExplorationExploitationDilemmaMultidisciplinary2014}
+{Berger-Tal}, O., Nathan, J., Meron, E., and Saltz, D. (2014).
+\newblock The {{Exploration}}-{{Exploitation Dilemma}}: {{A Multidisciplinary
+  Framework}}.
+\newblock {\em PLOS ONE}, 9(4):e95693.
 
 \bibitem[\protect\astroncite{Charnov}{1976}]{charnovOptimalForagingMarginal1976}
 Charnov, E.~L. (1976).
@@ -35,6 +49,12 @@ Hills, T.~T. (2006).
 Hills, T.~T., Jones, M.~N., and Todd, P.~M. (2012).
 \newblock Optimal foraging in semantic memory.
 \newblock {\em Psychological Review}, 119(2):431--440.
+
+\bibitem[\protect\astroncite{Hills
+  et~al.}{2015}]{hillsForagingSemanticFields2015}
+Hills, T.~T., Todd, P.~M., and Jones, M.~N. (2015).
+\newblock Foraging in {{Semantic Fields}}: {{How We Search Through Memory}}.
+\newblock {\em Topics in Cognitive Science}, 7(3):513--534.
 
 \bibitem[\protect\astroncite{Kane
   et~al.}{2017}]{kaneIncreasedLocusCoeruleus2017}
@@ -58,6 +78,13 @@ Lund, K. and Burgess, C. (1996).
   co-occurrence.
 \newblock {\em Behavior Research Methods, Instruments, \& Computers},
   28(2):203--208.
+
+\bibitem[\protect\astroncite{Mobbs
+  et~al.}{2018}]{mobbsForagingFoundationsDecision2018a}
+Mobbs, D., Trimmer, P.~C., Blumstein, D.~T., and Dayan, P. (2018).
+\newblock Foraging for foundations in decision neuroscience: Insights from
+  ethology.
+\newblock {\em Nature Reviews Neuroscience}, 19(7):419--427.
 
 \bibitem[\protect\astroncite{Montez
   et~al.}{2015}]{montezRoleSemanticClustering2015}
@@ -87,6 +114,12 @@ Slanzi, G., Balazs, J.~A., and Vel{\'a}squez, J.~D. (2017).
 \newblock Combining eye tracking, pupil dilation and {{EEG}} analysis for
   predicting web users click intention.
 \newblock {\em Information Fusion}, 35:51--57.
+
+\bibitem[\protect\astroncite{Sutton
+  et~al.}{1992}]{suttonReinforcementLearningDirect1992}
+Sutton, R.~S., Barto, A.~G., and Williams, R.~J. (1992).
+\newblock Reinforcement learning is direct adaptive optimal control.
+\newblock {\em IEEE Control Systems Magazine}, 12(2):19--22.
 
 \bibitem[\protect\astroncite{Thompson and
   Kello}{2014}]{thompsonWalkingWikipediaScalefree2014}

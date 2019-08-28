@@ -1314,7 +1314,7 @@ tres paginas a espacio y medio.
 #+LATEX_HEADER: \usepackage{setspace}
 #+LATEX_HEADER: \onehalfspacing
 #+LATEX_HEADER: \usepackage[round]{natbib} 
-#+LATEX_HEADER: \usepackage[margin=1.2in]{geometry}
+#+LATEX_HEADER: \usepackage[margin=0.95in]{geometry}
 #+LATEX_HEADER: \renewcommand\refname{Referencias}
 ****** Motivación personal para el programa de Doctorado
 El cómo buscamos objetos, información, recompensas, alimentos, etc. Ha sido lo
@@ -1435,11 +1435,6 @@ en el área de neurociencias, principalmente buscando ser un aporte para la
 promoción de la ciencia experimental en Psicología, la cual tradicionalmente
 tiene un espacio muy reducido en el currículo de pre-grado, desaprovechando un
 campo muy fértil en investigación.
-#+Begin_Latex
-\pagebreak
-#+End_Latex
-bibliographystyle:apa
-bibliography:ref.bib
 ****** Conocimiento relevante
   Por la alta carga de modelos estadísticos en las áreas de interés mencionadas,
   me apunté para un programa de diplomado en ciencia de datos de la Universidad
@@ -1462,6 +1457,11 @@ bibliography:ref.bib
   diversos lenguajes de programación (MATLAB, Python, R, Bash), me ha permitido
   desarrollar herramientas que son útiles en la investigación en general cómo
   específicamente para el área de mi interés.
+#+Begin_Latex
+\pagebreak
+#+End_Latex
+bibliographystyle:apa
+bibliography:ref.bib
 **** DONE CV
      CLOSED: [2019-08-15 Thu 16:07] SCHEDULED: <2019-07-17 Wed>
 ***** Curriculum Vitae
