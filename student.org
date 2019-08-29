@@ -2962,3 +2962,4 @@ X-squared = 7.1985, df = 1, p-value = 0.007296
   N = 1000
   sample = d.rvs(size=N)
 #+end_src
+* Becas Chile
