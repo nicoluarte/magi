@@ -60,12 +60,8 @@ def test_function(x):
     (2.625 - x[0] + x[0] * x[1]**3)**2
     return out
 
-def t_fun(x):
-    out = (x[0]**2 + x[1] - 11)**2 + (x[0] + x[1]**2 - 7)**2
-    return out
-
 def run_spo():
-    p = particle(100, 2, -10, 10, 0.7, 0.4, t_fun)
+    p = particle(100, 2, -10, 10, 0.7, 0.4, test_function)
     plt.ion()
     fig = plt.gcf()
     fig.show()
