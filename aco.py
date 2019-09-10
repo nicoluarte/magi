@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from itertools import groupby
+import networkx as nx
+import time
 
 class ant_colony:
     """ ant colony optimization algorithm
@@ -17,7 +19,7 @@ class ant_colony:
         self.ants_cost = pd.DataFrame(np.zeros((n_ants, n_iterations)))
         self.n_iterations = n_iterations
         self.mat = np.ma.masked_less(np.asarray(mat), np.inf)
-        self.ph_mat = np.ones(self.mat.shape)*0.1*self.mat.mask
+        self.ph_mat = np.ones(self.mat.shape)*self.mat.mask
         self.probability_mat = np.zeros(self.mat.shape)
         # constants
         self.ph_evap = ph_evap
@@ -46,10 +48,10 @@ class ant_colony:
             # set the last step node in memory
             last_node = curr_node
             # choose a node to visit
-            step = np.random.choice(no_retrace_mat[curr_node,], size = 1, replace = False,
+            step = np.random.choice(no_retrace_mat[curr_node,], size = 1, replace = True,
                                     p = no_retrace_mat[curr_node,])
             # select that node and "go" there
-            curr_node = np.where(no_retrace_mat[curr_node,] == step)[0][0]
+            curr_node = np.where(no_retrace_mat[curr_node,] == step)[0][-1]
             path.append([last_node, curr_node])
         # clean path from duplicates
         for i in range(len(path)-1):
@@ -66,8 +68,7 @@ class ant_colony:
         self.update_probability_matrix()
         for iterations in range(self.n_iterations):
             for ant in range(self.n_ants):
-                self.ants[ant][iterations], self.ants_cost[ant][iterations] = self.pick_node()
-                print(self.ants[ant][iterations])
+                self.ants.iat[ant, iterations], self.ants_cost.iat[ant, iterations] = self.pick_node()
             # updates
             self.update_pheromone(iterations)
             self.update_probability_matrix()
@@ -77,25 +78,25 @@ class ant_colony:
         self.best_ant = self.ants_cost.idxmin(axis = 0)[iterations]
         # update pheromone matrix
         # get the path tuples
-        tt = [tuple(l) for l in self.ants[self.best_ant][iterations]]
+        tt = [tuple(l) for l in self.ants.iat[self.best_ant, iterations]]
         values = [self.mat.data[i] for i in tt]
         delta_t = list(map(lambda x: 1/x, values))
-        # evaporate
-        self.ph_mat *= (1 - self.ph_evap)
         # deposit pheromone
+        self.ph_mat *= (1 - self.ph_evap)
         for idx, deltas in zip(tt, delta_t):
-            self.ph_mat[idx] += (deltas*0.7)
+            self.ph_mat[idx] += deltas*self.ph_evap
 
 
 ## minitest
-dist_mat = np.array([[np.inf, 2, 2, 5, 7],
-                      [2, np.inf, 4, 8, 2],
-                    [2, 4, np.inf, 1, 3],
-                      [5, 8, 1, np.inf, 2],
-                      [7, 2, 3, 2, np.inf]])
-ant = ant_colony(10, 100, 0.1, dist_mat)
+dist_mat = np.array([[np.inf, 5, np.inf, 5, np.inf, np.inf],
+                    [5, np.inf, 3, 5, 3, np.inf],
+                    [np.inf, 3, np.inf, 3, np.inf, np.inf],
+                    [5, 5, 3, np.inf, np.inf, np.inf],
+                    [np.inf, 3, np.inf, np.inf, np.inf, 3],
+                    [np.inf, np.inf, np.inf, np.inf, 3, np.inf]])
+
+ant = ant_colony(5, 100, 0.01, dist_mat)
 
 ant.generate_path()
-print(ant.ants_cost)
-
-
+x, y = np.where(ant.ants_cost == ant.ants_cost.min().min())
+print(ant.ants.iat[x[0],y[0]])

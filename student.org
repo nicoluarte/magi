@@ -1374,7 +1374,7 @@ citep:montezRoleSemanticClustering2015, y por lo tanto, la posibilidad de
 lo largo de la evolución se hayan generado estrategias para acceder, de manera
 útil e eficiente, a dichos contenidos. Las estrategias de búsqueda para acceder
 a los contenidos semánticos han sido relacionadas a aquellas del forrajeo
-citep:ForagingSemanticFields,hillsAnimalForagingEvolution2006,hillsOptimalForagingSemantic2012,
+citep:hillsAnimalForagingEvolution2006,hillsOptimalForagingSemantic2012,
 en tanto las estrategias, para ambos casos, deben lidiar con el dilema de
 explorar/explotar citep:berger-talExplorationExploitationDilemmaMultidisciplinary2014.
 
@@ -1398,7 +1398,7 @@ Uno de los principales tópicos de discusión en el área de búsqueda
 semántica es la organización y el tipo de la relaciones que conforman
 el espacio semántico citep:lundProducingHighdimensionalSemantic1996. Así, Uno de los primeros
 objetivos de investigación sería poder generar tareas
-experimentales que permitiesen determinar, principalmente, (a) efecto
+experimentales que permitan determinar, principalmente, (a) efecto
 del contexto en las relaciones entre contenidos semánticos
 citep:schillerMemorySpaceUnderstanding2015 y (b) si el tipo de búsqueda es más
 verosímil para contenidos encadenados de manera asociativa o categórica
@@ -1454,10 +1454,10 @@ campo muy fértil en investigación.
   de peatones en diferentes ambientes urbanos. Si bien el tema no está
   relacionado directamente con el área de interés, mi rol ha consistido en
   ajuste de modelos estadísticos, utilización de técnicas de visión de máquina
-  ('machine vision') y procesamiento de datos tanto para 'Eye-tracker' cómo para
+  ('machine vision') y procesamiento de datos tanto para 'Eye-tracker' como para
   análisis de frecuencia de objetos. Lo anterior, adicionado a el aprendizaje de
   diversos lenguajes de programación (MATLAB, Python, R, Bash), me ha permitido
-  desarrollar herramientas que son útiles en la investigación en general cómo
+  desarrollar herramientas que son útiles en la investigación en general como
   específicamente para el área de mi interés.
 #+Begin_Latex
 \pagebreak
